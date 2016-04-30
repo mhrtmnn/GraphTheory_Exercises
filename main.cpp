@@ -14,7 +14,7 @@
 #include "algorithms.hpp"
 
 using namespace std;
-#define SIZE 1000
+#define SIZE 10000
 #define POSS 0.001
 
 
@@ -30,9 +30,8 @@ int main(int argc, char *argv[])
     std::cout << graph.getTriangles() << " triangles" << std::endl;
 
     alg.GreedyColoring(&graph);
-    graph.printColor();
-    std::cout << std::endl << "min color number: " <<  alg.randomGreedy(&graph, 100) << std::endl;
     std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
+    std::cout << std::endl << "min color number: X<=" <<  alg.randomGreedy(&graph, 100) << std::endl;
 
     usleep((__useconds_t) pow(10, 6));
     return 0;

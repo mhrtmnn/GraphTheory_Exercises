@@ -17,7 +17,7 @@ class Graph
 public:
     Graph();
 
-    void create(int size, int poss);
+    void create(int n, double p);
 
     void print() const;
 
@@ -33,7 +33,7 @@ public:
 
     long int getNumberEdges() const;
 
-    int getNumberIsolated() const;
+    int getNumberIsolated();
 
     void setColor(std::map<int, int>);
 
@@ -43,7 +43,10 @@ public:
 
     int getTriangles();
 
-    double getAvgDeg() const;
+    double getAvgDeg();
+
+    double calcAvgDeg();
+
 
     bool graphContainsEdge(int, int) const;
 

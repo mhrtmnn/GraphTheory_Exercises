@@ -5,60 +5,63 @@
 #include "Graph.hpp"
 #include "algorithms.hpp"
 #include <algorithm>
+#include <random>
 
 //constructor
-Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(0), m_avgDeg(0)
+Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
 { }
 
-void Graph::create(int size, int poss)
+void Graph::create(int n, double p)
 {
-
-}
-
-
-void Graph::initMatrix(std::ifstream &fs)
-{
-    int lines;
-    std::string line;
-    for (lines = 0; std::getline(fs, line); lines++);
-
-    //last line contains "end"
-    lines -= 1;
-    m_numKnots = lines;
-
-    for (int i = 0; i < lines; i++)
-    { knotMatrix.push_back(std::vector<bool>((unsigned long) i + 1, false)); }
-}
-
-void Graph::addKnots(std::vector<int> neighbourVec, int k1)
-{
-    for (std::vector<int>::iterator iter = neighbourVec.begin(); iter != neighbourVec.end(); iter++)
+    m_numKnots = n;
+    std::random_device rd;
+    for(int i=0; i<n; i++)
     {
-        int k2 = *iter - 1;
-        if (k1 < k2)
-        { knotMatrix[k2][k1] = true; }
-        else
-        { knotMatrix[k1][k2] = true; }
+        std::vector<bool> vec(i, false);
+
+        for(int j=0; j<=i; j++)
+        {
+            if ((rd() % n) <= p * (n-1))
+            {
+                vec[j] = true;
+                m_numEdges++;
+            }
+        }
+
+        knotMatrix.push_back(vec);
     }
 }
 
+//calculate the degree of a given vertex
 int Graph::getDeg(int k)
 {
     int deg = 0;
-    int numVert = getNumberVertices();
 
-    for(int j=0; j<numVert; j++)
+    for(int j=0; j<m_numKnots; j++)
     {
         if( graphContainsEdge(j, k) )
         { deg++; }
     }
-
     return deg;
 }
+
+//calculate the average degree over all vertices
+double Graph::calcAvgDeg()
+{
+    double deg = 0;
+    for(int k=0; k<m_numKnots; k++)
+    {
+        deg += getDeg(k);
+    }
+    return deg / (double) m_numKnots;
+}
+
 
 //check whether or not edge is element graph
 bool Graph::graphContainsEdge(int k1, int k2) const
 {
+    if(k1 == k2)
+    { return false; }
     if (k1 < k2)
     { return knotMatrix[k2][k1]; }
     else
@@ -74,24 +77,20 @@ void Graph::setNumColors(int c)
 int Graph::getNumberColors()
 { return m_numColors; }
 
-
-
-void Graph::printColor() const
-{
-    std::cout << std::endl;
-    std::cout << "-----------------------------------------" << std::endl;
-    std::cout << "                COLORING                 " << std::endl;
-    std::cout << "-----------------------------------------" << std::endl;
-    std::cout << std::endl;
-
-    for (std::map<key_t, int>::const_iterator iter = m_coloring.begin(); iter != m_coloring.end(); iter++)
-    { std::cout << iter->first + 1 << " has color: " << iter->second << std::endl; }
-
-}
-
 //return the number of knots with 0 neighbours
-int Graph::getNumberIsolated() const
-{ return m_numIsolatedVertices; }
+int Graph::getNumberIsolated()
+{
+    if(m_numIsolatedVertices < 0)
+    {
+        m_numIsolatedVertices = 0;
+        for(int i=0; i<m_numKnots; i++)
+        {
+            if(!getDeg(i))
+            {m_numIsolatedVertices++;}
+        }
+    }
+    return m_numIsolatedVertices;
+}
 
 //return the number of triangles formed by vertices
 int Graph::getTriangles()
@@ -117,8 +116,14 @@ long int Graph::getNumberEdges() const
 { return m_numEdges; }
 
 //get avg degree
-double Graph::getAvgDeg() const
-{ return m_avgDeg; }
+double Graph::getAvgDeg()
+{
+    if(m_avgDeg < 0)
+    {
+        m_avgDeg = calcAvgDeg();
+    }
+    return m_avgDeg;
+}
 
 //destructor
 Graph::~Graph()
