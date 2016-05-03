@@ -45,7 +45,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
         for (int j = 0; j < i; j++)
         {
             //N := N U c(v(j))
-            if (g->graphContainsEdge(j, k))
+            if (g->getEntry(j, k))
            { usedColorSet.insert(coloringMap.at(j)); }
         }
 
@@ -59,7 +59,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 }
 
 //implementation of the greedy coloring alg: colors vertices in ascending order
-void algorithms::GreedyColoring(Graph *g)
+void algorithms::GreedyColoring(Graph* g)
 {
     //map holding the knot<->color mapping
     std::map<int, int> coloringMap;
@@ -76,7 +76,7 @@ void algorithms::GreedyColoring(Graph *g)
         for (int j = 0; j < i; j++)
         {
             //N := N U c(v(j))
-            if (g->graphContainsEdge(j, i))
+            if (g->getEntry(j, i))
             { usedColorSet.insert(coloringMap.at(j)); }
         }
 

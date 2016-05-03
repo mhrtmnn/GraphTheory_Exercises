@@ -3,9 +3,6 @@
 //
 
 #include "Graph.hpp"
-#include "algorithms.hpp"
-#include <algorithm>
-#include <random>
 
 //constructor
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
@@ -16,25 +13,23 @@ void Graph::create(int n, double p)
 {
     m_numKnots = n;
     std::random_device rd;
+    knotMat = arma::Mat<int>(n,n,arma::fill::zeros);
 
-    //i : size of the vector to be appended
-    for(int i=1; i<=n; i++)
+    for(int i=0; i<n; i++)
     {
-        std::vector<int> vec(i, 0);
-
-        //generate vector
         for(int j=0; j<i; j++)
         {
-            if(j==i-1)
-            { vec[j] = 0; }
+            if(j==i)
+            {
+                continue;
+            }
             else if((rd() % n) <= p * (n-1))
             {
-                vec[j] = 1;
+                knotMat.at(i,j) = 1;
+                knotMat.at(j,i) = 1;
                 m_numEdges++;
             }
         }
-
-        knotMatrix.push_back(vec);
     }
 }
 
@@ -45,7 +40,7 @@ int Graph::getDeg(int k)
 
     for(int j=0; j<m_numKnots; j++)
     {
-        if( graphContainsEdge(j, k) )
+        if( knotMat.at(j, k) )
         { deg++; }
     }
     return deg;
@@ -63,25 +58,10 @@ double Graph::calcAvgDeg()
     return deg / (double) m_numKnots;
 }
 
-//check whether or not edge is element graph
-bool Graph::graphContainsEdge(int k1, int k2) const
-{
-    if(k1 == k2)
-    { return false; }
-    if (k1 < k2)
-    { return knotMatrix[k2][k1]; }
-    else
-    { return knotMatrix[k1][k2]; }
-}
 
 int Graph::getEntry(int k1, int k2) const
 {
-    if(k1 == k2)
-    { return false; }
-    if (k1 < k2)
-    { return knotMatrix[k2][k1]; }
-    else
-    { return knotMatrix[k1][k2]; }
+    return knotMat.at(k1, k2);
 
 // DEBUG
 //    int a[5][5] = {{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8},{5,6,7,8,9}};
@@ -131,53 +111,10 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
-    using namespace std;
+    arma::Mat<int> A = arma::pow(knotMat, 3);
 
-    //calc: matrix = A^2 with A adjacency matrix
-    int res = 0;
-    vector<vector<int>> matrix1;
-    matrix1 = vector<vector<int>>(m_numKnots, vector<int>(m_numKnots, 0));
-
-    for(int i=0; i<m_numKnots; i++)
-    {
-        for(int j=0; j<m_numKnots; j++)
-        {
-            for(int k=0; k<m_numKnots; k++)
-            {
-                res += getEntry(j,k) * getEntry(k, i);
-            }
-            matrix1[j][i] = res; res = 0;
-        }
-        std::cout << i << std::endl ;
-    }
-
-    //calculate A^2 * A
-    vector<vector<int>> matrix2;
-    matrix2 = vector<vector<int>>(m_numKnots, vector<int>(m_numKnots, 0));
-
-    std::cout << "A^3:\n";
-    for(int i=0; i<m_numKnots; i++)
-    {
-        for(int j=0; j<m_numKnots; j++)
-        {
-            for(int k=0; k<m_numKnots; k++)
-            {
-                res += matrix1[j][k] * getEntry(k, i);
-            }
-            matrix2[j][i] = res; res = 0;
-        }
-        std::cout << i << std::endl ;
-
-    }
-
-    //calc trace of A^3
-    int trace = 0;
-    for(int i=0; i<m_numKnots; i++)
-    {
-        trace += matrix2[i][i];
-    }
-
-    return (double) trace / 6;
+    double trace = arma::trace(A);
+    return trace / 6;
 }
 
 

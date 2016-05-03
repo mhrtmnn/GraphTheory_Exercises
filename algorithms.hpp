@@ -10,10 +10,6 @@
 
 #include "Graph.hpp"
 
-#define COLUMN 0
-#define ROW 1
-
-
 class algorithms
 {
 public:

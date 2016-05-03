@@ -11,6 +11,13 @@
 #include <vector>
 #include <vector>
 #include <map>
+#include <algorithm>
+#include <random>
+
+#include <armadillo>
+
+#include "algorithms.hpp"
+
 
 class Graph
 {
@@ -18,12 +25,6 @@ public:
     Graph();
 
     void create(int n, double p);
-
-    void print() const;
-
-    void printIsolated() const;
-
-    void printColor() const;
 
     long int getHighestDeg() const;
 
@@ -49,14 +50,12 @@ public:
 
     double calcAvgDeg();
 
-    bool graphContainsEdge(int, int) const;
-
     int getEntry(int, int) const;
 
     virtual ~Graph();
 
 private:
-    std::vector<std::vector<int> > knotMatrix;
+    arma::Mat<int> knotMat;
 
     int m_numEdges;
     int m_numKnots;

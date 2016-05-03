@@ -13,8 +13,7 @@
 #include "Graph.hpp"
 #include "algorithms.hpp"
 
-using namespace std;
-#define SIZE 100
+#define SIZE 1000
 #define POSS 0.01
 
 
