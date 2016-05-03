@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     alg.GreedyColoring(&graph);
     std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
-    std::cout << std::endl << "min color number: X<=" <<  alg.randomGreedy(&graph, 100) << std::endl;
+    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 100) << std::endl;
 
     usleep((__useconds_t) pow(10, 6));
     return 0;

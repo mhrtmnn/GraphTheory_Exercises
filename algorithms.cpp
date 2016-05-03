@@ -4,8 +4,8 @@
 
 #include "algorithms.hpp"
 
-
-int algorithms::randomGreedy(Graph *g, int n)
+//apply greedy alg to n randomly selected knot orders
+int algorithms::executeRandomGreedy(Graph *g, int n)
 {
     //run greedy with randomly selected knot orders
     std::vector<int> num = std::vector<int>(g->getNumberVertices());
@@ -25,6 +25,7 @@ int algorithms::randomGreedy(Graph *g, int n)
     return minColor;
 }
 
+//implementation of the greedy coloring alg: colors vertices in a custom order
 int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 {
     //map holding the knot<->color mapping
@@ -57,6 +58,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
     return biggestColor;
 }
 
+//implementation of the greedy coloring alg: colors vertices in ascending order
 void algorithms::GreedyColoring(Graph *g)
 {
     //map holding the knot<->color mapping
@@ -89,6 +91,7 @@ void algorithms::GreedyColoring(Graph *g)
     g->setNumColors(biggestColor);
 }
 
+//return the min unused color
 int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 {
     for (int color = 0; color < numKnots; color++)

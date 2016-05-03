@@ -15,7 +15,7 @@ class algorithms
 {
 public:
     void GreedyColoring(Graph *g);
-    int randomGreedy(Graph *g, int n);
+    int executeRandomGreedy(Graph *g, int n);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
     int calcTriangles(Graph *);
 
