@@ -11,6 +11,7 @@
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
 { }
 
+//create a new graph with randomly distributed edges
 void Graph::create(int n, double p)
 {
     m_numKnots = n;
@@ -68,12 +69,15 @@ bool Graph::graphContainsEdge(int k1, int k2) const
     { return knotMatrix[k1][k2]; }
 }
 
+//set map with vertex : color mapping
 void Graph::setColor(std::map<int, int> colorMap)
 { m_coloring = colorMap; }
 
+//set number of colors needed for coloring
 void Graph::setNumColors(int c)
 { m_numColors = c; }
 
+//return number of needed colors
 int Graph::getNumberColors()
 { return m_numColors; }
 
