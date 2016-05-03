@@ -101,27 +101,3 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
     }
     return -1;
 }
-
-
-//return the number of triangles formed by vertices
-int algorithms::calcTriangles(Graph *g)
-{
-    int i = 0;
-    int numVert = g->getNumberVertices();
-    int m_numTriangles = 0;
-
-    for(int i=0; i<numVert; i++)
-    {
-        if ( g->getDeg(i) < 2)
-        { continue; }
-
-        for (int j=0; j<numVert; j++)
-        {
-            if ( g->getDeg(i) < 2 || !(g->graphContainsEdge(i,j)) )
-            { continue; }
-            // TODO
-
-        }
-    }
-    return m_numTriangles;
-}

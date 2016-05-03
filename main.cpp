@@ -14,8 +14,8 @@
 #include "algorithms.hpp"
 
 using namespace std;
-#define SIZE 10000
-#define POSS 0.001
+#define SIZE 100
+#define POSS 0.01
 
 
 int main(int argc, char *argv[])

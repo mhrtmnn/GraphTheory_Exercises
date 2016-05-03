@@ -43,21 +43,20 @@ public:
 
     int getTriangles();
 
+    double calcTriangles();
+
     double getAvgDeg();
 
     double calcAvgDeg();
 
-
     bool graphContainsEdge(int, int) const;
+
+    int getEntry(int, int) const;
 
     virtual ~Graph();
 
 private:
-    void addKnots(std::vector<int>, int);
-
-    void initMatrix(std::ifstream &);
-
-    std::vector<std::vector<bool> > knotMatrix;
+    std::vector<std::vector<int> > knotMatrix;
 
     int m_numEdges;
     int m_numKnots;

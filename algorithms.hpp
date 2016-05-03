@@ -10,6 +10,9 @@
 
 #include "Graph.hpp"
 
+#define COLUMN 0
+#define ROW 1
+
 
 class algorithms
 {
@@ -17,8 +20,6 @@ public:
     void GreedyColoring(Graph *g);
     int executeRandomGreedy(Graph *g, int n);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
-    int calcTriangles(Graph *);
-
 
 private:
     int getMinFreeColor(std::set<int> *, long);
