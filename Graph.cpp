@@ -20,13 +20,11 @@ void Graph::create(int n, double p)
         for(int j=0; j<i; j++)
         {
             if(j==i)
-            {
-                continue;
-            }
+            { continue; }
             else if((rd() % n) <= p * (n-1))
             {
-                knotMat.at(i,j) = 1;
-                knotMat.at(j,i) = 1;
+                knotMat(i,j) = 1;
+                knotMat(j,i) = 1;
                 m_numEdges++;
             }
         }
@@ -40,7 +38,7 @@ int Graph::getDeg(int k)
 
     for(int j=0; j<m_numKnots; j++)
     {
-        if( knotMat.at(j, k) )
+        if( knotMat(j, k) )
         { deg++; }
     }
     return deg;
@@ -59,7 +57,7 @@ double Graph::calcAvgDeg()
 }
 
 
-int Graph::getEntry(int k1, int k2) const
+int Graph::getEntry(int k1, int k2)
 {
     return knotMat.at(k1, k2);
 
@@ -116,7 +114,6 @@ double Graph::calcTriangles()
     double trace = arma::trace(A);
     return trace / 6;
 }
-
 
 //get the maximum number of edges of a single knot
 long int Graph::getHighestDeg() const

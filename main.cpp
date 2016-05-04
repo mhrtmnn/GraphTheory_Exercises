@@ -13,8 +13,8 @@
 #include "Graph.hpp"
 #include "algorithms.hpp"
 
-#define SIZE 1000
-#define POSS 0.01
+#define SIZE 5
+#define POSS 0.5
 
 
 int main(int argc, char *argv[])

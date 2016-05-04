@@ -16,8 +16,6 @@
 
 #include <armadillo>
 
-#include "algorithms.hpp"
-
 
 class Graph
 {
@@ -50,7 +48,7 @@ public:
 
     double calcAvgDeg();
 
-    int getEntry(int, int) const;
+    int getEntry(int, int);
 
     virtual ~Graph();
 
