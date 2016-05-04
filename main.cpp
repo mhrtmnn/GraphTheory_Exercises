@@ -17,7 +17,6 @@
 int main()
 {
     int c = 0;
-    clock_t t = clock();
 
     Graph graph;
     algorithms alg();
@@ -48,6 +47,8 @@ int main()
     }
 
     std::cout << "\ngraph loaded\n";
+
+    clock_t t = clock();
 
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
     std::cout << graph.getTriangles() << " triangles" << std::endl;

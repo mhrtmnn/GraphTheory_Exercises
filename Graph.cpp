@@ -3,6 +3,9 @@
 //
 
 #include "Graph.hpp"
+#include <thread>
+
+void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat);
 
 //constructor
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
@@ -202,29 +205,53 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
-    arma::Mat<int> temp(m_numKnots, m_numKnots);
+    arma::Mat<int> temp;
+    temp = arma::Mat<int>(m_numKnots, m_numKnots);
+    double n = m_numKnots;
 
-    for(int i=0; i<m_numKnots; i++)
-    {
-        for(int j=0; j<=i; j++)
-        {
-            temp(i,j) = dot(knotMat.col(i), knotMat.col(j));
-        }
-        std::cout << i << "\n";
+    //task is parallizable --> split lower triang matrix into 4 even parts
+    double d1 = n / 2;
+    double d2 =  n / sqrt(2);
+    double d3 = n * sqrt(3) / 2;
 
-    }
+    int i1 = (int) d1;
+    int i2 = (int) d2;
+    int i3 = (int) d3;
+
+    //start threads
+    std::thread  first(multWorker,  0, i1, &temp, &knotMat);
+    std::thread second(multWorker, i1, i2, &temp, &knotMat);
+    std::thread  third(multWorker, i2, i3, &temp, &knotMat);
+    std::thread fourth(multWorker, i3, n,  &temp, &knotMat);
+
+    //wait for threads to finish
+    first.join();
+    second.join();
+    third.join();
+    fourth.join();
+
     temp = arma::symmatl(temp);
 
     std::cout << "squared\n";
 
     int trace = 0;
-    for(int i=0; i<m_numKnots; i++)
+    for(int i=0; i<n; i++)
     {
         trace += arma::dot(temp.row(i), knotMat.col(i));
-        std::cout << i << "\n" ;
     }
-
     return trace / 6;
+}
+
+void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat)
+{
+    for(int i=iStart; i<iEnd; i++)
+    {
+        for(int j=0; j<=i; j++)
+        {
+            int res = arma::dot(knotMat->col(i), knotMat->col(j));
+            (*temp)(i,j) = res;
+        }
+    }
 }
 
 //get the maximum number of edges of a single knot
