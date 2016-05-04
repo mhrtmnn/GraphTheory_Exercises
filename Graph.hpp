@@ -28,7 +28,7 @@ public:
 
     void loadGraph(std::string p);
 
-    void addVertices(std::vector<int> nb, int row);
+    void addVertices(std::vector<int> nb, int j);
 
     void randomCreate(int n, double p);
 

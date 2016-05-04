@@ -35,6 +35,10 @@ void Graph::loadGraph(std::string p)
             addVertices(nb, row);
             row++;
         }
+
+        //refelct lower tri to quad tri
+        knotMat = arma::symmatl(knotMat);
+
         //every edge counted twice
         m_numEdges /= 2;
         //print(knotMat);
@@ -72,12 +76,11 @@ std::vector<int> Graph::parseLine(std::string line)
 }
 
 //add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...
-void Graph::addVertices(std::vector<int> nb, int row)
+void Graph::addVertices(std::vector<int> nb, int j)
 {
-    for(int k : nb)
+    for(int i : nb)
     {
-        knotMat(row, k-1) = 1;
-        knotMat(k-1, row) = 1;
+        (i-1) < j ? knotMat(j, i-1) = 1 : knotMat(i-1, j) = 1;
     }
 }
 
@@ -95,28 +98,27 @@ void Graph::initMatrix(std::ifstream &fs)
     //print(knotMat);
 }
 
-
 //randomly create a new graph with randomly distributed edges
 void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
-    std::random_device rd;
     knotMat = arma::Mat<int>(n,n,arma::fill::eye);
 
-    for(int i=0; i<n; i++)
+    for(int i=1; i<n; i++)
     {
         for(int j=0; j<i; j++)
         {
-            if(j==i)
-            { continue; }
-            else if((rd() % n) <= p * (n-1))
+            if((rand() % n) < p * n)
             {
                 knotMat(i,j) = 1;
-                knotMat(j,i) = 1;
                 m_numEdges++;
             }
         }
     }
+
+    //refelct lower triangular matrix to symmetric quadratic matrix
+    knotMat = arma::symmatl(knotMat);
+    print(knotMat);
 }
 
 void Graph::print(arma::Mat<int>& M)
@@ -200,9 +202,16 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
-    arma::Mat<int> A = knotMat * knotMat * knotMat;
+    arma::Mat<int> temp = knotMat * knotMat;
+    std::cout << "squared\n";
 
-    double trace = arma::trace(A);
+    int trace = 0;
+    for(int i=0; i<m_numKnots; i++)
+    {
+        trace += arma::dot(temp.row(i), knotMat.col(i));
+        std::cout << i << "\n" ;
+    }
+
     return trace / 6;
 }
 
