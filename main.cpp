@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstddef>
 #include <unistd.h>
+#include <time.h>
 
 #include "Graph.hpp"
 #include "algorithms.hpp"
@@ -16,6 +17,7 @@
 int main()
 {
     int c = 0;
+    clock_t t = clock();
 
     Graph graph;
     algorithms alg();
@@ -54,6 +56,7 @@ int main()
 //    std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
 //    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 100) << std::endl;
 
+    std::cout << "runtime: " <<  clock()-t << std::endl;
     usleep((__useconds_t) pow(10, 6));
     return 0;
 }

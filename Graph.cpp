@@ -118,7 +118,7 @@ void Graph::randomCreate(int n, double p)
 
     //refelct lower triangular matrix to symmetric quadratic matrix
     knotMat = arma::symmatl(knotMat);
-    print(knotMat);
+    //print(knotMat);
 }
 
 void Graph::print(arma::Mat<int>& M)
@@ -202,7 +202,19 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
-    arma::Mat<int> temp = knotMat * knotMat;
+    arma::Mat<int> temp(m_numKnots, m_numKnots);
+
+    for(int i=0; i<m_numKnots; i++)
+    {
+        for(int j=0; j<=i; j++)
+        {
+            temp(i,j) = dot(knotMat.col(i), knotMat.col(j));
+        }
+        std::cout << i << "\n";
+
+    }
+    temp = arma::symmatl(temp);
+
     std::cout << "squared\n";
 
     int trace = 0;
