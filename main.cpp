@@ -34,7 +34,8 @@ int main()
             graph.loadGraph("../../data/graph34.txt");
             break;
         case 4:
-            int p, n;
+            int n;
+            double p;
             std::cout << "Poss:" ; std::cin >> p; std::cout << std::endl;
             std::cout << "Num Vert: "; std::cin >>n; std::cout << std::endl;
             graph.randomCreate(n, p);
