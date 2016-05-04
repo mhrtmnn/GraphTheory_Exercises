@@ -8,12 +8,100 @@
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
 { }
 
-//create a new graph with randomly distributed edges
-void Graph::create(int n, double p)
+//read a graph from text file, create appropriate vertices and edges
+void Graph::loadGraph(std::string p)
+{
+    std::ifstream fs;
+    fs.open(p.c_str());
+
+    int row = 0;
+    std::string line;
+    if (fs.is_open())
+    {
+        initMatrix(fs);
+        fs.clear();
+        fs.seekg(std::ios_base::beg);
+
+
+        while (getline(fs, line))
+        {
+            if (!line.find("end"))
+            { break; }
+
+            std::vector<int> nb;
+            nb = parseLine(line);
+            m_numEdges += nb.size();
+
+            addVertices(nb, row);
+            row++;
+        }
+        //every edge counted twice
+        m_numEdges /= 2;
+        //print(knotMat);
+    }
+    else
+    {
+        std::cout << "load failed!" << std::endl;
+        exit(-1);
+    }
+}
+
+//parse one line of the text file
+std::vector<int> Graph::parseLine(std::string line)
+{
+    std::vector<int> nb;
+
+    if (line.size() == 0)
+    { return nb; }
+
+    std::string num = "";
+    char c;
+
+    for (unsigned int i = 0; i < line.length(); i++)
+    {
+        if ((c = line[i]) == ',')
+        {
+            nb.push_back(stoi(num));
+            num = "";
+        }
+        else
+        { num.push_back(c); }
+    }
+    nb.push_back(std::stoi(num));
+    return nb;
+}
+
+//add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...
+void Graph::addVertices(std::vector<int> nb, int row)
+{
+    for(int k : nb)
+    {
+        knotMat(row, k-1) = 1;
+        knotMat(k-1, row) = 1;
+    }
+}
+
+void Graph::initMatrix(std::ifstream &fs)
+{
+    int lines;
+    std::string line;
+    for (lines = 0; std::getline(fs, line); lines++);
+
+    //last line contains "end"
+    lines -= 1;
+    m_numKnots = lines;
+
+    knotMat = arma::Mat<int>(lines, lines, arma::fill::eye);
+    //print(knotMat);
+}
+
+
+//randomly create a new graph with randomly distributed edges
+void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
     std::random_device rd;
-    knotMat = arma::Mat<int>(n,n,arma::fill::zeros);
+    knotMat = arma::Mat<int>(n,n,arma::fill::eye);
 
     for(int i=0; i<n; i++)
     {
@@ -31,6 +119,18 @@ void Graph::create(int n, double p)
     }
 }
 
+void Graph::print(arma::Mat<int>& M)
+{
+    for(int i=0; i<m_numKnots; i++)
+    {
+        for(int j=0; j<m_numKnots; j++)
+        {
+            std::cout << M(i,j) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 //calculate the degree of a given vertex
 int Graph::getDeg(int k)
 {
@@ -44,7 +144,6 @@ int Graph::getDeg(int k)
     return deg;
 }
 
-
 //calculate the average degree over all vertices
 double Graph::calcAvgDeg()
 {
@@ -56,17 +155,9 @@ double Graph::calcAvgDeg()
     return deg / (double) m_numKnots;
 }
 
-
+//return entry A(k1,k2)
 int Graph::getEntry(int k1, int k2)
-{
-    return knotMat.at(k1, k2);
-
-// DEBUG
-//    int a[5][5] = {{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8},{5,6,7,8,9}};
-//    return a[k1][k2];
-
-}
-
+{ return knotMat(k1, k2); }
 
 //set map with vertex : color mapping
 void Graph::setColor(std::map<int, int> colorMap)
@@ -109,7 +200,7 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
-    arma::Mat<int> A = arma::pow(knotMat, 3);
+    arma::Mat<int> A = knotMat * knotMat * knotMat;
 
     double trace = arma::trace(A);
     return trace / 6;

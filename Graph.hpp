@@ -22,7 +22,15 @@ class Graph
 public:
     Graph();
 
-    void create(int n, double p);
+    void initMatrix(std::ifstream &fs);
+
+    std::vector<int> parseLine(std::string line);
+
+    void loadGraph(std::string p);
+
+    void addVertices(std::vector<int> nb, int row);
+
+    void randomCreate(int n, double p);
 
     long int getHighestDeg() const;
 
@@ -54,6 +62,7 @@ public:
 
 private:
     arma::Mat<int> knotMat;
+    void print(arma::Mat<int>&);
 
     int m_numEdges;
     int m_numKnots;
