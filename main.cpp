@@ -19,7 +19,7 @@ int main()
     int c = 0;
 
     Graph graph;
-    algorithms alg();
+    algorithms alg;
 
     std::cout << "choose Ex" << std::endl;
     std::cin >> c;
@@ -53,9 +53,9 @@ int main()
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
     std::cout << graph.getTriangles() << " triangles" << std::endl;
 
-//    alg.GreedyColoring(&graph);
-//    std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
-//    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 100) << std::endl;
+    alg.GreedyColoring(&graph);
+    std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
+    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << std::endl;
 
     std::cout << "runtime: " <<  clock()-t << std::endl;
     usleep((__useconds_t) pow(10, 6));

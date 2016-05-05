@@ -206,8 +206,11 @@ double Graph::calcTriangles()
 {
     arma::Mat<int> temp;
     temp = arma::Mat<int>(m_numKnots, m_numKnots);
+
     double n = m_numKnots;
 
+#define MULTITHREAD
+#ifdef MULTITHREAD
     //task is parallizable --> split lower triang matrix into 4 even parts
     double d1 = n / 2;
     double d2 =  n / sqrt(2);
@@ -228,10 +231,13 @@ double Graph::calcTriangles()
     second.join();
     third.join();
     fourth.join();
+#endif
+
+#ifndef MULTITHREAD
+    multWorker(0,n,&temp, &knotMat);
+#endif
 
     temp = arma::symmatl(temp);
-
-    std::cout << "squared\n";
 
     int trace = 0;
     for(int i=0; i<n; i++)
