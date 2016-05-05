@@ -24,7 +24,6 @@ void Graph::loadGraph(std::string p)
         fs.clear();
         fs.seekg(std::ios_base::beg);
 
-
         while (getline(fs, line))
         {
             if (!line.find("end"))
@@ -43,7 +42,6 @@ void Graph::loadGraph(std::string p)
 
         //every edge counted twice
         m_numEdges /= 2;
-        //print(knotMat);
     }
     else
     {
@@ -117,7 +115,6 @@ void Graph::randomCreate(int n, double p)
             }
         }
     }
-
     //refelct lower triangular matrix to symmetric quadratic matrix
     knotMat = arma::symmatl(knotMat);
     //print(knotMat);
@@ -194,9 +191,7 @@ int Graph::getNumberIsolated()
 int Graph::getTriangles()
 {
     if(m_numTriangles<0)
-    {
-        m_numTriangles = calcTriangles();
-    }
+    { m_numTriangles = calcTriangles(); }
     return m_numTriangles;
 }
 
@@ -204,10 +199,9 @@ int Graph::getTriangles()
 //num_triangles = 1/6 * trace(A^3)
 double Graph::calcTriangles()
 {
+    double n = m_numKnots;
     arma::Mat<int> temp;
     temp = arma::Mat<int>(m_numKnots, m_numKnots);
-
-    double n = m_numKnots;
 
 #define MULTITHREAD
 #ifdef MULTITHREAD
@@ -241,9 +235,8 @@ double Graph::calcTriangles()
 
     int trace = 0;
     for(int i=0; i<n; i++)
-    {
-        trace += arma::dot(temp.row(i), knotMat.col(i));
-    }
+    { trace += arma::dot(temp.row(i), knotMat.col(i)); }
+
     return trace / 6;
 }
 
@@ -252,10 +245,7 @@ void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knot
     for(int i=iStart; i<iEnd; i++)
     {
         for(int j=0; j<=i; j++)
-        {
-            int res = arma::dot(knotMat->col(i), knotMat->col(j));
-            (*temp)(i,j) = res;
-        }
+        { (*temp)(i,j) = arma::dot(knotMat->col(i), knotMat->col(j)); }
     }
 }
 
@@ -275,9 +265,7 @@ long int Graph::getNumberEdges() const
 double Graph::getAvgDeg()
 {
     if(m_avgDeg < 0)
-    {
-        m_avgDeg = calcAvgDeg();
-    }
+    { m_avgDeg = calcAvgDeg(); }
     return m_avgDeg;
 }
 
