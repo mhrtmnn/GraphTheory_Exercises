@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
-project(GraphTheoryEx4)
+project(GraphTheory-GIT)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -pthread -larmadillo -lopenblas -llapack")
+set(CUST_LIBS "-L /home/marco/.local/share/lib/lib/libarmadillo.so.6.700.6 -pthread")
+set(CUST_INCL "-I /home/marco/.local/share/lib/include ")
+set(CUST_CXX_FLAGS "-std=c++11 -O3 -march=native")
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUST_CXX_FLAGS} ${CUST_LIBS} ${CUST_INCL}")
 
 set(SOURCE_FILES main.cpp algorithms.cpp Graph.cpp)
-#set(SOURCE_FILES main.cpp Graph.cpp)
-add_executable(GraphTheoryEx4 ${SOURCE_FILES})
+add_executable(GraphTheory-GIT ${SOURCE_FILES})
