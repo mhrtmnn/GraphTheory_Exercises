@@ -3,7 +3,6 @@
 //
 
 #include "Graph.hpp"
-#include <thread>
 
 void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat);
 

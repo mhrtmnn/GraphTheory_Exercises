@@ -13,7 +13,10 @@
 #include <map>
 #include <algorithm>
 #include <random>
+#include <thread>
 
+
+#define ARMA_NO_DEBUG
 #include <armadillo>
 
 
