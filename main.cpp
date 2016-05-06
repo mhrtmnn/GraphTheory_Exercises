@@ -17,6 +17,7 @@
 int main()
 {
     int c = 0;
+    const std::string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
 
     Graph graph;
     algorithms alg;
@@ -26,13 +27,13 @@ int main()
     switch(c)
     {
         case 1:
-            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph15.txt");
+            graph.loadGraph(dataDir + "graph15.txt");
             break;
         case 2:
-            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph25.txt");
+            graph.loadGraph(dataDir + "graph25.txt");
             break;
         case 3:
-            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph34.txt");
+            graph.loadGraph(dataDir + "graph34.txt");
             break;
         case 4:
             int n;
@@ -42,7 +43,7 @@ int main()
             graph.randomCreate(n, p);
             break;
         case 5:
-            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/test.txt");
+            graph.loadGraph(dataDir + "test.txt");
             break;
     }
 
@@ -51,8 +52,8 @@ int main()
     clock_t t = clock();
 
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
-    std::cout <<  alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles" << std::endl;
-    std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles" << std::endl;
+    std::cout <<  alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
+    std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
 
     alg.GreedyColoring(&graph);
     std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;

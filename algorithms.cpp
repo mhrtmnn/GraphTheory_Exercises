@@ -6,7 +6,6 @@
 
 void multWorker(int, int, arma::Mat<int>*, arma::Mat<int>*);
 
-
 //apply greedy alg to n randomly selected knot orders
 int algorithms::executeRandomGreedy(Graph *g, int n)
 {
@@ -24,7 +23,6 @@ int algorithms::executeRandomGreedy(Graph *g, int n)
         if(currColor<minColor)
         { minColor = currColor; }
     }
-
     return minColor;
 }
 
@@ -49,7 +47,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
         {
             //N := N U c(v(j))
             if (g->getEntry(j, k))
-           { usedColorSet.insert(coloringMap.at(j)); }
+            { usedColorSet.insert(coloringMap.at(j)); }
         }
 
         newColor = getMinFreeColor(&usedColorSet, numKnot);
@@ -107,7 +105,7 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 
 //return the number of triangles formed by vertices => matrix method
 //num_triangles = 1/6 * trace(A^3)
-double algorithms::calcTriangles(int n, arma::Mat<int>* mat)
+long algorithms::calcTriangles(int n, arma::Mat<int>* mat)
 {
     arma::Mat<int> temp;
     temp = arma::Mat<int>(n, n);
@@ -156,9 +154,9 @@ void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knot
 }
 
 //return the number of triangles formed by vertices => vector method
-int algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
+long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
 {
-    int m_numTriangles = 0;
+    long m_numTriangles = 0;
 
     for(int k1=0; k1<numKnot; k1++)
     {

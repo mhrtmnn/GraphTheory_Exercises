@@ -37,7 +37,7 @@ void Graph::loadGraph(std::string p)
             row++;
         }
 
-        //refelct lower tri to quad tri
+        //reflect lower tri to quad tri
         m_knotMat = arma::symmatl(m_knotMat);
 
         //every edge counted twice
@@ -96,16 +96,15 @@ void Graph::initDataStructures(std::ifstream &fs)
     lines -= 1;
     m_numKnots = lines;
 
-    m_knotMat = arma::Mat<int>(lines, lines, arma::fill::eye);
+    m_knotMat = arma::Mat<int>(lines, lines, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
-    //print(knotMat);
 }
 
 //randomly create a new graph with randomly distributed edges
 void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
-    m_knotMat = arma::Mat<int>(n, n, arma::fill::eye);
+    m_knotMat = arma::Mat<int>(n, n, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(n, std::set<int>());
 
 
@@ -124,7 +123,8 @@ void Graph::randomCreate(int n, double p)
             }
         }
     }
-    //refelct lower triangular matrix to symmetric quadratic matrix
+
+    //reflect lower triangular matrix to symmetric quadratic matrix
     m_knotMat = arma::symmatl(m_knotMat);
     //print(m_knotMat);
 }
@@ -149,6 +149,7 @@ int Graph::getDeg(int k)
         if( m_knotMat(j, k) )
         { deg++; }
     }
+
     return deg;
 }
 
@@ -160,6 +161,7 @@ double Graph::calcAvgDeg()
     {
         deg += getDeg(k);
     }
+
     return deg / (double) m_numKnots;
 }
 
@@ -191,6 +193,7 @@ int Graph::getNumberIsolated()
             {m_numIsolatedVertices++;}
         }
     }
+
     return m_numIsolatedVertices;
 }
 

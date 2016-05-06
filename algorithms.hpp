@@ -17,8 +17,8 @@ public:
     void GreedyColoring(Graph *g);
     int executeRandomGreedy(Graph *g, int n);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
-    double calcTriangles(int, arma::Mat<int>*);
-    int calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours);
+    long calcTriangles(int, arma::Mat<int>*);
+    long calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours);
 
 private:
     int getMinFreeColor(std::set<int> *, long);
