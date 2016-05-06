@@ -61,8 +61,6 @@ private:
     double calcAvgDeg();
     double calcTriangles();
     std::vector<int> parseLine(std::string line);
-
-    algorithms alg;
 };
 
 

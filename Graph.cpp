@@ -8,9 +8,7 @@ void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knot
 
 //constructor
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
-{
-    alg = algorithms();
-}
+{}
 
 //read a graph from text file, create appropriate vertices and edges
 void Graph::loadGraph(std::string p)
@@ -218,10 +216,10 @@ double Graph::calcTriangles()
     int i3 = (int) d3;
 
     //start threads
-    std::thread  first(multWorker,  0, i1, &temp, &knotMat);
-    std::thread second(multWorker, i1, i2, &temp, &knotMat);
-    std::thread  third(multWorker, i2, i3, &temp, &knotMat);
-    std::thread fourth(multWorker, i3, n,  &temp, &knotMat);
+    std::thread  first(multWorker,  0, i1, &temp, &m_knotMat);
+    std::thread second(multWorker, i1, i2, &temp, &m_knotMat);
+    std::thread  third(multWorker, i2, i3, &temp, &m_knotMat);
+    std::thread fourth(multWorker, i3, n,  &temp, &m_knotMat);
 
     //wait for threads to finish
     first.join();
@@ -238,7 +236,7 @@ double Graph::calcTriangles()
 
     int trace = 0;
     for(int i=0; i<n; i++)
-    { trace += arma::dot(temp.row(i), knotMat.col(i)); }
+    { trace += arma::dot(temp.row(i), m_knotMat.col(i)); }
 
     return trace / 6;
 }
