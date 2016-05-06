@@ -8,7 +8,9 @@ void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knot
 
 //constructor
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
-{ }
+{
+    alg = algorithms();
+}
 
 //read a graph from text file, create appropriate vertices and edges
 void Graph::loadGraph(std::string p)
@@ -20,7 +22,7 @@ void Graph::loadGraph(std::string p)
     std::string line;
     if (fs.is_open())
     {
-        initMatrix(fs);
+        initDataStructures(fs);
         fs.clear();
         fs.seekg(std::ios_base::beg);
 
@@ -38,7 +40,7 @@ void Graph::loadGraph(std::string p)
         }
 
         //refelct lower tri to quad tri
-        knotMat = arma::symmatl(knotMat);
+        m_knotMat = arma::symmatl(m_knotMat);
 
         //every edge counted twice
         m_numEdges /= 2;
@@ -78,13 +80,15 @@ std::vector<int> Graph::parseLine(std::string line)
 //add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...
 void Graph::addVertices(std::vector<int> nb, int j)
 {
+    //add entry to lower triangular matrix and to neighbourhood vector
     for(int i : nb)
     {
-        (i-1) < j ? knotMat(j, i-1) = 1 : knotMat(i-1, j) = 1;
+        (i-1) < j ? m_knotMat(j, i-1) = 1 : m_knotMat(i-1, j) = 1;
+        m_neighbours[j].insert(i-1);
     }
 }
 
-void Graph::initMatrix(std::ifstream &fs)
+void Graph::initDataStructures(std::ifstream &fs)
 {
     int lines;
     std::string line;
@@ -94,7 +98,8 @@ void Graph::initMatrix(std::ifstream &fs)
     lines -= 1;
     m_numKnots = lines;
 
-    knotMat = arma::Mat<int>(lines, lines, arma::fill::eye);
+    m_knotMat = arma::Mat<int>(lines, lines, arma::fill::eye);
+    m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
     //print(knotMat);
 }
 
@@ -102,7 +107,7 @@ void Graph::initMatrix(std::ifstream &fs)
 void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
-    knotMat = arma::Mat<int>(n,n,arma::fill::eye);
+    m_knotMat = arma::Mat<int>(n, n, arma::fill::eye);
 
     for(int i=1; i<n; i++)
     {
@@ -110,13 +115,13 @@ void Graph::randomCreate(int n, double p)
         {
             if((rand() % n) < p * n)
             {
-                knotMat(i,j) = 1;
+                m_knotMat(i,j) = 1;
                 m_numEdges++;
             }
         }
     }
     //refelct lower triangular matrix to symmetric quadratic matrix
-    knotMat = arma::symmatl(knotMat);
+    m_knotMat = arma::symmatl(m_knotMat);
     //print(knotMat);
 }
 
@@ -125,9 +130,7 @@ void Graph::print(arma::Mat<int>& M)
     for(int i=0; i<m_numKnots; i++)
     {
         for(int j=0; j<m_numKnots; j++)
-        {
-            std::cout << M(i,j) << " ";
-        }
+        { std::cout << M(i,j) << " "; }
         std::cout << std::endl;
     }
 }
@@ -139,7 +142,7 @@ int Graph::getDeg(int k)
 
     for(int j=0; j<m_numKnots; j++)
     {
-        if( knotMat(j, k) )
+        if( m_knotMat(j, k) )
         { deg++; }
     }
     return deg;
@@ -158,7 +161,7 @@ double Graph::calcAvgDeg()
 
 //return entry A(k1,k2)
 int Graph::getEntry(int k1, int k2)
-{ return knotMat(k1, k2); }
+{ return m_knotMat(k1, k2); }
 
 //set map with vertex : color mapping
 void Graph::setColor(std::map<int, int> colorMap)
@@ -172,7 +175,7 @@ void Graph::setNumColors(int c)
 int Graph::getNumberColors()
 { return m_numColors; }
 
-//return the number of knots with 0 neighbours
+//return the number of knots with zero neighbours
 int Graph::getNumberIsolated()
 {
     if(m_numIsolatedVertices < 0)
