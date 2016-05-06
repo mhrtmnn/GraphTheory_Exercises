@@ -3,7 +3,7 @@
 // Author      : Marco Hartmann
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Exercise 1 from Graph Theory
+// Description : Exercise from Graph Theory
 //============================================================================
 
 #include <iostream>
@@ -51,10 +51,11 @@ int main()
     clock_t t = clock();
 
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
-    std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles" << std::endl;
+    std::cout <<  alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles" << std::endl;
+    std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles" << std::endl;
 
     alg.GreedyColoring(&graph);
-    std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;
+    std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;
     std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << std::endl;
 
     std::cout << "runtime: " <<  clock()-t << std::endl;

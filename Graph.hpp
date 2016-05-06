@@ -37,24 +37,24 @@ public:
     double getAvgDeg();
     int getEntry(int, int);
     arma::Mat<int>* getKnotMat();
+    void print(arma::Mat<int>&);
+    std::vector<std::set<int>>* getNeighbourhood();
 
     virtual ~Graph();
 
 private:
 
     arma::Mat<int> m_knotMat;
-
     std::map<int, int> m_coloring;
-    std::vector<std::set<int>> m_neighbours;
 
+    std::vector<std::set<int>> m_neighbours;
     int m_numEdges;
     int m_numKnots;
     int m_numIsolatedVertices;
     int m_numColors;
     float m_avgDeg;
-    unsigned long int m_maxDeg;
 
-    void print(arma::Mat<int>&);
+    unsigned long int m_maxDeg;
     void addVertices(std::vector<int> nb, int j);
     void initDataStructures(std::ifstream &fs);
     int getDeg(int);

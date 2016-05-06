@@ -106,6 +106,8 @@ void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
     m_knotMat = arma::Mat<int>(n, n, arma::fill::eye);
+    m_neighbours = std::vector<std::set<int>>(n, std::set<int>());
+
 
     for(int i=1; i<n; i++)
     {
@@ -114,13 +116,17 @@ void Graph::randomCreate(int n, double p)
             if((rand() % n) < p * n)
             {
                 m_knotMat(i,j) = 1;
+
+                m_neighbours[j].insert(i);
+                m_neighbours[i].insert(j);
+
                 m_numEdges++;
             }
         }
     }
     //refelct lower triangular matrix to symmetric quadratic matrix
     m_knotMat = arma::symmatl(m_knotMat);
-    //print(knotMat);
+    //print(m_knotMat);
 }
 
 void Graph::print(arma::Mat<int>& M)
@@ -212,6 +218,8 @@ double Graph::getAvgDeg()
 arma::Mat<int>* Graph::getKnotMat()
 { return &m_knotMat; }
 
+std::vector<std::set<int>>* Graph::getNeighbourhood()
+{ return &m_neighbours;}
 
 //destructor
 Graph::~Graph()

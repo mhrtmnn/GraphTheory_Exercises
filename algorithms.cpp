@@ -105,7 +105,7 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
     return -1;
 }
 
-//calc the number of triangles in the graph
+//return the number of triangles formed by vertices => matrix method
 //num_triangles = 1/6 * trace(A^3)
 double algorithms::calcTriangles(int n, arma::Mat<int>* mat)
 {
@@ -155,3 +155,31 @@ void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knot
     }
 }
 
+//return the number of triangles formed by vertices => vector method
+int algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
+{
+    int m_numTriangles = 0;
+
+    for(int k1=0; k1<numKnot; k1++)
+    {
+        if ((*neighbours)[k1].size() < 2)
+        { continue; }
+
+        for (int k2 : (*neighbours)[k1])
+        {
+            if ((*neighbours)[k2].size() < 2 || k1 > k2)
+            { continue; }
+
+            for (int k3 : (*neighbours)[k2])
+            {
+                if ((*neighbours)[k3].size() < 2 || k2 > k3)
+                { continue; }
+
+                if (std::find((*neighbours)[k3].begin(), (*neighbours)[k3].end(), k1) != (*neighbours)[k3].end())
+                { m_numTriangles++; }
+            }
+        }
+    }
+
+    return m_numTriangles;
+}
