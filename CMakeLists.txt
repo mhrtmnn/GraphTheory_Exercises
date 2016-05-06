@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.4)
 project(GraphTheory-GIT)
 
 set(CUST_LIBS "-L /home/marco/.local/share/lib/lib/libarmadillo.so.6.700.6 -pthread")

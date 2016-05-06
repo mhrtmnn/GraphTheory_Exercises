@@ -26,13 +26,13 @@ int main()
     switch(c)
     {
         case 1:
-            graph.loadGraph("../../data/graph15.txt");
+            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph15.txt");
             break;
         case 2:
-            graph.loadGraph("../../data/graph25.txt");
+            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph25.txt");
             break;
         case 3:
-            graph.loadGraph("../../data/graph34.txt");
+            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/graph34.txt");
             break;
         case 4:
             int n;
@@ -42,7 +42,7 @@ int main()
             graph.randomCreate(n, p);
             break;
         case 5:
-            graph.loadGraph("../../data/test.txt");
+            graph.loadGraph("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/test.txt");
             break;
     }
 
