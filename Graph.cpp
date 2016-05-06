@@ -4,7 +4,7 @@
 
 #include "Graph.hpp"
 
-void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat);
+void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat);
 
 //constructor
 Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numIsolatedVertices(-1), m_avgDeg(-1)
@@ -96,7 +96,7 @@ void Graph::initDataStructures(std::ifstream &fs)
     lines -= 1;
     m_numKnots = lines;
 
-    m_knotMat = arma::Mat<int>(lines, lines, arma::fill::zeros);
+    m_knotMat = arma::Mat<short>(lines, lines, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
 }
 
@@ -104,7 +104,7 @@ void Graph::initDataStructures(std::ifstream &fs)
 void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
-    m_knotMat = arma::Mat<int>(n, n, arma::fill::zeros);
+    m_knotMat = arma::Mat<short>(n, n, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(n, std::set<int>());
 
 
@@ -129,7 +129,7 @@ void Graph::randomCreate(int n, double p)
     //print(m_knotMat);
 }
 
-void Graph::print(arma::Mat<int>& M)
+void Graph::print(arma::Mat<short>& M)
 {
     for(int i=0; i<m_numKnots; i++)
     {
@@ -218,7 +218,7 @@ double Graph::getAvgDeg()
 }
 
 //return the adj matrix
-arma::Mat<int>* Graph::getKnotMat()
+arma::Mat<short>* Graph::getKnotMat()
 { return &m_knotMat; }
 
 std::vector<std::set<int>>* Graph::getNeighbourhood()

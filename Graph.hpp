@@ -36,15 +36,15 @@ public:
     int getTriangles();
     double getAvgDeg();
     int getEntry(int, int);
-    arma::Mat<int>* getKnotMat();
-    void print(arma::Mat<int>&);
+    arma::Mat<short>* getKnotMat();
+    void print(arma::Mat<short>&);
     std::vector<std::set<int>>* getNeighbourhood();
 
     virtual ~Graph();
 
 private:
 
-    arma::Mat<int> m_knotMat;
+    arma::Mat<short> m_knotMat;
     std::map<int, int> m_coloring;
 
     std::vector<std::set<int>> m_neighbours;

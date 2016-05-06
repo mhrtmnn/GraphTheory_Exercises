@@ -4,7 +4,7 @@
 
 #include "algorithms.hpp"
 
-void multWorker(int, int, arma::Mat<int>*, arma::Mat<int>*);
+void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
 
 //apply greedy alg to n randomly selected knot orders
 int algorithms::executeRandomGreedy(Graph *g, int n)
@@ -105,10 +105,10 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 
 //return the number of triangles formed by vertices => matrix method
 //num_triangles = 1/6 * trace(A^3)
-long algorithms::calcTriangles(int n, arma::Mat<int>* mat)
+long algorithms::calcTriangles(int n, arma::Mat<short>* mat)
 {
-    arma::Mat<int> temp;
-    temp = arma::Mat<int>(n, n);
+    arma::Mat<short> temp;
+    temp = arma::Mat<short>(n, n);
 
 #define MULTITHREAD
 #ifdef MULTITHREAD
@@ -144,7 +144,7 @@ long algorithms::calcTriangles(int n, arma::Mat<int>* mat)
     return trace / 6;
 }
 
-void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat)
+void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat)
 {
     for(int i=iStart; i<iEnd; i++)
     {
