@@ -51,7 +51,7 @@ int main()
     clock_t t = clock();
 
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
-    std::cout << graph.getTriangles() << " triangles" << std::endl;
+    std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles" << std::endl;
 
     alg.GreedyColoring(&graph);
     std::cout << graph.getNumberColors() << " colors needed in ascending order" << std::endl;

@@ -36,6 +36,7 @@ public:
     int getTriangles();
     double getAvgDeg();
     int getEntry(int, int);
+    arma::Mat<int>* getKnotMat();
 
     virtual ~Graph();
 
@@ -48,7 +49,6 @@ private:
 
     int m_numEdges;
     int m_numKnots;
-    int m_numTriangles;
     int m_numIsolatedVertices;
     int m_numColors;
     float m_avgDeg;

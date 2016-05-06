@@ -7,7 +7,7 @@
 void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat);
 
 //constructor
-Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numTriangles(-1), m_numIsolatedVertices(-1), m_avgDeg(-1)
+Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numIsolatedVertices(-1), m_avgDeg(-1)
 {}
 
 //read a graph from text file, create appropriate vertices and edges
@@ -188,68 +188,6 @@ int Graph::getNumberIsolated()
     return m_numIsolatedVertices;
 }
 
-//return the number of triangles formed by vertices
-int Graph::getTriangles()
-{
-    if(m_numTriangles<0)
-    { m_numTriangles = calcTriangles(); }
-    return m_numTriangles;
-}
-
-//calc the number of triangles in the graph
-//num_triangles = 1/6 * trace(A^3)
-double Graph::calcTriangles()
-{
-    double n = m_numKnots;
-    arma::Mat<int> temp;
-    temp = arma::Mat<int>(m_numKnots, m_numKnots);
-
-#define MULTITHREAD
-#ifdef MULTITHREAD
-    //task is parallizable --> split lower triang matrix into 4 even parts
-    double d1 = n / 2;
-    double d2 =  n / sqrt(2);
-    double d3 = n * sqrt(3) / 2;
-
-    int i1 = (int) d1;
-    int i2 = (int) d2;
-    int i3 = (int) d3;
-
-    //start threads
-    std::thread  first(multWorker,  0, i1, &temp, &m_knotMat);
-    std::thread second(multWorker, i1, i2, &temp, &m_knotMat);
-    std::thread  third(multWorker, i2, i3, &temp, &m_knotMat);
-    std::thread fourth(multWorker, i3, n,  &temp, &m_knotMat);
-
-    //wait for threads to finish
-    first.join();
-    second.join();
-    third.join();
-    fourth.join();
-#endif
-
-#ifndef MULTITHREAD
-    multWorker(0,n,&temp, &knotMat);
-#endif
-
-    temp = arma::symmatl(temp);
-
-    int trace = 0;
-    for(int i=0; i<n; i++)
-    { trace += arma::dot(temp.row(i), m_knotMat.col(i)); }
-
-    return trace / 6;
-}
-
-void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat)
-{
-    for(int i=iStart; i<iEnd; i++)
-    {
-        for(int j=0; j<=i; j++)
-        { (*temp)(i,j) = arma::dot(knotMat->col(i), knotMat->col(j)); }
-    }
-}
-
 //get the maximum number of edges of a single knot
 long int Graph::getHighestDeg() const
 { return m_maxDeg; }
@@ -269,6 +207,11 @@ double Graph::getAvgDeg()
     { m_avgDeg = calcAvgDeg(); }
     return m_avgDeg;
 }
+
+//return the adj matrix
+arma::Mat<int>* Graph::getKnotMat()
+{ return &m_knotMat; }
+
 
 //destructor
 Graph::~Graph()

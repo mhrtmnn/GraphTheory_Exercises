@@ -7,6 +7,7 @@
 
 #include <set>
 #include <algorithm>
+#include <armadillo>
 
 #include "Graph.hpp"
 
@@ -16,6 +17,8 @@ public:
     void GreedyColoring(Graph *g);
     int executeRandomGreedy(Graph *g, int n);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
+    double calcTriangles(int, arma::Mat<int>*);
+
 
 private:
     int getMinFreeColor(std::set<int> *, long);

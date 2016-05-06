@@ -4,6 +4,9 @@
 
 #include "algorithms.hpp"
 
+void multWorker(int, int, arma::Mat<int>*, arma::Mat<int>*);
+
+
 //apply greedy alg to n randomly selected knot orders
 int algorithms::executeRandomGreedy(Graph *g, int n)
 {
@@ -101,3 +104,54 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
     }
     return -1;
 }
+
+//calc the number of triangles in the graph
+//num_triangles = 1/6 * trace(A^3)
+double algorithms::calcTriangles(int n, arma::Mat<int>* mat)
+{
+    arma::Mat<int> temp;
+    temp = arma::Mat<int>(n, n);
+
+#define MULTITHREAD
+#ifdef MULTITHREAD
+    //task is parallizable --> split lower triang matrix into 4 even parts
+
+    int i1 = (int) (double) n / 2;
+    int i2 = (int) (double) n / sqrt(2);
+    int i3 = (int) (double) n * sqrt(3) / 2;
+
+    //start threads
+    std::thread  first(multWorker,  0, i1, &temp, mat);
+    std::thread second(multWorker, i1, i2, &temp, mat);
+    std::thread  third(multWorker, i2, i3, &temp, mat);
+    std::thread fourth(multWorker, i3, n,  &temp, mat);
+
+    //wait for threads to finish
+    first.join();
+    second.join();
+    third.join();
+    fourth.join();
+#endif
+
+#ifndef MULTITHREAD
+    multWorker(0,n,&temp, &knotMat);
+#endif
+
+    temp = arma::symmatl(temp);
+
+    int trace = 0;
+    for(int i=0; i<n; i++)
+    { trace += arma::dot(temp.row(i), mat->col(i)); }
+
+    return trace / 6;
+}
+
+void multWorker(int iStart, int iEnd, arma::Mat<int>* temp, arma::Mat<int>* knotMat)
+{
+    for(int i=iStart; i<iEnd; i++)
+    {
+        for(int j=0; j<=i; j++)
+        { (*temp)(i,j) = arma::dot(knotMat->col(i), knotMat->col(j)); }
+    }
+}
+
