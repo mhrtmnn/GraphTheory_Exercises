@@ -184,3 +184,49 @@ long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
 
     return m_numTriangles;
 }
+
+std::pair<int, int> algorithms::findConnectedComponents(int numKnot, std::vector<std::set<int>>* neighbours)
+{
+    std::pair<int, int> components;
+    std::vector<int> order = bfs(1, numKnot, neighbours);
+
+    components.first = 1;
+    components.second = order.size();
+
+    return components;
+};
+
+std::vector<int> algorithms::bfs(int start, int numKnot, std::vector<std::set<int>>* neighbours)
+{
+    int v;
+    std::queue<int> Q;
+    std::vector<int> travOrder;
+    std::vector<bool> K = std::vector<bool>(numKnot, false);
+
+    //add first vertex to queue and declare as known
+    Q.push(start);
+    K[start] = true;
+    travOrder.push_back(start);
+
+
+    //main loop
+    while(Q.size() != 0)
+    {
+        //retrieve the front most element of the queue
+        v = Q.front();
+        Q.pop();
+
+        //further process all unknown neigbours of vertex v
+        for(int w : (*neighbours)[v])
+        {
+            if(!K[w])
+            {
+                Q.push(w);
+                K[w] = true;
+                travOrder.push_back(w);
+            }
+        }
+    }
+
+    return travOrder;
+}

@@ -48,8 +48,8 @@ private:
     std::map<int, int> m_coloring;
 
     std::vector<std::set<int>> m_neighbours;
-    int m_numEdges;
     int m_numKnots;
+    int m_numEdges;
     int m_numIsolatedVertices;
     int m_numColors;
     float m_avgDeg;

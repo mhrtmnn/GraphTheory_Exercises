@@ -59,6 +59,9 @@ int main()
     std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;
     std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << std::endl;
 
+    std::pair<int, int> comp = alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
+    std::cout << "There are " << comp.first << " components, the largest being " << comp.second << std::endl;
+
     std::cout << "runtime: " <<  clock()-t << std::endl;
     usleep((__useconds_t) pow(10, 6));
     return 0;

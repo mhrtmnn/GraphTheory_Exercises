@@ -7,7 +7,7 @@
 void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat);
 
 //constructor
-Graph::Graph() : m_numKnots(0), m_numEdges(0), m_maxDeg(0), m_numIsolatedVertices(-1), m_avgDeg(-1)
+Graph::Graph() : m_numKnots(0), m_numEdges(0), m_numIsolatedVertices(-1), m_numColors(-1), m_avgDeg(-1), m_maxDeg(0)
 {}
 
 //read a graph from text file, create appropriate vertices and edges
