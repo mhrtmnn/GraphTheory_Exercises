@@ -24,7 +24,7 @@ public:
 private:
     int getMinFreeColor(std::set<int> *, long);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
-    std::vector<int> bfs(int, int, std::vector<std::set<int>>*);
+    std::vector<int> bfs(int, std::vector<std::set<int>>*, std::vector<bool>&);
 };
 
 

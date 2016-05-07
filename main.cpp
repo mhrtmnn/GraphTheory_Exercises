@@ -22,8 +22,9 @@ int main()
     Graph graph;
     algorithms alg;
 
-    std::cout << "choose Ex" << std::endl;
+    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Test [5]" << std::endl;
     std::cin >> c;
+
     switch(c)
     {
         case 1:
@@ -52,7 +53,7 @@ int main()
     clock_t t = clock();
 
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
-    std::cout <<  alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
+    std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
     std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
 
     alg.GreedyColoring(&graph);

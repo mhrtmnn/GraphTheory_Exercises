@@ -84,9 +84,12 @@ void algorithms::GreedyColoring(Graph* g)
         }
 
         newColor = getMinFreeColor(&usedColorSet, numKnot);
+
+        //update biggest color metric
         if (newColor > biggestColor)
         { biggestColor = newColor; }
 
+        //append new knot<->color mapping
         coloringMap.insert(std::pair<key_t, int>(i, newColor));
     }
 
@@ -97,6 +100,7 @@ void algorithms::GreedyColoring(Graph* g)
 //return the min unused color
 int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 {
+    //iterate through all possible colors and retrieve the smallest not yet mapped one
     for (int color = 0; color < numKnots; color++)
     {
         if (std::find(colorSet->begin(), colorSet->end(), color) == colorSet->end())
@@ -125,7 +129,7 @@ long algorithms::calcTriangles(int n, arma::Mat<short>* mat)
     std::thread  first(multWorker,  0, i1, &temp, mat);
     std::thread second(multWorker, i1, i2, &temp, mat);
     std::thread  third(multWorker, i2, i3, &temp, mat);
-    std::thread fourth(multWorker, i3, n,  &temp, mat);
+    std::thread fourth(multWorker, i3,  n, &temp, mat);
 
     //wait for threads to finish
     first.join();
@@ -138,15 +142,20 @@ long algorithms::calcTriangles(int n, arma::Mat<short>* mat)
     multWorker(0,n,&temp, &knotMat);
 #endif
 
+    //reflect lower triangluar matrix to full symmetric matrix
     temp = arma::symmatl(temp);
 
+    //calculate trace(temp * A) = trace(A^3)
     int trace = 0;
     for(int i=0; i<n; i++)
-    { trace += arma::dot(temp.row(i), mat->col(i)); }
+    {
+        trace += arma::dot(temp.row(i), mat->col(i));
+    }
 
     return trace / 6;
 }
 
+//worker function for multithreaded matrix multiplication
 void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat)
 {
     for(int i=iStart; i<iEnd; i++)
@@ -161,6 +170,9 @@ long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
 {
     long m_numTriangles = 0;
 
+    //iterate through all vertices and find C(3)'s (triangles) in ascending order
+    //to make sure we count every C(3) only once.
+    //regard N(k3) with k3 being in N(k2) with k2 being in N(k1) an check if there is an edge from k3 back to k1
     for(int k1=0; k1<numKnot; k1++)
     {
         if ((*neighbours)[k1].size() < 2)
@@ -185,29 +197,44 @@ long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
     return m_numTriangles;
 }
 
+//get number and size of connected components
 std::pair<int, int> algorithms::findConnectedComponents(int numKnot, std::vector<std::set<int>>* neighbours)
 {
-    std::pair<int, int> components;
-    std::vector<int> order = bfs(1, numKnot, neighbours);
+    unsigned int numberComponents = 0;
+    unsigned int biggestComponent = 0;
 
-    components.first = 1;
-    components.second = order.size();
+    std::vector<bool> visited = std::vector<bool>(numKnot, false);
+    std::vector<int> order;
 
-    return components;
-};
+    for(int i=0; i<numKnot; i++)
+    {
+        //skip if vertex visited already (component has already been counted)
+        if(visited[i])
+        { continue; }
 
-std::vector<int> algorithms::bfs(int start, int numKnot, std::vector<std::set<int>>* neighbours)
+        //start BFS with unvisited vertex -> unvisited component
+        order = bfs(i, neighbours, visited);
+
+        //update metrics
+        numberComponents++;
+        if(order.size() > biggestComponent)
+        { biggestComponent = order.size(); }
+    }
+
+    return std::pair<int, int>(numberComponents, biggestComponent);
+}
+
+//execute the BFS algorithm on one connected component
+std::vector<int> algorithms::bfs(int start, std::vector<std::set<int>>* neighbours, std::vector<bool>& visited)
 {
     int v;
     std::queue<int> Q;
     std::vector<int> travOrder;
-    std::vector<bool> K = std::vector<bool>(numKnot, false);
 
     //add first vertex to queue and declare as known
     Q.push(start);
-    K[start] = true;
+    visited[start] = true;
     travOrder.push_back(start);
-
 
     //main loop
     while(Q.size() != 0)
@@ -216,13 +243,13 @@ std::vector<int> algorithms::bfs(int start, int numKnot, std::vector<std::set<in
         v = Q.front();
         Q.pop();
 
-        //further process all unknown neigbours of vertex v
+        //further process all unknown neighbours of vertex v
         for(int w : (*neighbours)[v])
         {
-            if(!K[w])
+            if(!visited[w])
             {
                 Q.push(w);
-                K[w] = true;
+                visited[w] = true;
                 travOrder.push_back(w);
             }
         }
