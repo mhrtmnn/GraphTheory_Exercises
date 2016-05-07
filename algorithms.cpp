@@ -23,6 +23,7 @@ int algorithms::executeRandomGreedy(Graph *g, int n)
         if(currColor<minColor)
         { minColor = currColor; }
     }
+
     return minColor;
 }
 
@@ -56,6 +57,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 
         coloringMap.insert(std::pair<key_t, int>(i, newColor));
     }
+
     return biggestColor;
 }
 
@@ -100,6 +102,7 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
         if (std::find(colorSet->begin(), colorSet->end(), color) == colorSet->end())
         { return color; }
     }
+
     return -1;
 }
 
