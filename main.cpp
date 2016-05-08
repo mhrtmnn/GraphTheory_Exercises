@@ -13,57 +13,52 @@
 
 #include "Graph.hpp"
 #include "algorithms.hpp"
+#include "exercises.hpp"
 
 int main()
 {
     int c = 0;
     const std::string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
+    const clock_t t = clock();
 
     Graph graph;
     algorithms alg;
 
-    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Test [5]" << std::endl;
+    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Test [6]" << std::endl;
     std::cin >> c;
 
     switch(c)
     {
         case 1:
             graph.loadGraph(dataDir + "graph15.txt");
+            std::cout << "\ngraph loaded\n";
+            printMetrics(graph, alg);
             break;
         case 2:
             graph.loadGraph(dataDir + "graph25.txt");
+            std::cout << "\ngraph loaded\n";
+            printMetrics(graph, alg);
             break;
         case 3:
             graph.loadGraph(dataDir + "graph34.txt");
+            std::cout << "\ngraph loaded\n";
+            printMetrics(graph, alg);
             break;
         case 4:
-            int n;
-            double p;
-            std::cout << "Poss: " ; std::cin >> p; std::cout << std::endl;
-            std::cout << "Num Vert: "; std::cin >>n; std::cout << std::endl;
-            graph.randomCreate(n, p);
+            startEx4(graph);
+            std::cout << "\ngraph loaded\n";
+            printMetrics(graph, alg);
             break;
         case 5:
+            startEx5(alg);
+            break;
+        case 6:
             graph.loadGraph(dataDir + "test.txt");
             break;
     }
 
-    std::cout << "\ngraph loaded\n";
-
-    clock_t t = clock();
-
-    std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
-    std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
-    std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
-
-    alg.GreedyColoring(&graph);
-    std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;
-    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << std::endl;
-
-    std::pair<int, int> comp = alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
-    std::cout << "There are " << comp.first << " components, the largest being " << comp.second << std::endl;
-
     std::cout << "runtime: " <<  clock()-t << std::endl;
     usleep((__useconds_t) pow(10, 6));
+
     return 0;
 }

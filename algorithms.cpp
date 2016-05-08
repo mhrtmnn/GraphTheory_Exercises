@@ -4,6 +4,7 @@
 
 #include "algorithms.hpp"
 
+//PROTOTYPES
 void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
 
 //apply greedy alg to n randomly selected knot orders
