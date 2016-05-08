@@ -9,5 +9,5 @@ set(CUST_CXX_FLAGS "-std=c++11 -Wall -Wextra")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUST_CXX_FLAGS} ${CUST_LIBS} ${CUST_INCL}")
 
-set(SOURCE_FILES main.cpp algorithms.cpp Graph.cpp exercises.cpp exercises.hpp)
+set(SOURCE_FILES main.cpp Algorithms.cpp Graph.cpp exercises.cpp exercises.hpp)
 add_executable(GraphTheory-GIT ${SOURCE_FILES})

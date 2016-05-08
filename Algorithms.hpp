@@ -12,7 +12,7 @@
 
 #include "Graph.hpp"
 
-class algorithms
+class Algorithms
 {
 public:
     void GreedyColoring(Graph *g);

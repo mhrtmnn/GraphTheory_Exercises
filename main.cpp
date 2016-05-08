@@ -12,7 +12,7 @@
 #include <time.h>
 
 #include "Graph.hpp"
-#include "algorithms.hpp"
+#include "Algorithms.hpp"
 #include "exercises.hpp"
 
 int main()
@@ -22,7 +22,7 @@ int main()
     const clock_t t = clock();
 
     Graph graph;
-    algorithms alg;
+    Algorithms alg;
 
     std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Test [6]" << std::endl;
     std::cin >> c;
@@ -50,7 +50,7 @@ int main()
             printMetrics(graph, alg);
             break;
         case 5:
-            startEx5(alg);
+            startEx5();
             break;
         case 6:
             graph.loadGraph(dataDir + "test.txt");

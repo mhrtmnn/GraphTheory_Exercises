@@ -6,9 +6,11 @@
 
 #define SIZE_EX5 10000
 
-void printMetrics(Graph& graph, algorithms& alg)
+
+void printMetrics(Graph& graph, Algorithms& alg)
 {
     std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
+
     std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
     std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
 
@@ -18,7 +20,6 @@ void printMetrics(Graph& graph, algorithms& alg)
 
     std::pair<int, int> comp = alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
     std::cout << "There are " << comp.first << " components, the largest being " << comp.second << std::endl;
-
 }
 
 
@@ -32,19 +33,18 @@ void startEx4(Graph& graph)
 }
 
 
-void startEx5(algorithms& alg)
+void startEx5()
 {
     //vector holding the number of components and the biggest one
     std::vector<std::pair<int, int>> resVec;
     resVec = std::vector<std::pair<int, int>>(SIZE_EX5, std::pair<int, int>());
 
 #ifdef MULTITHREAD_EX5
-
     //start threads
-    std::thread  first(Ex5Worker, &resVec, &alg,   0,  75);
-    std::thread second(Ex5Worker, &resVec, &alg,  75, 150);
-    std::thread  third(Ex5Worker, &resVec, &alg, 150, 225);
-    std::thread fourth(Ex5Worker, &resVec, &alg, 225, 300);
+    std::thread  first(Ex5Worker, &resVec,   0,  75);
+    std::thread second(Ex5Worker, &resVec,  75, 150);
+    std::thread  third(Ex5Worker, &resVec, 150, 225);
+    std::thread fourth(Ex5Worker, &resVec, 225, 300);
 
     //wait for threads to finish
     first.join();
@@ -54,18 +54,20 @@ void startEx5(algorithms& alg)
 #endif
 
 #ifndef MULTITHREAD_EX5
-    Ex5Worker(&resVec, &alg, 0, 300);
+    Ex5Worker(&resVec, 0, 300);
 #endif
 
     //TODO: plot resVec
 }
 
 
-void Ex5Worker(std::vector<std::pair<int, int>>* resVec, algorithms* alg, int from, int to)
+void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
 {
     const int n = SIZE_EX5;
     double p;
+
     Graph* graph = new Graph();
+    Algorithms* alg = new Algorithms();
 
     //get number and max size of connected components for some possibilities
     for(int i=from; i<to; i++)

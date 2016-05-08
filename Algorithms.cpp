@@ -2,13 +2,13 @@
 // Created by marco on 4/20/16.
 //
 
-#include "algorithms.hpp"
+#include "Algorithms.hpp"
 
 //PROTOTYPES
 void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
 
 //apply greedy alg to n randomly selected knot orders
-int algorithms::executeRandomGreedy(Graph *g, int n)
+int Algorithms::executeRandomGreedy(Graph *g, int n)
 {
     //run greedy with randomly selected knot orders
     std::vector<int> num = std::vector<int>(g->getNumberVertices());
@@ -29,7 +29,7 @@ int algorithms::executeRandomGreedy(Graph *g, int n)
 }
 
 //implementation of the greedy coloring alg: colors vertices in a custom order
-int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
+int Algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 {
     //map holding the knot<->color mapping
     std::map<int, int> coloringMap;
@@ -63,7 +63,7 @@ int algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 }
 
 //implementation of the greedy coloring alg: colors vertices in ascending order
-void algorithms::GreedyColoring(Graph* g)
+void Algorithms::GreedyColoring(Graph* g)
 {
     //map holding the knot<->color mapping
     std::map<int, int> coloringMap;
@@ -99,7 +99,7 @@ void algorithms::GreedyColoring(Graph* g)
 }
 
 //return the min unused color
-int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
+int Algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 {
     //iterate through all possible colors and retrieve the smallest not yet mapped one
     for (int color = 0; color < numKnots; color++)
@@ -113,7 +113,7 @@ int algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
 
 //return the number of triangles formed by vertices => matrix method
 //num_triangles = 1/6 * trace(A^3)
-long algorithms::calcTriangles(int n, arma::Mat<short>* mat)
+long Algorithms::calcTriangles(int n, arma::Mat<short>* mat)
 {
     arma::Mat<short> temp;
     temp = arma::Mat<short>(n, n);
@@ -167,7 +167,7 @@ void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* 
 }
 
 //return the number of triangles formed by vertices => vector method
-long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
+long Algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
 {
     long m_numTriangles = 0;
 
@@ -199,7 +199,7 @@ long algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
 }
 
 //get number and size of connected components
-std::pair<int, int> algorithms::findConnectedComponents(int numKnot, std::vector<std::set<int>>* neighbours)
+std::pair<int, int> Algorithms::findConnectedComponents(int numKnot, std::vector<std::set<int>>* neighbours)
 {
     unsigned int numberComponents = 0;
     unsigned int biggestComponent = 0;
@@ -226,7 +226,7 @@ std::pair<int, int> algorithms::findConnectedComponents(int numKnot, std::vector
 }
 
 //execute the BFS algorithm on one connected component
-std::vector<int> algorithms::bfs(int start, std::vector<std::set<int>>* neighbours, std::vector<bool>& visited)
+std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbours, std::vector<bool>& visited)
 {
     int v;
     std::queue<int> Q;

@@ -5,12 +5,12 @@
 #ifndef GRAPHTHEORY_GIT_EXERCISES_HPP
 #define GRAPHTHEORY_GIT_EXERCISES_HPP
 
-#include "algorithms.hpp"
+#include "Algorithms.hpp"
 #include <thread>
 
-void printMetrics(Graph&, algorithms&);
+void printMetrics(Graph&, Algorithms&);
 void startEx4(Graph&);
-void startEx5(algorithms&);
-void Ex5Worker(std::vector<std::pair<int, int>>*, algorithms*, int, int);
+void startEx5();
+void Ex5Worker(std::vector<std::pair<int, int>>*, int, int);
 
 #endif //GRAPHTHEORY_GIT_EXERCISES_HPP
