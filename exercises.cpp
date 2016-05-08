@@ -5,6 +5,7 @@
 #include "exercises.hpp"
 
 #define SIZE_EX5 10000
+#define ITERATIONS_EX5 300
 
 
 void printMetrics(Graph& graph, Algorithms& alg)
@@ -37,14 +38,14 @@ void startEx5()
 {
     //vector holding the number of components and the biggest one
     std::vector<std::pair<int, int>> resVec;
-    resVec = std::vector<std::pair<int, int>>(SIZE_EX5, std::pair<int, int>());
+    resVec = std::vector<std::pair<int, int>>(ITERATIONS_EX5, std::pair<int, int>());
 
 #ifdef MULTITHREAD_EX5
     //start threads
     std::thread  first(Ex5Worker, &resVec,   0,  75);
     std::thread second(Ex5Worker, &resVec,  75, 150);
     std::thread  third(Ex5Worker, &resVec, 150, 225);
-    std::thread fourth(Ex5Worker, &resVec, 225, 300);
+    std::thread fourth(Ex5Worker, &resVec, 225, 301);
 
     //wait for threads to finish
     first.join();
@@ -54,13 +55,15 @@ void startEx5()
 #endif
 
 #ifndef MULTITHREAD_EX5
-    Ex5Worker(&resVec, 0, 300);
+    Ex5Worker(&resVec, 0, ITERATIONS_EX5);
 #endif
 
-    //TODO: plot resVec
+    //create CSV from resVec
+    createCSV(resVec);
 }
 
 
+//worker function for getting metrics of a randomly created graph
 void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
 {
     const int n = SIZE_EX5;
@@ -72,9 +75,9 @@ void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
     //get number and max size of connected components for some possibilities
     for(int i=from; i<to; i++)
     {
-        p = (double) i * 5 * pow(10, -6);
+        p = (double) (i+1) * 5 * pow(10, -6);
         graph->randomCreate(n, p);
-        std::cout << i << " graph created: ";
+        std::cout << i+1 << " graph created: ";
 
         std::pair<int, int> cmp = alg->findConnectedComponents(graph->getNumberVertices(), graph->getNeighbourhood());
         std::cout << cmp.first << " components, the largest being " << cmp.second << std::endl;
@@ -83,4 +86,24 @@ void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
     }
 
     delete(graph);
+}
+
+
+//create a plottable CSV file from component vector
+void createCSV(std::vector<std::pair<int, int>>& resVec)
+{
+    std::ofstream outfile("./plot.csv");
+    const std::string delimiter = ";";
+    int iteration = 1;
+
+    outfile << "iteration" << delimiter << "numberComponents" + delimiter + "biggestComponent" << std::endl;
+    for(std::pair<int, int> entry : resVec)
+    {
+        outfile << iteration << delimiter;
+        outfile << entry.first << delimiter;
+        outfile << entry.second << std::endl;
+        iteration++;
+    }
+
+    outfile.close();
 }
