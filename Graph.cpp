@@ -14,7 +14,7 @@ Graph::Graph() : m_numKnots(0), m_numEdges(0), m_numIsolatedVertices(-1), m_numC
 void Graph::loadGraph(std::string p)
 {
     std::ifstream fs;
-    fs.open(p.c_str());
+    fs.open(p);
 
     int row = 0;
     std::string line;
@@ -30,7 +30,7 @@ void Graph::loadGraph(std::string p)
             { break; }
 
             std::vector<int> nb;
-            nb = parseLine(line);
+            parseLine(line, &nb);
             m_numEdges += nb.size();
 
             addVertices(nb, row);
@@ -51,28 +51,18 @@ void Graph::loadGraph(std::string p)
 }
 
 //parse one line of the text file
-std::vector<int> Graph::parseLine(std::string line)
+void Graph::parseLine(std::string line, std::vector<int>* nb)
 {
-    std::vector<int> nb;
 
     if (line.size() == 0)
-    { return nb; }
+    { return; }
 
-    std::string num = "";
-    char c;
-
-    for (unsigned int i = 0; i < line.length(); i++)
+    std::stringstream lineStream(line);
+    std::string s;
+    while(std::getline(lineStream, s, ','))
     {
-        if ((c = line[i]) == ',')
-        {
-            nb.push_back(stoi(num));
-            num = "";
-        }
-        else
-        { num.push_back(c); }
+        nb->push_back(std::stoi(s));
     }
-    nb.push_back(std::stoi(num));
-    return nb;
 }
 
 //add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...

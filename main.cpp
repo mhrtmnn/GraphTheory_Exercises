@@ -54,6 +54,7 @@ int main()
             break;
         case 6:
             graph.loadGraph(dataDir + "test.txt");
+            alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
             break;
     }
 

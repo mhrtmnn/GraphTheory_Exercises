@@ -33,7 +33,6 @@ public:
     void setColor(std::map<int, int>);
     void setNumColors(int);
     int getNumberColors();
-    int getTriangles();
     double getAvgDeg();
     int getEntry(int, int);
     arma::Mat<short>* getKnotMat();
@@ -59,8 +58,7 @@ private:
     void initDataStructures(std::ifstream &fs);
     int getDeg(int);
     double calcAvgDeg();
-    double calcTriangles();
-    std::vector<int> parseLine(std::string line);
+    void parseLine(std::string, std::vector<int>*);
 };
 
 
