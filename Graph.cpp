@@ -7,7 +7,7 @@
 void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat);
 
 //constructor
-Graph::Graph() : m_numKnots(0), m_numEdges(0), m_numIsolatedVertices(-1), m_numColors(-1), m_avgDeg(-1), m_maxDeg(0)
+Graph::Graph() : m_numIsolatedVertices(-1), m_numColors(-1), m_avgDeg(-1), m_maxDeg(0)
 {}
 
 //read a graph from text file, create appropriate vertices and edges
@@ -76,20 +76,6 @@ void Graph::addVertices(std::vector<int> nb, int j)
     }
 }
 
-void Graph::initDataStructures(std::ifstream &fs)
-{
-    int lines;
-    std::string line;
-    for (lines = 0; std::getline(fs, line); lines++);
-
-    //last line contains "end"
-    lines -= 1;
-    m_numKnots = lines;
-
-    m_knotMat = arma::Mat<short>(lines, lines, arma::fill::zeros);
-    m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
-}
-
 //randomly create a new graph with randomly distributed edges
 void Graph::randomCreate(int n, double p)
 {
@@ -119,16 +105,6 @@ void Graph::randomCreate(int n, double p)
     //print(m_knotMat);
 }
 
-void Graph::print(arma::Mat<short>& M)
-{
-    for(int i=0; i<m_numKnots; i++)
-    {
-        for(int j=0; j<m_numKnots; j++)
-        { std::cout << M(i,j) << " "; }
-        std::cout << std::endl;
-    }
-}
-
 //calculate the degree of a given vertex
 int Graph::getDeg(int k)
 {
@@ -155,9 +131,6 @@ double Graph::calcAvgDeg()
     return deg / (double) m_numKnots;
 }
 
-//return entry A(k1,k2)
-int Graph::getEntry(int k1, int k2)
-{ return m_knotMat(k1, k2); }
 
 //set map with vertex : color mapping
 void Graph::setColor(std::map<int, int> colorMap)
@@ -191,13 +164,6 @@ int Graph::getNumberIsolated()
 long int Graph::getHighestDeg() const
 { return m_maxDeg; }
 
-//get number of knots
-long int Graph::getNumberVertices() const
-{ return m_numKnots; }
-
-//get number of edges
-long int Graph::getNumberEdges() const
-{ return m_numEdges; }
 
 //get avg degree
 double Graph::getAvgDeg()
@@ -206,13 +172,6 @@ double Graph::getAvgDeg()
     { m_avgDeg = calcAvgDeg(); }
     return m_avgDeg;
 }
-
-//return the adj matrix
-arma::Mat<short>* Graph::getKnotMat()
-{ return &m_knotMat; }
-
-std::vector<std::set<int>>* Graph::getNeighbourhood()
-{ return &m_neighbours;}
 
 //destructor
 Graph::~Graph()
