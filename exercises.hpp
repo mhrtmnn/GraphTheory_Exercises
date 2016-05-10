@@ -11,6 +11,7 @@
 void printMetrics(Graph&, Algorithms&);
 void startEx4(Graph&);
 void startEx5();
+void startEx6();
 void Ex5Worker(std::vector<std::pair<int, int>>*, int, int);
 void createCSV(std::vector<std::pair<int, int>> &);
 

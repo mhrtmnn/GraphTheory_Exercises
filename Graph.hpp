@@ -40,7 +40,6 @@ public:
 
 private:
     void addVertices(std::vector<int> nb, int j);
-    void parseLine(std::string, std::vector<int>*);
 
     std::map<int, int> m_coloring;
     int m_numIsolatedVertices;

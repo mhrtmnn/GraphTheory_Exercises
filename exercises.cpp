@@ -3,6 +3,7 @@
 //
 
 #include "exercises.hpp"
+#include "DirectedGraph.hpp"
 
 #define SIZE_EX5 10000
 #define ITERATIONS_EX5 300
@@ -106,4 +107,10 @@ void createCSV(std::vector<std::pair<int, int>>& resVec)
     }
 
     outfile.close();
+}
+
+
+void startEx6()
+{
+    //DirectedGraph dirGraph;
 }

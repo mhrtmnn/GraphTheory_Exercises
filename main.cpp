@@ -24,7 +24,7 @@ int main()
     Graph graph;
     Algorithms alg;
 
-    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Test [6]" << std::endl;
+    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Test [7]" << std::endl;
     std::cin >> c;
 
     switch(c)
@@ -53,6 +53,8 @@ int main()
             startEx5();
             break;
         case 6:
+            startEx6();
+        case 7:
             graph.loadGraph(dataDir + "test.txt");
             alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
             break;

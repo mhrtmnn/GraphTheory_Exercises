@@ -7,7 +7,7 @@
 BaseGraph::BaseGraph() : m_numKnots(0), m_numEdges(0)
 {}
 
-void BaseGraph::initDataStructures(std::ifstream &fs)
+void BaseGraph::initDataStructures(std::ifstream &fs, bool isDirected)
 {
     int lines;
     std::string line;
@@ -15,7 +15,7 @@ void BaseGraph::initDataStructures(std::ifstream &fs)
 
     //last line contains "end"
     lines -= 1;
-    m_numKnots = lines;
+    isDirected ? m_numKnots = lines/2 : m_numKnots = lines;
 
     m_knotMat = arma::Mat<short>(lines, lines, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());

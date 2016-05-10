@@ -20,7 +20,7 @@ void Graph::loadGraph(std::string p)
     std::string line;
     if (fs.is_open())
     {
-        initDataStructures(fs);
+        initDataStructures(fs, UNDIRECTED);
         fs.clear();
         fs.seekg(std::ios_base::beg);
 
@@ -31,6 +31,7 @@ void Graph::loadGraph(std::string p)
 
             std::vector<int> nb;
             parseLine(line, &nb);
+
             m_numEdges += nb.size();
 
             addVertices(nb, row);
@@ -47,21 +48,6 @@ void Graph::loadGraph(std::string p)
     {
         std::cout << "load failed!" << std::endl;
         exit(-1);
-    }
-}
-
-//parse one line of the text file
-void Graph::parseLine(std::string line, std::vector<int>* nb)
-{
-
-    if (line.size() == 0)
-    { return; }
-
-    std::stringstream lineStream(line);
-    std::string s;
-    while(std::getline(lineStream, s, ','))
-    {
-        nb->push_back(std::stoi(s));
     }
 }
 
