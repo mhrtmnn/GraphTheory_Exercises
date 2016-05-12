@@ -5,13 +5,11 @@
 #ifndef GRAPHTHEORY_GIT_BASEGRAPH_HPP
 #define GRAPHTHEORY_GIT_BASEGRAPH_HPP
 
-#define DIRECTED 1
-#define UNDIRECTED 0
-
-#define ARMA_NO_DEBUG
-#include <armadillo>
 #include <set>
 #include <type_traits>
+#include <fstream>
+#include <vector>
+#include <sstream>
 
 
 class BaseGraph
@@ -23,22 +21,12 @@ public:
 
     long int getNumberVertices() const;
     long int getNumberEdges() const;
-    int getEntry(int, int);
-
-    arma::Mat<short>* getKnotMat();
-    void print(arma::Mat<short>&);
-    std::vector<std::set<int>>* getNeighbourhood();
 
 protected:
-    arma::Mat<short> m_knotMat;
-    std::vector<std::set<int>> m_neighbours;
-
     int m_numKnots;
     int m_numEdges;
 
-    virtual void initDataStructures(std::ifstream &, bool);
-    virtual void addVertices(std::vector<int> nb, int j) = 0;
-
+    virtual void initDataStructures(std::ifstream &) = 0;
 
     //parse one line of the text file --> templatze func must be in header
     template <typename T>

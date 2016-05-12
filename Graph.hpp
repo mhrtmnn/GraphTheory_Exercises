@@ -36,11 +36,20 @@ public:
     void setNumColors(int);
     int getNumberColors();
 
+    int getEntry(int, int);
+    arma::Mat<short>* getKnotMat();
+    std::vector<std::set<int>>* getNeighbourhood();
+
+    void print(arma::Mat<short>&);
+
     virtual ~Graph();
 
 private:
     void addVertices(std::vector<int> nb, int j);
+    void initDataStructures(std::ifstream &fs);
 
+    arma::Mat<short> m_knotMat;
+    std::vector<std::set<int>> m_neighbours;
     std::map<int, int> m_coloring;
     int m_numIsolatedVertices;
     int m_numColors;

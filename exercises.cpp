@@ -112,5 +112,5 @@ void createCSV(std::vector<std::pair<int, int>>& resVec)
 
 void startEx6()
 {
-    //DirectedGraph dirGraph;
+    DirectedGraph dirGraph;
 }
