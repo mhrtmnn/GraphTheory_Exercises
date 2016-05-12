@@ -118,31 +118,6 @@ int Graph::getDeg(int k)
     return deg;
 }
 
-//calculate the average degree over all vertices
-double Graph::calcAvgDeg()
-{
-    double deg = 0;
-    for(int k=0; k<m_numKnots; k++)
-    {
-        deg += getDeg(k);
-    }
-
-    return deg / (double) m_numKnots;
-}
-
-
-//set map with vertex : color mapping
-void Graph::setColor(std::map<int, int> colorMap)
-{ m_coloring = colorMap; }
-
-//set number of colors needed for coloring
-void Graph::setNumColors(int c)
-{ m_numColors = c; }
-
-//return number of needed colors
-int Graph::getNumberColors()
-{ return m_numColors; }
-
 //return the number of knots with zero neighbours
 int Graph::getNumberIsolated()
 {
@@ -159,11 +134,6 @@ int Graph::getNumberIsolated()
     return m_numIsolatedVertices;
 }
 
-//get the maximum number of edges of a single knot
-long int Graph::getHighestDeg() const
-{ return m_maxDeg; }
-
-
 //get avg degree
 double Graph::getAvgDeg()
 {
@@ -171,6 +141,34 @@ double Graph::getAvgDeg()
     { m_avgDeg = calcAvgDeg(); }
     return m_avgDeg;
 }
+
+//calculate the average degree over all vertices
+double Graph::calcAvgDeg()
+{
+    double deg = 0;
+    for(int k=0; k<m_numKnots; k++)
+    {
+        deg += getDeg(k);
+    }
+
+    return deg / (double) m_numKnots;
+}
+
+//set map with vertex : color mapping
+void Graph::setColor(std::map<int, int> colorMap)
+{ m_coloring = colorMap; }
+
+//set number of colors needed for coloring
+void Graph::setNumColors(int c)
+{ m_numColors = c; }
+
+//return number of needed colors
+int Graph::getNumberColors()
+{ return m_numColors; }
+
+//get the maximum number of edges of a single knot
+long int Graph::getHighestDeg() const
+{ return m_maxDeg; }
 
 int Graph::getEntry(int k1, int k2)
 { return m_knotMat(k1, k2); }
@@ -192,7 +190,6 @@ void Graph::print(arma::Mat<short>& M)
         std::cout << std::endl;
     }
 }
-
 
 //destructor
 Graph::~Graph()
