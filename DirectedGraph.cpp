@@ -38,7 +38,7 @@ void DirectedGraph::loadGraph(std::string p)
             row++;
         }
         std::cout << "\ngraph loaded\n";
-        
+
         //every edge counted twice
         m_numEdges /= 2;
 
@@ -65,7 +65,6 @@ void DirectedGraph::parseLine(std::string nl, std::string wl, std::vector<std::p
     }
 }
 
-
 void DirectedGraph::initDataStructures(std::ifstream &fs)
 {
     int lines;
@@ -81,7 +80,6 @@ void DirectedGraph::initDataStructures(std::ifstream &fs)
     m_knotMat = arma::Mat<float>(lines, lines, arma::fill::zeros);
     m_neighbours = std::vector<std::set<std::pair<int, float>>>(lines, std::set<std::pair<int, float >>());
 }
-
 
 //add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...
 void DirectedGraph::addVertices(std::vector<std::pair<int, float>> nb, int j)
@@ -114,4 +112,3 @@ void DirectedGraph::print(arma::Mat<float>& M)
         std::cout << std::endl;
     }
 }
-
