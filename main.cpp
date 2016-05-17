@@ -56,6 +56,7 @@ int main()
             startEx6();
         case 7:
             graph.loadGraph(dataDir + "test.txt");
+            printMetrics(graph, alg);
             alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
             break;
     }

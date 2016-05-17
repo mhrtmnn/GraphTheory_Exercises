@@ -28,7 +28,7 @@ protected:
 
     virtual void initDataStructures(std::ifstream &) = 0;
 
-    //parse one line of the text file --> templatze func must be in header
+    //parse one line of the text file --> template func must be in header
     template <typename T>
     void parseLine(std::string line, std::vector<T>* nb)
     {
