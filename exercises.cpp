@@ -132,6 +132,6 @@ void startEx6(std::string path, Algorithms& alg)
 {
     DirectedGraph diGraph;
     diGraph.loadGraph(path);
-    int dist = alg.dijkstra(0, 1, &diGraph);
+    float dist = alg.dijkstra(0, 1, &diGraph);
     std::cout << "dist(1,2) = " << dist << std::endl;
 }

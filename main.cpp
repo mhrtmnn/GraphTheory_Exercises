@@ -59,7 +59,7 @@ int main()
         case 7:
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
-            int dist = alg.dijkstra(0,4, &digraph);
+            float dist = alg.dijkstra(0,4, &digraph);
         std::cout << dist << " is the distance from 0 to 4" << std::endl;
             break;
     }
