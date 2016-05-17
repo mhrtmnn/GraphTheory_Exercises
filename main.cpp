@@ -54,11 +54,13 @@ int main()
             startEx5();
             break;
         case 6:
-            startEx6(dataDir + "graph65.txt");
+            startEx6(dataDir + "graph65.txt", alg);
             break;
         case 7:
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
+            int dist = alg.dijkstra(0,4, &digraph);
+        std::cout << dist << " is the distance from 0 to 4" << std::endl;
             break;
     }
 
