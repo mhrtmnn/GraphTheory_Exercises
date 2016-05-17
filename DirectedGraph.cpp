@@ -39,9 +39,6 @@ void DirectedGraph::loadGraph(std::string p)
         }
         std::cout << "\ngraph loaded\n";
 
-        //every edge counted twice
-        m_numEdges /= 2;
-
         //debug
         //print(m_knotMat);
     }
