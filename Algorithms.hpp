@@ -21,9 +21,9 @@ public:
     long calcTriangles(int, arma::Mat<short>*);
     long calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours);
     std::pair<int, int> findConnectedComponents(int, std::vector<std::set<int>>*);
-    int dijkstra(int, int, DirectedGraph*);
-    unsigned int getMinDist(std::set<int>, std::vector<float>);
-    void updateDistances(std::vector<std::set<std::pair<int, float>>>*, int, std::vector<float>*, std::set<int>*, DirectedGraph*);
+    float dijkstra(int, int, DirectedGraph*);
+    unsigned int getMinDist(std::set<int>&, std::vector<float>&);
+    void updateDistances(std::vector<std::set<std::pair<int, float>>>*, int, std::vector<float>&, std::set<int>&, DirectedGraph*);
 
 
 private:

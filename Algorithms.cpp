@@ -4,7 +4,6 @@
 
 #include "Algorithms.hpp"
 #define FLOAT_INF std::numeric_limits<float>::infinity()
-#define INTEGER_INF std::numeric_limits<int>::infinity()
 
 
 //PROTOTYPES
@@ -262,7 +261,7 @@ std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbou
     return travOrder;
 }
 
-int Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
+float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 {
     int n;
     n = diGraph->getNumberVertices();
@@ -272,7 +271,7 @@ int Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     //set Q containing vertices with not yet known distances
     std::set<int> Q;
     for(int i=0; i<n; i++)
-    { Q.insert(Q.end(), i); }
+    { Q.insert(i); }
 
     //vector containing the dist-values for every vertex
     std::vector<float> D = std::vector<float>(n, FLOAT_INF);
@@ -283,41 +282,44 @@ int Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     //main loop
     while(Q.size() != 0)
     {
+        //debug
+        std::cout << "|Q| = " << Q.size() << std::endl;
+
         int x = getMinDist(Q, D);
         Q.erase(x);
 
-        updateDistances(nbVec, x, &D, &Q, diGraph);
+        updateDistances(nbVec, x, D, Q, diGraph);
 
     }
 
     return D[to];
 }
 
-unsigned int Algorithms::getMinDist(std::set<int> Q, std::vector<float> D)
+//return the vertex in Q with minimal distance value
+unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> &D)
 {
-    unsigned int minVert = INTEGER_INF;
+    unsigned int minVert = -1;
     for(int k : Q)
     {
         if(D[k] < minVert)
-        {
-            minVert = k;
-        }
+        { minVert = k; }
     }
 
     return minVert;
 }
 
-void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>* D, std::set<int>* Q, DirectedGraph* diGraph)
+//recalculates the distances, in case there is a cheaper path over x
+void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>& D, std::set<int>& Q, DirectedGraph* diGraph)
 {
     //iterate through neighbourhood of vertex x
     for(std::pair<int, float> entry : (*nbVec)[x])
     {
         //check if still in Q
-        if (std::find(Q->begin(), Q->end(), entry.first) != Q->end())
+        if (std::find(Q.begin(), Q.end(), entry.first) != Q.end())
         {
-            if( (*D)[entry.first] > (*D)[x] + diGraph->getEntry(x, entry.first) )
+            if( D[entry.first] > D[x] + diGraph->getEntry(x, entry.first) )
             {
-                (*D)[entry.first] = (*D)[x] + diGraph->getEntry(x, entry.first);
+                D[entry.first] = D[x] + diGraph->getEntry(x, entry.first);
             }
         }
     }
