@@ -261,6 +261,7 @@ std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbou
     return travOrder;
 }
 
+//implementation of the single-source shortest-path dijkstra algorithm
 float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 {
     int n;
@@ -268,7 +269,7 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 
     std::vector<std::set<std::pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
 
-    //set Q containing vertices with not yet known distances
+    //Q contains vertices with not yet known distances
     std::set<int> Q;
     for(int i=0; i<n; i++)
     { Q.insert(i); }
@@ -285,11 +286,12 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
         //debug
         std::cout << "|Q| = " << Q.size() << std::endl;
 
+        //find the vertex with min distance and remove it from Q
         int x = getMinDist(Q, D);
         Q.erase(x);
 
+        //recalcutlate distamces for every neighbour of x, which still is in Q
         updateDistances(nbVec, x, D, Q, diGraph);
-
     }
 
     return D[to];
@@ -308,7 +310,7 @@ unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> &D)
     return minVert;
 }
 
-//recalculates the distances, in case there is a cheaper path over x
+//recalculates the distances, in case there is a cheaper path over x now
 void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>& D, std::set<int>& Q, DirectedGraph* diGraph)
 {
     //iterate through neighbourhood of vertex x
@@ -317,6 +319,7 @@ void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* n
         //check if still in Q
         if (std::find(Q.begin(), Q.end(), entry.first) != Q.end())
         {
+            //update if path over x is shorter than the previous shortest path
             if( D[entry.first] > D[x] + diGraph->getEntry(x, entry.first) )
             {
                 D[entry.first] = D[x] + diGraph->getEntry(x, entry.first);
@@ -324,23 +327,3 @@ void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* n
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
