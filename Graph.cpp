@@ -43,6 +43,9 @@ void Graph::loadGraph(std::string p)
 
         //every edge counted twice
         m_numEdges /= 2;
+
+        //debug
+        //print(m_knotMat);
     }
     else
     {
@@ -55,10 +58,12 @@ void Graph::initDataStructures(std::ifstream &fs)
 {
     int lines;
     std::string line;
-    for (lines = 0; std::getline(fs, line); lines++);
+    for (lines = 0; std::getline(fs, line); lines++)
+        ;
 
     //last line contains "end"
     lines -= 1;
+    m_numKnots = lines;
 
     m_knotMat = arma::Mat<short>(lines, lines, arma::fill::zeros);
     m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
