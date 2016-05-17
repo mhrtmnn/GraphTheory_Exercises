@@ -24,8 +24,11 @@ private:
     arma::Mat<float> m_knotMat;
     std::vector<std::set<std::pair<int, float >>> m_neighbours;
 
+    void parseLine(std::string, std::string, std::vector<std::pair<int, float>>*);
     void addVertices(std::vector<std::pair<int, float>> nb, int j);
     void initDataStructures(std::ifstream &fs);
+
+    void print(arma::Mat<float>&);
 };
 
 

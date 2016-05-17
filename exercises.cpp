@@ -128,7 +128,8 @@ void createCSV(std::vector<std::pair<int, int>>& resVec)
 }
 
 
-void startEx6()
+void startEx6(std::string path)
 {
-    DirectedGraph dirGraph;
+    DirectedGraph diGraph;
+    diGraph.loadGraph(path);
 }

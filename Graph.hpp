@@ -47,6 +47,7 @@ public:
 private:
     void addVertices(std::vector<int> nb, int j);
     void initDataStructures(std::ifstream &fs);
+    void parseLine(std::string line, std::vector<int>* nb);
 
     arma::Mat<short> m_knotMat;
     std::vector<std::set<int>> m_neighbours;

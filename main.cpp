@@ -14,6 +14,7 @@
 #include "Graph.hpp"
 #include "Algorithms.hpp"
 #include "exercises.hpp"
+#include "DirectedGraph.hpp"
 
 int main()
 {
@@ -53,11 +54,11 @@ int main()
             startEx5();
             break;
         case 6:
-            startEx6();
+            startEx6(dataDir + "graph65.txt");
+            break;
         case 7:
-            graph.loadGraph(dataDir + "test.txt");
-            printMetrics(graph, alg);
-            alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
+            DirectedGraph digraph;
+            digraph.loadGraph(dataDir + "test.txt");
             break;
     }
 

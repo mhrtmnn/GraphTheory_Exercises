@@ -54,6 +54,20 @@ void Graph::loadGraph(std::string p)
     }
 }
 
+void Graph::parseLine(std::string line, std::vector<int>* nb)
+{
+    if (line.size() == 0)
+    { return; }
+
+    std::stringstream lineStream(line);
+    std::string s;
+
+    while(std::getline(lineStream, s, ','))
+    {
+        nb->push_back(std::stoi(s));
+    }
+}
+
 void Graph::initDataStructures(std::ifstream &fs)
 {
     int lines;
