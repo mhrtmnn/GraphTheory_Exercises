@@ -11,10 +11,28 @@
 
 void printMetrics(Graph& graph, Algorithms& alg)
 {
-    std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
+    std::cout << "Search for triangles? [v] yes, vector method; [m] yes matrix method;";
+    std::cout << "[b] yes, both; [n] don't search" << std::endl;
 
-    std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
-    std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
+    char c;
+    std::cin >> c;
+    switch(c)
+    {
+        case 'v':
+            std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangle(s) [NeighVec]" << std::endl;
+            break;
+        case 'm':
+            std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
+            break;
+        case 'b':
+            std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
+            std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
+            break;
+        case 'n':
+            break;
+    }
+
+    std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
 
     alg.GreedyColoring(&graph);
     std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;
