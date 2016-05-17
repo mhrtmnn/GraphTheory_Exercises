@@ -3,6 +3,9 @@
 //
 
 #include "Algorithms.hpp"
+#define FLOAT_INF std::numeric_limits<float>::infinity()
+#define INTEGER_INF std::numeric_limits<int>::infinity()
+
 
 //PROTOTYPES
 void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
@@ -258,3 +261,84 @@ std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbou
 
     return travOrder;
 }
+
+int Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
+{
+    int n;
+    n = diGraph->getNumberVertices();
+
+    std::vector<std::set<std::pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
+
+    //set Q containing vertices with not yet known distances
+    std::set<int> Q;
+    for(int i=0; i<n; i++)
+    { Q.insert(Q.end(), i); }
+
+    //vector containing the dist-values for every vertex
+    std::vector<float> D = std::vector<float>(n, FLOAT_INF);
+
+    //initilaize start vertex with zero dist
+    D[from] = 0;
+
+    //main loop
+    while(Q.size() != 0)
+    {
+        int x = getMinDist(Q, D);
+        Q.erase(x);
+
+        updateDistances(nbVec, x, &D, &Q, diGraph);
+
+    }
+
+    return D[to];
+}
+
+unsigned int Algorithms::getMinDist(std::set<int> Q, std::vector<float> D)
+{
+    unsigned int minVert = INTEGER_INF;
+    for(int k : Q)
+    {
+        if(D[k] < minVert)
+        {
+            minVert = k;
+        }
+    }
+
+    return minVert;
+}
+
+void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>* D, std::set<int>* Q, DirectedGraph* diGraph)
+{
+    //iterate through neighbourhood of vertex x
+    for(std::pair<int, float> entry : (*nbVec)[x])
+    {
+        //check if still in Q
+        if (std::find(Q->begin(), Q->end(), entry.first) != Q->end())
+        {
+            if( (*D)[entry.first] > (*D)[x] + diGraph->getEntry(x, entry.first) )
+            {
+                (*D)[entry.first] = (*D)[x] + diGraph->getEntry(x, entry.first);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
