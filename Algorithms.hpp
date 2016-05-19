@@ -23,13 +23,15 @@ public:
     std::pair<int, int> findConnectedComponents(int, std::vector<std::set<int>>*);
     float dijkstra(int, int, DirectedGraph*);
     unsigned int getMinDist(std::set<int>&, std::vector<float>&);
-    void updateDistances(std::vector<std::set<std::pair<int, float>>>*, int, std::vector<float>&, std::set<int>&, DirectedGraph*);
+    void updateDistances(std::vector<std::set<std::pair<int, float>>>*, int, std::vector<float>&, std::set<int>&, DirectedGraph*, std::vector<int>*);
 
 
 private:
     int getMinFreeColor(std::set<int> *, long);
     int GreedyColoringCustom(Graph *, std::vector<int>*);
     std::vector<int> bfs(int, std::vector<std::set<int>>*, std::vector<bool>&);
+    void printPath(int, int, std::vector<int>*);
+
 };
 
 

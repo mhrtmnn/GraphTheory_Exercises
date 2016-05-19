@@ -264,66 +264,93 @@ std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbou
 //implementation of the single-source shortest-path dijkstra algorithm
 float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 {
-    int n;
+    unsigned long n;
     n = diGraph->getNumberVertices();
 
     std::vector<std::set<std::pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
 
+    //store the predecessors
+    std::vector<int> pred(n, 0);
+
     //Q contains vertices with not yet known distances
     std::set<int> Q;
-    for(int i=0; i<n; i++)
+    for(unsigned int i=0; i<n; i++)
     { Q.insert(i); }
 
     //vector containing the dist-values for every vertex
-    std::vector<float> D = std::vector<float>(n, FLOAT_INF);
+    std::vector<float> dist = std::vector<float>(n, FLOAT_INF);
 
     //initilaize start vertex with zero dist
-    D[from] = 0;
+    dist[from] = 0;
 
     //main loop
     while(Q.size() != 0)
     {
         //debug
-        std::cout << "|Q| = " << Q.size() << std::endl;
+        //std::cout << "|Q| = " << Q.size() << std::endl;
 
         //find the vertex with min distance and remove it from Q
-        int x = getMinDist(Q, D);
+        int x = getMinDist(Q, dist);
         Q.erase(x);
 
         //recalcutlate distamces for every neighbour of x, which still is in Q
-        updateDistances(nbVec, x, D, Q, diGraph);
+        updateDistances(nbVec, x, dist, Q, diGraph, &pred);
     }
 
-    return D[to];
+    printPath(from, to, &pred);
+
+    return dist[to];
 }
 
 //return the vertex in Q with minimal distance value
-unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> &D)
+inline unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> &dist)
 {
-    unsigned int minVert = -1;
+    unsigned int minVert;
+    unsigned int minVal = -1;
+
     for(int k : Q)
     {
-        if(D[k] < minVert)
-        { minVert = k; }
+        if(dist[k] < minVal)
+        {
+            minVal = dist[k];
+            minVert = k;
+        }
     }
 
     return minVert;
 }
 
 //recalculates the distances, in case there is a cheaper path over x now
-void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>& D, std::set<int>& Q, DirectedGraph* diGraph)
+inline void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>& dist, std::set<int>& Q, DirectedGraph* diGraph, std::vector<int>* pred)
 {
     //iterate through neighbourhood of vertex x
     for(std::pair<int, float> entry : (*nbVec)[x])
     {
+        int y = entry.first;
+
         //check if still in Q
-        if (std::find(Q.begin(), Q.end(), entry.first) != Q.end())
+        if (std::find(Q.begin(), Q.end(), y) != Q.end())
         {
             //update if path over x is shorter than the previous shortest path
-            if( D[entry.first] > D[x] + diGraph->getEntry(x, entry.first) )
+            if( dist[y] > dist[x] + diGraph->getEntry(x, y) )
             {
-                D[entry.first] = D[x] + diGraph->getEntry(x, entry.first);
+                dist[y] = dist[x] + diGraph->getEntry(x, y);
+                (*pred)[y] = x;
+
             }
         }
     }
+}
+
+//print the shortest path from "from" to "to" determined by dijkstra
+void Algorithms::printPath(int from, int to, std::vector<int>* pred)
+{
+    int curr = to;
+    do
+    {
+        std::cout << curr << "<--";
+        curr = pred->at(curr);
+    }while(curr != from);
+
+    std::cout << from << std::endl;
 }
