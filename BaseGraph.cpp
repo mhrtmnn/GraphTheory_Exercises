@@ -9,9 +9,9 @@ BaseGraph::BaseGraph() : m_numKnots(0), m_numEdges(0)
 {}
 
 //get number of knots
-long int BaseGraph::getNumberVertices() const
+unsigned long int BaseGraph::getNumberVertices() const
 { return m_numKnots; }
 
 //get number of edges
-long int BaseGraph::getNumberEdges() const
+unsigned long int BaseGraph::getNumberEdges() const
 { return m_numEdges; }

@@ -19,8 +19,8 @@ public:
 
     virtual void loadGraph(std::string p) = 0;
 
-    long int getNumberVertices() const;
-    long int getNumberEdges() const;
+    unsigned long int getNumberVertices() const;
+    unsigned long int getNumberEdges() const;
 
 protected:
     int m_numKnots;
