@@ -3,6 +3,8 @@
 //
 
 #include "Graph.hpp"
+using namespace std;
+
 
 void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* knotMat);
 
@@ -11,25 +13,25 @@ Graph::Graph() : m_numIsolatedVertices(-1), m_numColors(-1), m_avgDeg(-1), m_max
 {}
 
 //read a graph from text file, create appropriate vertices and edges
-void Graph::loadGraph(std::string p)
+void Graph::loadGraph(string p)
 {
-    std::ifstream fs;
+    ifstream fs;
     fs.open(p);
 
     int row = 0;
-    std::string line;
+    string line;
     if (fs.is_open())
     {
         initDataStructures(fs);
         fs.clear();
-        fs.seekg(std::ios_base::beg);
+        fs.seekg(ios_base::beg);
 
         while (getline(fs, line))
         {
             if (!line.find("end"))
             { break; }
 
-            std::vector<int> nb;
+            vector<int> nb;
             parseLine(line, &nb);
 
             m_numEdges += nb.size();
@@ -49,30 +51,30 @@ void Graph::loadGraph(std::string p)
     }
     else
     {
-        std::cout << "load failed!" << std::endl;
+        cout << "load failed!" << endl;
         exit(-1);
     }
 }
 
-void Graph::parseLine(std::string line, std::vector<int>* nb)
+void Graph::parseLine(string line, vector<int>* nb)
 {
     if (line.size() == 0)
     { return; }
 
-    std::stringstream lineStream(line);
-    std::string s;
+    stringstream lineStream(line);
+    string s;
 
-    while(std::getline(lineStream, s, ','))
+    while(getline(lineStream, s, ','))
     {
-        nb->push_back(std::stoi(s));
+        nb->push_back(stoi(s));
     }
 }
 
-void Graph::initDataStructures(std::ifstream &fs)
+void Graph::initDataStructures(ifstream &fs)
 {
     int lines;
-    std::string line;
-    for (lines = 0; std::getline(fs, line); lines++)
+    string line;
+    for (lines = 0; getline(fs, line); lines++)
         ;
 
     //last line contains "end"
@@ -80,11 +82,11 @@ void Graph::initDataStructures(std::ifstream &fs)
     m_numKnots = lines;
 
     m_knotMat = arma::Mat<short>(lines, lines, arma::fill::zeros);
-    m_neighbours = std::vector<std::set<int>>(lines, std::set<int>());
+    m_neighbours = vector<set<int>>(lines, set<int>());
 }
 
 //add vertices to matrix --> file uses numbering 1,2,3... we use 0,1,2...
-void Graph::addVertices(std::vector<int> nb, int j)
+void Graph::addVertices(vector<int> nb, int j)
 {
     //add entry to lower triangular matrix and to neighbourhood vector
     for(int i : nb)
@@ -99,7 +101,7 @@ void Graph::randomCreate(int n, double p)
 {
     m_numKnots = n;
     m_knotMat = arma::Mat<short>(n, n, arma::fill::zeros);
-    m_neighbours = std::vector<std::set<int>>(n, std::set<int>());
+    m_neighbours = vector<set<int>>(n, set<int>());
 
 
     for(int i=1; i<n; i++)
@@ -174,7 +176,7 @@ double Graph::calcAvgDeg()
 }
 
 //set map with vertex : color mapping
-void Graph::setColor(std::map<int, int> colorMap)
+void Graph::setColor(map<int, int> colorMap)
 { m_coloring = colorMap; }
 
 //set number of colors needed for coloring
@@ -197,7 +199,7 @@ arma::Mat<short>* Graph::getKnotMat()
 { return &m_knotMat; }
 
 //return the neighbourhood vector
-std::vector<std::set<int>>* Graph::getNeighbourhood()
+vector<set<int>>* Graph::getNeighbourhood()
 { return &m_neighbours;}
 
 void Graph::print(arma::Mat<short>& M)
@@ -205,8 +207,8 @@ void Graph::print(arma::Mat<short>& M)
     for(int i=0; i<m_numKnots; i++)
     {
         for(int j=0; j<m_numKnots; j++)
-        { std::cout << M(i,j) << " "; }
-        std::cout << std::endl;
+        { cout << M(i,j) << " "; }
+        cout << endl;
     }
 }
 

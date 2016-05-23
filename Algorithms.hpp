@@ -12,6 +12,7 @@
 
 #include "Graph.hpp"
 #include "DirectedGraph.hpp"
+using namespace std;
 
 class Algorithms
 {
@@ -19,18 +20,19 @@ public:
     void GreedyColoring(Graph *g);
     int executeRandomGreedy(Graph *g, int n);
     long calcTriangles(int, arma::Mat<short>*);
-    long calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours);
-    std::pair<int, int> findConnectedComponents(int, std::vector<std::set<int>>*);
+    long calcTriangles2(int numKnot, vector<set<int>>* neighbours);
+    pair<int, int> findConnectedComponents(int, vector<set<int>>*);
     float dijkstra(int, int, DirectedGraph*);
-    unsigned int getMinDist(std::set<int>&, std::vector<float>&);
-    void updateDistances(std::vector<std::set<std::pair<int, float>>>*, int, std::vector<float>&, std::set<int>&, DirectedGraph*, std::vector<int>*);
+    unsigned int getMinDist(set<int>&, vector<float>&);
+    void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, set<int>&, DirectedGraph*, vector<int>*);
+    double getMSTWeight(DirectedGraph* diGraph);
 
 
 private:
-    int getMinFreeColor(std::set<int> *, long);
-    int GreedyColoringCustom(Graph *, std::vector<int>*);
-    std::vector<int> bfs(int, std::vector<std::set<int>>*, std::vector<bool>&);
-    void printPath(int, int, std::vector<int>*);
+    int getMinFreeColor(set<int> *, long);
+    int GreedyColoringCustom(Graph *, vector<int>*);
+    vector<int> bfs(int, vector<set<int>>*, vector<bool>&);
+    void printPath(int, int, vector<int>*);
 
 };
 

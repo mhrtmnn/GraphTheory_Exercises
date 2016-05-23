@@ -15,39 +15,41 @@
 #include "Algorithms.hpp"
 #include "exercises.hpp"
 #include "DirectedGraph.hpp"
+using namespace std;
+
 
 int main()
 {
     int c = 0;
-    const std::string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
+    const string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
     const clock_t t = clock();
 
     Graph graph;
     Algorithms alg;
 
-    std::cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Test [7]" << std::endl;
-    std::cin >> c;
+    cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Ex7 [7]; Test [8]" << endl;
+    cin >> c;
 
     switch(c)
     {
         case 1:
             graph.loadGraph(dataDir + "graph15.txt");
-            std::cout << "\ngraph loaded\n";
+            cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
         case 2:
             graph.loadGraph(dataDir + "graph25.txt");
-            std::cout << "\ngraph loaded\n";
+            cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
         case 3:
             graph.loadGraph(dataDir + "graph34.txt");
-            std::cout << "\ngraph loaded\n";
+            cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
         case 4:
             startEx4(graph);
-            std::cout << "\ngraph loaded\n";
+            cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
         case 5:
@@ -57,14 +59,17 @@ int main()
             startEx6(dataDir + "graph65.txt", alg);
             break;
         case 7:
+            startEx7(dataDir + "graph75.txt", alg);
+            break;
+        case 8:
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
             float dist = alg.dijkstra(0,4, &digraph);
-        std::cout << dist << " is the distance from 0 to 4" << std::endl;
+        cout << dist << " is the distance from 0 to 4" << endl;
             break;
     }
 
-    std::cout << "runtime: " <<  clock()-t << std::endl;
+    cout << "runtime: " <<  clock()-t << endl;
     usleep((__useconds_t) pow(10, 6));
 
     return 0;

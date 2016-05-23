@@ -7,39 +7,40 @@
 
 #define SIZE_EX5 10000
 #define ITERATIONS_EX5 300
+using namespace std;
 
 
 void printMetrics(Graph& graph, Algorithms& alg)
 {
-    std::cout << "Search for triangles? [v] yes, vector method; [m] yes matrix method;";
-    std::cout << "[b] yes, both; [n] don't search" << std::endl;
+    cout << "Search for triangles? [v] yes, vector method; [m] yes matrix method;";
+    cout << "[b] yes, both; [n] don't search" << endl;
 
     char c;
-    std::cin >> c;
+    cin >> c;
     switch(c)
     {
         case 'v':
-            std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangle(s) [NeighVec]" << std::endl;
+            cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangle(s) [NeighVec]" << endl;
             break;
         case 'm':
-            std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
+            cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << endl;
             break;
         case 'b':
-            std::cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << std::endl;
-            std::cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << std::endl;
+            cout << alg.calcTriangles(graph.getNumberVertices(), graph.getKnotMat()) << " triangles [Matrix]" << endl;
+            cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << endl;
             break;
         case 'n':
             break;
     }
 
-    std::cout << graph.getAvgDeg() << " is the avg degree" << std::endl;
+    cout << graph.getAvgDeg() << " is the avg degree" << endl;
 
     alg.GreedyColoring(&graph);
-    std::cout << graph.getNumberColors() << " colors needed using ascending vertex order" << std::endl;
-    std::cout << std::endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << std::endl;
+    cout << graph.getNumberColors() << " colors needed using ascending vertex order" << endl;
+    cout << endl << "min color number: X<=" << alg.executeRandomGreedy(&graph, 10) << endl;
 
-    std::pair<int, int> comp = alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
-    std::cout << "There are " << comp.first << " components, the largest being " << comp.second << std::endl;
+    pair<int, int> comp = alg.findConnectedComponents(graph.getNumberVertices(), graph.getNeighbourhood());
+    cout << "There are " << comp.first << " components, the largest being " << comp.second << endl;
 }
 
 
@@ -47,8 +48,8 @@ void startEx4(Graph& graph)
 {
     int n;
     double p;
-    std::cout << "Poss: " ; std::cin >> p; std::cout << std::endl;
-    std::cout << "Num Vert: "; std::cin >>n; std::cout << std::endl;
+    cout << "Poss: " ; cin >> p; cout << endl;
+    cout << "Num Vert: "; cin >>n; cout << endl;
     graph.randomCreate(n, p);
 }
 
@@ -56,15 +57,15 @@ void startEx4(Graph& graph)
 void startEx5()
 {
     //vector holding the number of components and the biggest one
-    std::vector<std::pair<int, int>> resVec;
-    resVec = std::vector<std::pair<int, int>>(ITERATIONS_EX5, std::pair<int, int>());
+    vector<pair<int, int>> resVec;
+    resVec = vector<pair<int, int>>(ITERATIONS_EX5, pair<int, int>());
 
 #ifdef MULTITHREAD_EX5
     //start threads
-    std::thread  first(Ex5Worker, &resVec,   0,  75);
-    std::thread second(Ex5Worker, &resVec,  75, 150);
-    std::thread  third(Ex5Worker, &resVec, 150, 225);
-    std::thread fourth(Ex5Worker, &resVec, 225, 301);
+    thread  first(Ex5Worker, &resVec,   0,  75);
+    thread second(Ex5Worker, &resVec,  75, 150);
+    thread  third(Ex5Worker, &resVec, 150, 225);
+    thread fourth(Ex5Worker, &resVec, 225, 301);
 
     //wait for threads to finish
     first.join();
@@ -83,7 +84,7 @@ void startEx5()
 
 
 //worker function for getting metrics of a randomly created graph
-void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
+void Ex5Worker(vector<pair<int, int>>* resVec, int from, int to)
 {
     const int n = SIZE_EX5;
     double p;
@@ -96,10 +97,10 @@ void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
     {
         p = (double) (i+1) * 5 * pow(10, -6);
         graph->randomCreate(n, p);
-        std::cout << i+1 << " graph created: ";
+        cout << i+1 << " graph created: ";
 
-        std::pair<int, int> cmp = alg->findConnectedComponents(graph->getNumberVertices(), graph->getNeighbourhood());
-        std::cout << cmp.first << " components, the largest being " << cmp.second << std::endl;
+        pair<int, int> cmp = alg->findConnectedComponents(graph->getNumberVertices(), graph->getNeighbourhood());
+        cout << cmp.first << " components, the largest being " << cmp.second << endl;
 
         (*resVec)[i] = cmp;
     }
@@ -109,18 +110,18 @@ void Ex5Worker(std::vector<std::pair<int, int>>* resVec, int from, int to)
 
 
 //create a plottable CSV file from component vector
-void createCSV(std::vector<std::pair<int, int>>& resVec)
+void createCSV(vector<pair<int, int>>& resVec)
 {
-    std::ofstream outfile("./plot.csv");
-    const std::string delimiter = ";";
+    ofstream outfile("./plot.csv");
+    const string delimiter = ";";
     int iteration = 1;
 
-    outfile << "iteration" << delimiter << "numberComponents" + delimiter + "biggestComponent" << std::endl;
-    for(std::pair<int, int> entry : resVec)
+    outfile << "iteration" << delimiter << "numberComponents" + delimiter + "biggestComponent" << endl;
+    for(pair<int, int> entry : resVec)
     {
         outfile << iteration << delimiter;
         outfile << entry.first << delimiter;
-        outfile << entry.second << std::endl;
+        outfile << entry.second << endl;
         iteration++;
     }
 
@@ -128,10 +129,20 @@ void createCSV(std::vector<std::pair<int, int>>& resVec)
 }
 
 
-void startEx6(std::string path, Algorithms& alg)
+void startEx6(string path, Algorithms& alg)
 {
     DirectedGraph diGraph;
     diGraph.loadGraph(path);
     float dist = alg.dijkstra(0, 1, &diGraph);
-    std::cout << "dist(1,2) = " << dist << std::endl;
+    cout << "dist(1,2) = " << dist << endl;
+}
+
+
+void startEx7(string path, Algorithms& alg)
+{
+    DirectedGraph diGraph;
+    diGraph.loadGraph(path);
+
+    float dist = alg.dijkstra(0, 1, &diGraph);
+    cout << "dist(1,2) = " << dist << endl;
 }

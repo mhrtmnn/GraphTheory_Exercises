@@ -18,6 +18,8 @@
 #define ARMA_NO_DEBUG
 #include <armadillo>
 #include "BaseGraph.hpp"
+using namespace std;
+
 
 
 class Graph : public BaseGraph
@@ -25,33 +27,33 @@ class Graph : public BaseGraph
 public:
     Graph();
 
-    void loadGraph(std::string p);
+    void loadGraph(string p);
     void randomCreate(int n, double p);
 
     long int getHighestDeg() const;
     double getAvgDeg();
     int getNumberIsolated();
 
-    void setColor(std::map<int, int>);
+    void setColor(map<int, int>);
     void setNumColors(int);
     int getNumberColors();
 
     int getEntry(int, int);
     arma::Mat<short>* getKnotMat();
-    std::vector<std::set<int>>* getNeighbourhood();
+    vector<set<int>>* getNeighbourhood();
 
     void print(arma::Mat<short>&);
 
     virtual ~Graph();
 
 private:
-    void addVertices(std::vector<int> nb, int j);
-    void initDataStructures(std::ifstream &fs);
-    void parseLine(std::string line, std::vector<int>* nb);
+    void addVertices(vector<int> nb, int j);
+    void initDataStructures(ifstream &fs);
+    void parseLine(string line, vector<int>* nb);
 
     arma::Mat<short> m_knotMat;
-    std::vector<std::set<int>> m_neighbours;
-    std::map<int, int> m_coloring;
+    vector<set<int>> m_neighbours;
+    map<int, int> m_coloring;
     int m_numIsolatedVertices;
     int m_numColors;
     float m_avgDeg;

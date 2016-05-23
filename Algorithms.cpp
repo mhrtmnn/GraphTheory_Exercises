@@ -3,7 +3,9 @@
 //
 
 #include "Algorithms.hpp"
-#define FLOAT_INF std::numeric_limits<float>::infinity()
+#define FLOAT_INF numeric_limits<float>::infinity()
+using namespace std;
+
 
 
 //PROTOTYPES
@@ -13,16 +15,16 @@ void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
 int Algorithms::executeRandomGreedy(Graph *g, int n)
 {
     //run greedy with randomly selected knot orders
-    std::vector<int> num = std::vector<int>(g->getNumberVertices());
-    std::iota(num.begin(), num.end(), 0);
+    vector<int> num = vector<int>(g->getNumberVertices());
+    iota(num.begin(), num.end(), 0);
     int minColor = 1000;
     int currColor;
     for(int i=0; i<n; i++)
     {
         currColor = GreedyColoringCustom(g, &num);
-        std::random_shuffle ( num.begin(), num.end() );
+        random_shuffle ( num.begin(), num.end() );
 
-        std::cout << currColor << "|" ;
+        cout << currColor << "|" ;
         if(currColor<minColor)
         { minColor = currColor; }
     }
@@ -31,10 +33,10 @@ int Algorithms::executeRandomGreedy(Graph *g, int n)
 }
 
 //implementation of the greedy coloring alg: colors vertices in a custom order
-int Algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
+int Algorithms::GreedyColoringCustom(Graph *g, vector<int> *custOrder)
 {
     //map holding the knot<->color mapping
-    std::map<int, int> coloringMap;
+    map<int, int> coloringMap;
 
     long numKnot = g->getNumberVertices();
     int biggestColor = 0;
@@ -45,7 +47,7 @@ int Algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
         int k = (*custOrder)[i];
 
         //set of already used colors
-        std::set<int> usedColorSet;
+        set<int> usedColorSet;
 
         for (int j = 0; j < i; j++)
         {
@@ -58,7 +60,7 @@ int Algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
         if (newColor > biggestColor)
         { biggestColor = newColor; }
 
-        coloringMap.insert(std::pair<key_t, int>(i, newColor));
+        coloringMap.insert(pair<key_t, int>(i, newColor));
     }
 
     return biggestColor;
@@ -68,7 +70,7 @@ int Algorithms::GreedyColoringCustom(Graph *g, std::vector<int> *custOrder)
 void Algorithms::GreedyColoring(Graph* g)
 {
     //map holding the knot<->color mapping
-    std::map<int, int> coloringMap;
+    map<int, int> coloringMap;
 
     long numKnot = g->getNumberVertices();
     int biggestColor = 0;
@@ -77,7 +79,7 @@ void Algorithms::GreedyColoring(Graph* g)
     for (int i = 0; i < numKnot; i++)
     {
         //set of already used colors
-        std::set<int> usedColorSet;
+        set<int> usedColorSet;
 
         for (int j = 0; j < i; j++)
         {
@@ -93,7 +95,7 @@ void Algorithms::GreedyColoring(Graph* g)
         { biggestColor = newColor; }
 
         //append new knot<->color mapping
-        coloringMap.insert(std::pair<key_t, int>(i, newColor));
+        coloringMap.insert(pair<key_t, int>(i, newColor));
     }
 
     g->setColor(coloringMap);
@@ -101,12 +103,12 @@ void Algorithms::GreedyColoring(Graph* g)
 }
 
 //return the min unused color
-int Algorithms::getMinFreeColor(std::set<int> *colorSet, long numKnots)
+int Algorithms::getMinFreeColor(set<int> *colorSet, long numKnots)
 {
     //iterate through all possible colors and retrieve the smallest not yet mapped one
     for (int color = 0; color < numKnots; color++)
     {
-        if (std::find(colorSet->begin(), colorSet->end(), color) == colorSet->end())
+        if (find(colorSet->begin(), colorSet->end(), color) == colorSet->end())
         { return color; }
     }
 
@@ -129,10 +131,10 @@ long Algorithms::calcTriangles(int n, arma::Mat<short>* mat)
     int i3 = (int) (double) n * sqrt(3) / 2;
 
     //start threads
-    std::thread  first(multWorker,  0, i1, &temp, mat);
-    std::thread second(multWorker, i1, i2, &temp, mat);
-    std::thread  third(multWorker, i2, i3, &temp, mat);
-    std::thread fourth(multWorker, i3,  n, &temp, mat);
+    thread  first(multWorker,  0, i1, &temp, mat);
+    thread second(multWorker, i1, i2, &temp, mat);
+    thread  third(multWorker, i2, i3, &temp, mat);
+    thread fourth(multWorker, i3,  n, &temp, mat);
 
     //wait for threads to finish
     first.join();
@@ -169,7 +171,7 @@ void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* 
 }
 
 //return the number of triangles formed by vertices => vector method
-long Algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbours)
+long Algorithms::calcTriangles2(int numKnot, vector<set<int>>* neighbours)
 {
     long m_numTriangles = 0;
 
@@ -191,7 +193,7 @@ long Algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
                 if ((*neighbours)[k3].size() < 2 || k2 > k3)
                 { continue; }
 
-                if (std::find((*neighbours)[k3].begin(), (*neighbours)[k3].end(), k1) != (*neighbours)[k3].end())
+                if (find((*neighbours)[k3].begin(), (*neighbours)[k3].end(), k1) != (*neighbours)[k3].end())
                 { m_numTriangles++; }
             }
         }
@@ -201,13 +203,13 @@ long Algorithms::calcTriangles2(int numKnot, std::vector<std::set<int>>* neighbo
 }
 
 //get number and size of connected components
-std::pair<int, int> Algorithms::findConnectedComponents(int numKnot, std::vector<std::set<int>>* neighbours)
+pair<int, int> Algorithms::findConnectedComponents(int numKnot, vector<set<int>>* neighbours)
 {
     unsigned int numberComponents = 0;
     unsigned int biggestComponent = 0;
 
-    std::vector<bool> visited = std::vector<bool>(numKnot, false);
-    std::vector<int> order;
+    vector<bool> visited = vector<bool>(numKnot, false);
+    vector<int> order;
 
     for(int i=0; i<numKnot; i++)
     {
@@ -224,15 +226,15 @@ std::pair<int, int> Algorithms::findConnectedComponents(int numKnot, std::vector
         { biggestComponent = order.size(); }
     }
 
-    return std::pair<int, int>(numberComponents, biggestComponent);
+    return pair<int, int>(numberComponents, biggestComponent);
 }
 
 //execute the BFS algorithm on one connected component
-std::vector<int> Algorithms::bfs(int start, std::vector<std::set<int>>* neighbours, std::vector<bool>& visited)
+vector<int> Algorithms::bfs(int start, vector<set<int>>* neighbours, vector<bool>& visited)
 {
     int v;
-    std::queue<int> Q;
-    std::vector<int> travOrder;
+    queue<int> Q;
+    vector<int> travOrder;
 
     //add first vertex to queue and declare as known
     Q.push(start);
@@ -267,18 +269,18 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     unsigned long n;
     n = diGraph->getNumberVertices();
 
-    std::vector<std::set<std::pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
+    vector<set<pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
 
     //store the predecessors
-    std::vector<int> pred(n, 0);
+    vector<int> pred(n, 0);
 
     //Q contains vertices with not yet known distances
-    std::set<int> Q;
+    set<int> Q;
     for(unsigned int i=0; i<n; i++)
     { Q.insert(i); }
 
     //vector containing the dist-values for every vertex
-    std::vector<float> dist = std::vector<float>(n, FLOAT_INF);
+    vector<float> dist = vector<float>(n, FLOAT_INF);
 
     //initilaize start vertex with zero dist
     dist[from] = 0;
@@ -287,7 +289,7 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     while(Q.size() != 0)
     {
         //debug
-        //std::cout << "|Q| = " << Q.size() << std::endl;
+        //cout << "|Q| = " << Q.size() << endl;
 
         //find the vertex with min distance and remove it from Q
         int x = getMinDist(Q, dist);
@@ -303,7 +305,7 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 }
 
 //return the vertex in Q with minimal distance value
-inline unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> &dist)
+inline unsigned int Algorithms::getMinDist(set<int> &Q, vector<float> &dist)
 {
     unsigned int minVert;
     unsigned int minVal = -1;
@@ -321,15 +323,15 @@ inline unsigned int Algorithms::getMinDist(std::set<int> &Q, std::vector<float> 
 }
 
 //recalculates the distances, in case there is a cheaper path over x now
-inline void Algorithms::updateDistances(std::vector<std::set<std::pair<int, float>>>* nbVec, int x, std::vector<float>& dist, std::set<int>& Q, DirectedGraph* diGraph, std::vector<int>* pred)
+inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, int x, vector<float>& dist, set<int>& Q, DirectedGraph* diGraph, vector<int>* pred)
 {
     //iterate through neighbourhood of vertex x
-    for(std::pair<int, float> entry : (*nbVec)[x])
+    for(pair<int, float> entry : (*nbVec)[x])
     {
         int y = entry.first;
 
         //check if still in Q
-        if (std::find(Q.begin(), Q.end(), y) != Q.end())
+        if (find(Q.begin(), Q.end(), y) != Q.end())
         {
             //update if path over x is shorter than the previous shortest path
             if( dist[y] > dist[x] + diGraph->getEntry(x, y) )
@@ -343,14 +345,20 @@ inline void Algorithms::updateDistances(std::vector<std::set<std::pair<int, floa
 }
 
 //print the shortest path from "from" to "to" determined by dijkstra
-void Algorithms::printPath(int from, int to, std::vector<int>* pred)
+void Algorithms::printPath(int from, int to, vector<int>* pred)
 {
     int curr = to;
     do
     {
-        std::cout << curr << "<--";
+        cout << curr << "<--";
         curr = pred->at(curr);
     }while(curr != from);
 
-    std::cout << from << std::endl;
+    cout << from << endl;
+}
+
+//calculate the weight of a MST
+double Algorithms::getMSTWeight(DirectedGraph* diGraph)
+{
+
 }
