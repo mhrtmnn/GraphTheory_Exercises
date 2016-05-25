@@ -110,3 +110,4 @@ void DirectedGraph::print(arma::Mat<float>& M)
         cout << endl;
     }
 }
+

@@ -23,8 +23,8 @@ public:
     long calcTriangles2(int numKnot, vector<set<int>>* neighbours);
     pair<int, int> findConnectedComponents(int, vector<set<int>>*);
     float dijkstra(int, int, DirectedGraph*);
-    unsigned int getMinDist(set<int>&, vector<float>&);
-    void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, set<int>&, DirectedGraph*, vector<int>*);
+    inline unsigned int getMinDist(bool [], unsigned int, vector<float> &);
+    void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, bool[], DirectedGraph*, vector<int>*);
     double getMSTWeight(DirectedGraph* diGraph);
 
 

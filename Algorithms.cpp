@@ -266,7 +266,7 @@ vector<int> Algorithms::bfs(int start, vector<set<int>>* neighbours, vector<bool
 //implementation of the single-source shortest-path dijkstra algorithm
 float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 {
-    unsigned long n;
+    unsigned int n;
     n = diGraph->getNumberVertices();
 
     vector<set<pair<int, float>>>* nbVec = diGraph->getNeighbourhood();
@@ -275,9 +275,9 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     vector<int> pred(n, 0);
 
     //Q contains vertices with not yet known distances
-    set<int> Q;
-    for(unsigned int i=0; i<n; i++)
-    { Q.insert(i); }
+    unsigned long sizeQ = n;
+    bool Q[n] = { false };
+
 
     //vector containing the dist-values for every vertex
     vector<float> dist = vector<float>(n, FLOAT_INF);
@@ -286,14 +286,15 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
     dist[from] = 0;
 
     //main loop
-    while(Q.size() != 0)
+    while(sizeQ)
     {
         //debug
-        //cout << "|Q| = " << Q.size() << endl;
+        //cout << "|Q| = " << sizeQ << endl;
 
         //find the vertex with min distance and remove it from Q
-        int x = getMinDist(Q, dist);
-        Q.erase(x);
+        int x = getMinDist(Q, n, dist);
+        Q[x] = true;
+        sizeQ--;
 
         //recalcutlate distamces for every neighbour of x, which still is in Q
         updateDistances(nbVec, x, dist, Q, diGraph, &pred);
@@ -305,13 +306,17 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 }
 
 //return the vertex in Q with minimal distance value
-inline unsigned int Algorithms::getMinDist(set<int> &Q, vector<float> &dist)
+inline unsigned int Algorithms::getMinDist(bool Q[], unsigned int n, vector<float> &dist)
 {
     unsigned int minVert;
     unsigned int minVal = -1;
 
-    for(int k : Q)
+    for(unsigned int k=0; k<n; k++)
     {
+        //skip vertex if already removed from Q
+        if(Q[k])
+        { continue; }
+
         if(dist[k] < minVal)
         {
             minVal = dist[k];
@@ -323,7 +328,7 @@ inline unsigned int Algorithms::getMinDist(set<int> &Q, vector<float> &dist)
 }
 
 //recalculates the distances, in case there is a cheaper path over x now
-inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, int x, vector<float>& dist, set<int>& Q, DirectedGraph* diGraph, vector<int>* pred)
+inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, int x, vector<float>& dist, bool Q[], DirectedGraph* diGraph, vector<int>* pred)
 {
     //iterate through neighbourhood of vertex x
     for(pair<int, float> entry : (*nbVec)[x])
@@ -331,7 +336,7 @@ inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, in
         int y = entry.first;
 
         //check if still in Q
-        if (find(Q.begin(), Q.end(), y) != Q.end())
+        if(!Q[y])
         {
             //update if path over x is shorter than the previous shortest path
             if( dist[y] > dist[x] + diGraph->getEntry(x, y) )
@@ -360,5 +365,14 @@ void Algorithms::printPath(int from, int to, vector<int>* pred)
 //calculate the weight of a MST
 double Algorithms::getMSTWeight(DirectedGraph* diGraph)
 {
+    unsigned long n = diGraph->getNumberVertices();
 
+    priority_queue<int> Queue;
+    for(unsigned int i=0; i<n; i++)
+    { Queue.push(i); }
+
+    set<int> spanningTree();
+    vector<int> parentKnot = vector<int>(n, 0);
+
+    return 0;
 }
