@@ -363,7 +363,7 @@ void Algorithms::printPath(int from, int to, vector<int>* pred)
 }
 
 //calculate the weight of a MST
-double Algorithms::getMSTWeight(DirectedGraph* diGraph)
+double Algorithms::getMSTWeightPrim(DirectedGraph *diGraph)
 {
     unsigned long n = diGraph->getNumberVertices();
 
@@ -375,4 +375,11 @@ double Algorithms::getMSTWeight(DirectedGraph* diGraph)
     vector<int> parentKnot = vector<int>(n, 0);
 
     return 0;
+}
+
+//calculate the weight of a MST
+double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
+{
+    vector<edge> edges = diGraph->heapifyEdges();
+    int a = 0;
 }

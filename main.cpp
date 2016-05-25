@@ -64,8 +64,8 @@ int main()
         case 8:
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
-            float dist = alg.dijkstra(0,4, &digraph);
-        cout << dist << " is the distance from 0 to 4" << endl;
+            float dist = alg.getMSTWeightKruskal(&digraph);
+            cout << dist << " W(MST) = " << endl;
             break;
     }
 

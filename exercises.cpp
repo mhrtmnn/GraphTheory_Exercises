@@ -143,6 +143,6 @@ void startEx7(string path, Algorithms& alg)
     DirectedGraph diGraph;
     diGraph.loadGraph(path);
 
-    float dist = alg.dijkstra(0, 1, &diGraph);
-    cout << "dist(1,2) = " << dist << endl;
+    float weight = alg.getMSTWeightPrim(&diGraph);
+    cout << "W(MST) = " << weight << endl;
 }

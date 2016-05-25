@@ -10,6 +10,13 @@
 #include "BaseGraph.hpp"
 using namespace std;
 
+struct edge
+{
+    int from;
+    int to;
+    float weight;
+};
+
 class DirectedGraph : public BaseGraph
 {
 public:
@@ -18,6 +25,7 @@ public:
     float getEntry(int, int);
     arma::Mat<float>* getKnotMat();
     vector<set<pair<int, float >>>* getNeighbourhood();
+    vector<edge> heapifyEdges();
 
     void print(arma::Mat<short>&);
 

@@ -111,3 +111,27 @@ void DirectedGraph::print(arma::Mat<float>& M)
     }
 }
 
+vector<edge> DirectedGraph::heapifyEdges()
+{
+    //undirected graph --> half the edges are duplicates
+    std::vector<edge> edgeVec = std::vector<edge>(m_numEdges/2);
+
+    int pos = 0;
+    float weight;
+
+    for(int i=0; i<m_numKnots; i++)
+    {
+        for(int j=0; j<i; j++)
+        {
+            if( (weight = getEntry(i, j)) != 0 )
+            {
+                edgeVec[pos++] = {i,j,weight};
+            }
+        }
+    }
+    std::sort(edgeVec.begin(), edgeVec.end(), [](edge a, edge b)->bool { return a.weight > b.weight;});
+
+    return edgeVec;
+};
+
+

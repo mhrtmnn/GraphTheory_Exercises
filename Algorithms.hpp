@@ -25,7 +25,9 @@ public:
     float dijkstra(int, int, DirectedGraph*);
     inline unsigned int getMinDist(bool [], unsigned int, vector<float> &);
     void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, bool[], DirectedGraph*, vector<int>*);
-    double getMSTWeight(DirectedGraph* diGraph);
+    double getMSTWeightPrim(DirectedGraph *diGraph);
+    double getMSTWeightKruskal(DirectedGraph *diGraph);
+
 
 
 private:
