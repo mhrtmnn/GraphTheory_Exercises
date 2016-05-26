@@ -388,7 +388,7 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
     bool inMST[numEdges] = {false};
 
     //dbg
-    int edgesMST = 0;
+    unsigned int edgesMST = 0;
 
     //holds the r number of every vertex
     int rNum[numVerts];
@@ -463,6 +463,8 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
         if(inMST[i])
         { W += edges[i].weight; }
     }
+    if(edgesMST < numVerts-1)
+        cout << "more than one connected component!" << endl;
 
     return W;
 }
