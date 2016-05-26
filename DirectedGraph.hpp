@@ -14,7 +14,7 @@ struct edge
 {
     int from;
     int to;
-    float weight;
+    double weight;
 };
 
 class DirectedGraph : public BaseGraph

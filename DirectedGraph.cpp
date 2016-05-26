@@ -3,6 +3,8 @@
 //
 
 #include "DirectedGraph.hpp"
+//#define FIND_MIN_MST
+
 using namespace std;
 
 
@@ -129,7 +131,15 @@ vector<edge> DirectedGraph::heapifyEdges()
             }
         }
     }
+
+#ifdef FIND_MIN_MST
+    std::sort(edgeVec.begin(), edgeVec.end(), [](edge a, edge b)->bool { return a.weight < b.weight;});
+#endif
+#ifndef FIND_MIN_MST
     std::sort(edgeVec.begin(), edgeVec.end(), [](edge a, edge b)->bool { return a.weight > b.weight;});
+#endif
+
+
 
     return edgeVec;
 };
