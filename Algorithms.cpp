@@ -407,6 +407,8 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
         rCompSize[i] = 1;
     }
 
+    //iterate through all sorted edges of the graph
+    //add them if doing so would not create a cycle
     unsigned int i=0;
     for(i=0; i<numEdges; i++)
     {
@@ -415,13 +417,14 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
 
         //skip if both vertices are of same r number
         if(rNum[src] == rNum[dst])
-        {
-            continue;
-        }
+        { continue; }
+
+        //check if there was a prev run (not connected graphs)
+        if(inMST[i])
+        { continue; }
 
         //keep edge otherwise
         inMST[i] = true;
-        //dbg
         edgesMST++;
 
         //update components
@@ -431,9 +434,9 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
             set<int> dstSet = rComp[rNum[dst]];
             for( int dstVert : dstSet )
             {
+                //move dstVert to new component
                 rComp[rNum[src]].insert(dstVert);
                 rComp[rNum[dstVert]].erase(dstVert);
-
                 rCompSize[rNum[src]]++;
                 rCompSize[rNum[dstVert]]--;
 
@@ -446,15 +449,14 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
             set<int> srcSet = rComp[rNum[src]];
             for( int srcVert :  srcSet)
             {
+                //move srcVert to new component
                 rComp[rNum[dst]].insert(srcVert);
                 rComp[rNum[srcVert]].erase(srcVert);
-
                 rCompSize[rNum[dst]]++;
                 rCompSize[rNum[srcVert]]--;
 
                 rNum[srcVert] = rNum[dst];
             }
-
         }
     }
 
