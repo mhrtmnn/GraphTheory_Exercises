@@ -296,7 +296,7 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
         Q[x] = true;
         sizeQ--;
 
-        //recalcutlate distamces for every neighbour of x, which still is in Q
+        //recalculate distances for every neighbour of x, which still is in Q
         updateDistances(nbVec, x, dist, Q, diGraph, &pred);
     }
 
@@ -343,7 +343,6 @@ inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, in
             {
                 dist[y] = dist[x] + diGraph->getEntry(x, y);
                 (*pred)[y] = x;
-
             }
         }
     }
@@ -358,7 +357,6 @@ void Algorithms::printPath(int from, int to, vector<int>* pred)
         cout << curr << "<--";
         curr = pred->at(curr);
     }while(curr != from);
-
     cout << from << endl;
 }
 
@@ -387,7 +385,6 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
     //edge part of MST or not
     bool inMST[numEdges] = {false};
 
-    //dbg
     unsigned int edgesMST = 0;
 
     //holds the r number of every vertex
@@ -395,10 +392,10 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
     for(unsigned int i=0; i<numVerts; i++)
     { rNum[i] = i; }
 
-    //vertices in every r-com
+    //vertices in every r-component
     vector<set<int>> rComp(numVerts);
 
-    //size of every r component
+    //size of every r-component
     int rCompSize[numVerts];
 
     for(unsigned int i=0; i<numVerts; i++)
@@ -419,11 +416,11 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
         if(rNum[src] == rNum[dst])
         { continue; }
 
-        //keep edge otherwise
+        //add edge to MST otherwise
         inMST[i] = true;
         edgesMST++;
 
-        //update components
+        //update r-numbers
         if(rCompSize[rNum[src]] >= rCompSize[rNum[dst]])
         {
             //set all vertex of CLASS[dst] to S[src]
@@ -456,15 +453,16 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
         }
     }
 
-    //calc sum of weight
+    //W = weight(MST)
     double W = 0;
     for(unsigned int i=0; i<numEdges; i++)
     {
         if(inMST[i])
         { W += edges[i].weight; }
     }
+
     if(edgesMST < numVerts-1)
-        cout << "more than one connected component!" << endl;
+    { cout << "more than one connected component!" << endl; }
 
     return W;
 }
