@@ -6,7 +6,7 @@ set(CUST_INCL "-I /home/marco/.local/share/lib/include ")
 
 
 ################################BUILD CONFIGs################################
-set(CUST_CXX_FLAGS "-std=c++11 -Wall -Wextra ")
+set(CUST_CXX_FLAGS "-std=c++11 -Wall -Wextra -g")
 #set(CUST_CXX_FLAGS "-std=c++11 -march=native -O3")
 #set(CUST_CXX_FLAGS "-std=c++11 -Wall -Wextra -pg")
 

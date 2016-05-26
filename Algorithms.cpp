@@ -419,10 +419,6 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
         if(rNum[src] == rNum[dst])
         { continue; }
 
-        //check if there was a prev run (not connected graphs)
-        if(inMST[i])
-        { continue; }
-
         //keep edge otherwise
         inMST[i] = true;
         edgesMST++;
