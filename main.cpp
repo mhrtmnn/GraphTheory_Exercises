@@ -65,7 +65,7 @@ int main()
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
             float dist = alg.getMSTWeightKruskal(&digraph);
-            cout << dist << " W(MST) = " << endl;
+            cout << " W(MST) = " << dist << endl;
             break;
     }
 
