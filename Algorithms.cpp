@@ -380,6 +380,91 @@ double Algorithms::getMSTWeightPrim(DirectedGraph *diGraph)
 //calculate the weight of a MST
 double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
 {
+    unsigned int numVerts = diGraph->getNumberVertices();
+    unsigned int numEdges = diGraph->getNumberEdges() / 2;
     vector<edge> edges = diGraph->heapifyEdges();
-    int a = 0;
+
+    //edge part of MST or not
+    bool inMST[numEdges] = {false};
+
+    //dbg
+    int edgesMST = 0;
+
+    //holds the r number of every vertex
+    int rNum[numVerts];
+    for(unsigned int i=0; i<numVerts; i++)
+    { rNum[i] = i; }
+
+    //vertices in every r-com
+    vector<set<int>> rComp(numVerts);
+
+    //size of every r component
+    int rCompSize[numVerts];
+
+    for(unsigned int i=0; i<numVerts; i++)
+    {
+        rComp[i].insert(i);
+        rCompSize[i] = 1;
+    }
+
+    unsigned int i=0;
+    for(i=0; i<numEdges; i++)
+    {
+        int src = edges[i].from;
+        int dst = edges[i].to;
+
+        //skip if both vertices are of same r number
+        if(rNum[src] == rNum[dst])
+        {
+            continue;
+        }
+
+        //keep edge otherwise
+        inMST[i] = true;
+        //dbg
+        edgesMST++;
+
+        //update components
+        if(rCompSize[rNum[src]] >= rCompSize[rNum[dst]])
+        {
+            //set all vertex of CLASS[dst] to S[src]
+            set<int> dstSet = rComp[rNum[dst]];
+            for( int dstVert : dstSet )
+            {
+                rComp[rNum[src]].insert(dstVert);
+                rComp[rNum[dstVert]].erase(dstVert);
+
+                rCompSize[rNum[src]]++;
+                rCompSize[rNum[dstVert]]--;
+
+                rNum[dstVert] = rNum[src];
+            }
+        }
+        else
+        {
+            //set all vertex of CLASS[edges[i].form] to S[dst]
+            set<int> srcSet = rComp[rNum[src]];
+            for( int srcVert :  srcSet)
+            {
+                rComp[rNum[dst]].insert(srcVert);
+                rComp[rNum[srcVert]].erase(srcVert);
+
+                rCompSize[rNum[dst]]++;
+                rCompSize[rNum[srcVert]]--;
+
+                rNum[srcVert] = rNum[dst];
+            }
+
+        }
+    }
+
+    //calc sum of weight
+    double W = 0;
+    for(unsigned int i=0; i<numEdges; i++)
+    {
+        if(inMST[i])
+        { W += edges[i].weight; }
+    }
+
+    return W;
 }
