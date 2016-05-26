@@ -3,7 +3,7 @@
 //
 
 #include "DirectedGraph.hpp"
-//#define FIND_MIN_MST
+#define FIND_MIN_MST
 
 using namespace std;
 
