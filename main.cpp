@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <unistd.h>
 #include <time.h>
+#include <iomanip>
 
 #include "Graph.hpp"
 #include "Algorithms.hpp"
@@ -64,8 +65,8 @@ int main()
         case 8:
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
-            float dist = alg.getMSTWeightKruskal(&digraph);
-            cout << " W(MST) = " << dist << endl;
+            double dist = alg.getMSTWeightKruskal(&digraph);
+            cout << std::setprecision(12) << " W(MST) = " << dist << endl;
             break;
     }
 
