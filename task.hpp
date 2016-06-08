@@ -10,10 +10,10 @@ class task
 {
 public:
     task();
-    task(int, int, int);
-    unsigned int number;
+    task(unsigned int, unsigned int, unsigned int);
     unsigned int deadline;
     unsigned int penalty;
+    unsigned int number;
 };
 
 

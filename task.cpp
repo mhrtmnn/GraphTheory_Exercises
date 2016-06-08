@@ -7,5 +7,5 @@
 task::task()
 {}
 
-task::task(int d, int p, int n) : penalty(p), deadline(d), number(n)
+task::task(unsigned int d, unsigned int p, unsigned int n) : deadline(d), penalty(p), number(n)
 {}

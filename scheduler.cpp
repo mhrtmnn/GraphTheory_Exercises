@@ -123,7 +123,7 @@ int scheduler::getPenalty()
     return p;
 }
 
-//remove tasks from doable list, as after inlcusion set is not doable anymore
+//remove tasks from doable list, as after inclusion set is not doable anymore
 int scheduler::removeTask(unsigned int taskNum)
 {
     for(vector<task>::iterator it = doableTasks.begin(); it != doableTasks.end(); it++)
