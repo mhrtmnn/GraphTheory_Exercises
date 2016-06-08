@@ -13,5 +13,8 @@ set(CUST_CXX_FLAGS "-std=c++11 -Wall -Wextra -g")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUST_CXX_FLAGS} ${CUST_LIBS} ${CUST_INCL}")
 
-set(SOURCE_FILES main.cpp Algorithms.cpp Graph.cpp exercises.cpp exercises.hpp BaseGraph.cpp BaseGraph.hpp DirectedGraph.cpp DirectedGraph.hpp task.cpp task.hpp scheduler.cpp scheduler.hpp scheduler.cpp task.cpp)
+set(SOURCE_FILES main.cpp Algorithms.cpp exercises.cpp)
+set(SOURCE_FILES ${SOURCE_FILES} Graph.cpp BaseGraph.cpp DirectedGraph.cpp)
+set(SOURCE_FILES ${SOURCE_FILES} task.cpp scheduler.cpp )
+
 add_executable(GraphTheory-GIT ${SOURCE_FILES})

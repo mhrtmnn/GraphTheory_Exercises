@@ -8,11 +8,7 @@
 #include <algorithm>
 #include "scheduler.hpp"
 
-void scheduler::addTask(int d, int p, int n)
-{
-    tasks.push_back(task(d, p, n));
-}
-
+//parse a scheduling file and create data structures
 int scheduler::loadSchedule()
 {
     ifstream fs;
@@ -41,6 +37,13 @@ int scheduler::loadSchedule()
     return 0;
 }
 
+//add a task to the task vector
+void scheduler::addTask(int d, int p, int n)
+{
+    tasks.push_back(task(d, p, n));
+}
+
+//calculate the minimum penalty
 int scheduler::minPenalty()
 {
     //sort tasks ascending penalty
@@ -89,6 +92,8 @@ int scheduler::insertSorted(task t)
     return 0;
 }
 
+//check whether or not the current set of tasks is still doable within specified deadlines
+// --> doableTasks U {task} is still doable
 bool scheduler::checkSanity()
 {
     for(unsigned long i=0, s=doableTasks.size(); i<s; i++)
@@ -101,7 +106,7 @@ bool scheduler::checkSanity()
     return true;
 }
 
-
+//get the summation of all tasks which are not doable in time
 int scheduler::getPenalty()
 {
     int p = 0;
@@ -118,6 +123,7 @@ int scheduler::getPenalty()
     return p;
 }
 
+//remove tasks from doable list, as after inlcusion set is not doable anymore
 int scheduler::removeTask(unsigned int taskNum)
 {
     for(vector<task>::iterator it = doableTasks.begin(); it != doableTasks.end(); it++)
