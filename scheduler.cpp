@@ -12,7 +12,7 @@
 int scheduler::loadSchedule()
 {
     ifstream fs;
-    fs.open("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/onlinetest.txt");
+    fs.open("/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/onlinetestScheduler.txt");
 
     string line;
     if (fs.is_open())

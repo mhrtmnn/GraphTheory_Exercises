@@ -23,15 +23,17 @@ using namespace std;
 
 int main()
 {
-    int c = 9;
+    int c = 0;
     const string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
     const clock_t t = clock();
 
     Graph graph;
     Algorithms alg;
 
-//    cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Ex7 [7]; Test [8]" << endl;
-//    cin >> c;
+    cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5];" << endl;
+    cout << "                 Ex6 [6]; Ex7 [7]; Test [8]; OnlineTestScheduler [9]" << endl;
+    cout << "choice >>";
+    cin >> c;
 
     switch(c)
     {
