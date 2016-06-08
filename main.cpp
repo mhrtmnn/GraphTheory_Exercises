@@ -16,58 +16,81 @@
 #include "Algorithms.hpp"
 #include "exercises.hpp"
 #include "DirectedGraph.hpp"
+#include "scheduler.hpp"
+
 using namespace std;
 
 
 int main()
 {
-    int c = 0;
+    int c = 9;
     const string dataDir = "/home/marco/Documents/Projects/ClionProjects/GraphTheory-GIT/data/";
     const clock_t t = clock();
 
     Graph graph;
     Algorithms alg;
 
-    cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Ex7 [7]; Test [8]" << endl;
-    cin >> c;
+//    cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5]; Ex6 [6]; Ex7 [7]; Test [8]" << endl;
+//    cin >> c;
 
     switch(c)
     {
         case 1:
+        {
             graph.loadGraph(dataDir + "graph15.txt");
             cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
+        }
         case 2:
+        {
             graph.loadGraph(dataDir + "graph25.txt");
             cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
+        }
         case 3:
+        {
             graph.loadGraph(dataDir + "graph34.txt");
             cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
+        }
         case 4:
+        {
             startEx4(graph);
             cout << "\ngraph loaded\n";
             printMetrics(graph, alg);
             break;
+        }
         case 5:
+        {
             startEx5();
             break;
-        case 6:
+        }
+         case 6:
             startEx6(dataDir + "graph65.txt", alg);
             break;
         case 7:
+        {
             startEx7(dataDir + "graph75.txt", alg);
             break;
+        }
         case 8:
+        {
             DirectedGraph digraph;
             digraph.loadGraph(dataDir + "test.txt");
             double dist = alg.getMSTWeightKruskal(&digraph);
             cout << std::setprecision(12) << " W(MST) = " << dist << endl;
             break;
+        }
+        case 9:
+        {
+            scheduler sched;
+            sched.loadSchedule();
+            cout << "min penalty: " << sched.minPenalty() << endl;
+            break;
+        }
     }
 
     cout << "runtime: " <<  clock()-t << endl;
