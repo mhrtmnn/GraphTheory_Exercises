@@ -466,3 +466,8 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
 
     return W;
 }
+
+set<edge> Algorithms::GreedyMatching(Graph graph)
+{
+
+}

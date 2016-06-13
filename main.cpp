@@ -31,7 +31,7 @@ int main()
     Algorithms alg;
 
     cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5];" << endl;
-    cout << "                 Ex6 [6]; Ex7 [7]; Test [8]; OnlineTestScheduler [9]" << endl;
+    cout << "                 Ex6 [6]; Ex7 [7]; Test [8]; OnlineTestScheduler [9]; Ex10 [10]" << endl;
     cout << "choice >>";
     cin >> c;
 
@@ -92,6 +92,10 @@ int main()
             sched.loadSchedule();
             cout << "min penalty: " << sched.minPenalty() << endl;
             break;
+        }
+        case 10:
+        {
+            startEx10();
         }
     }
 

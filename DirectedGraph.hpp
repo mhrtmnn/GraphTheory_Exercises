@@ -10,13 +10,6 @@
 #include "BaseGraph.hpp"
 using namespace std;
 
-struct edge
-{
-    int from;
-    int to;
-    double weight;
-};
-
 class DirectedGraph : public BaseGraph
 {
 public:

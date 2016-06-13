@@ -11,6 +11,13 @@
 #include <vector>
 #include <sstream>
 
+struct edge
+{
+    int from;
+    int to;
+    double weight;
+};
+
 
 class BaseGraph
 {

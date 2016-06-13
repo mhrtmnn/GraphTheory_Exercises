@@ -27,6 +27,8 @@ public:
     void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, bool[], DirectedGraph*, vector<int>*);
     double getMSTWeightPrim(DirectedGraph *diGraph);
     double getMSTWeightKruskal(DirectedGraph *diGraph);
+    set<edge> GreedyMatching(Graph graph);
+
 
 
 

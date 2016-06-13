@@ -146,3 +146,18 @@ void startEx7(string path, Algorithms& alg)
     double weight = alg.getMSTWeightKruskal(&diGraph);
     cout << "W(MST) = " << weight << endl;
 }
+
+void startEx10()
+{
+    Graph graph;
+    double p;
+    int n;
+
+    cout << "enter p >>";
+    cin >> p;
+    cout << "enter n >>";
+    cin >> n;
+    graph.randomCreate(n, p);
+
+
+}
