@@ -159,6 +159,10 @@ void startEx10(Algorithms& alg)
     cin >> n;
     graph.randomCreate(n, p);
 
-    alg.GreedyMatching(graph);
+    vector<edge> mEdges = alg.GreedyMatching(graph);
+
+    cout << "Matching contains " << mEdges.size() << " edges." << endl;
+    cout << "Total edges:  " << graph.getNumberEdges();
+    cout << " and " << graph.getNumberVertices() << " vertices." << endl;
 
 }

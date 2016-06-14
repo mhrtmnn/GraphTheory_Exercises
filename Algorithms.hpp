@@ -27,16 +27,14 @@ public:
     void updateDistances(vector<set<pair<int, float>>>*, int, vector<float>&, bool[], DirectedGraph*, vector<int>*);
     double getMSTWeightPrim(DirectedGraph *diGraph);
     double getMSTWeightKruskal(DirectedGraph *diGraph);
-    set<edge> GreedyMatching(Graph&);
-
-
-
+    vector<edge> GreedyMatching(Graph &);
 
 private:
     int getMinFreeColor(set<int> *, long);
     int GreedyColoringCustom(Graph *, vector<int>*);
     vector<int> bfs(int, vector<set<int>>*, vector<bool>&);
     void printPath(int, int, vector<int>*);
+    bool shareVertex(edge e1, edge e2);
 
 };
 

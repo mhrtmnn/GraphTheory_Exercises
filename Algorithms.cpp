@@ -467,14 +467,43 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
     return W;
 }
 
-set<edge> Algorithms::GreedyMatching(Graph& graph)
+vector<edge> Algorithms::GreedyMatching(Graph &graph)
 {
-    set<edge> edges;
+    //all edges of the graph
+    vector<edge> E = graph.heapifyEdges();
+    //metching of the graph
+    vector<edge> F;
+
+    bool unique = true;
+
+    for(struct edge e : E)
+    {
+        for(struct edge f : F)
+        {
+            if(shareVertex(e, f))
+            {
+                unique = false;
+                break;
+            }
+        }
+
+        if(unique)
+        {
+            F.push_back(e);
+        }
+
+        unique = true;
+    }
 
 
 
 
 
 
-    return edges;
+    return F;
+}
+
+bool Algorithms::shareVertex(edge e1, edge e2)
+{
+    return e1.from == e2.from || e1.from == e2.to || e1.to == e2.from || e1.to == e2.to;
 }

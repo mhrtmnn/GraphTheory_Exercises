@@ -41,6 +41,7 @@ public:
     int getEntry(int, int);
     arma::Mat<short>* getKnotMat();
     vector<set<int>>* getNeighbourhood();
+    vector<edge> heapifyEdges();
 
     void print(arma::Mat<short>&);
 
