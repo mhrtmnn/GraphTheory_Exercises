@@ -95,7 +95,7 @@ int main()
         }
         case 10:
         {
-            startEx10();
+            startEx10(alg);
         }
     }
 

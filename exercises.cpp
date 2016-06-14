@@ -147,7 +147,7 @@ void startEx7(string path, Algorithms& alg)
     cout << "W(MST) = " << weight << endl;
 }
 
-void startEx10()
+void startEx10(Algorithms& alg)
 {
     Graph graph;
     double p;
