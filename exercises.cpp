@@ -155,9 +155,10 @@ void startEx10(Algorithms& alg)
 
     cout << "enter p >>";
     cin >> p;
-    cout << "enter n >>";
+    cout << "\nenter n >>";
     cin >> n;
     graph.randomCreate(n, p);
 
+    alg.GreedyMatching(graph);
 
 }

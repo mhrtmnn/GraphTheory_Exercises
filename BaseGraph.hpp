@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+using namespace std;
 
 struct edge
 {
