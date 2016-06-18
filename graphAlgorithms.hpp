@@ -14,7 +14,7 @@
 #include "DirectedGraph.hpp"
 using namespace std;
 
-class Algorithms
+class graphAlgorithms
 {
 public:
     void GreedyColoring(Graph *g);

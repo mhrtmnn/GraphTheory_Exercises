@@ -13,7 +13,7 @@
 #include <iomanip>
 
 #include "Graph.hpp"
-#include "Algorithms.hpp"
+#include "graphAlgorithms.hpp"
 #include "exercises.hpp"
 #include "DirectedGraph.hpp"
 #include "scheduler.hpp"
@@ -28,7 +28,7 @@ int main()
     const clock_t t = clock();
 
     Graph graph;
-    Algorithms alg;
+    graphAlgorithms alg;
 
     cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5];" << endl;
     cout << "                 Ex6 [6]; Ex7 [7]; Test [8]; OnlineTestScheduler [9]; Ex10 [10]" << endl;

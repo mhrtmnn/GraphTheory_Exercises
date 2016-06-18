@@ -1,0 +1,15 @@
+//
+// Created by marco on 6/18/16.
+//
+
+#ifndef GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP
+#define GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP
+
+
+class ComplexityAlgorithms
+{
+
+};
+
+
+#endif //GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP

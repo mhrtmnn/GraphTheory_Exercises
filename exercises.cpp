@@ -10,7 +10,7 @@
 using namespace std;
 
 
-void printMetrics(Graph& graph, Algorithms& alg)
+void printMetrics(Graph& graph, graphAlgorithms& alg)
 {
     cout << "Search for triangles? [v] yes, vector method; [m] yes matrix method;";
     cout << "[b] yes, both; [n] don't search" << endl;
@@ -90,7 +90,7 @@ void Ex5Worker(vector<pair<int, int>>* resVec, int from, int to)
     double p;
 
     Graph* graph = new Graph();
-    Algorithms* alg = new Algorithms();
+    graphAlgorithms* alg = new graphAlgorithms();
 
     //get number and max size of connected components for some possibilities
     for(int i=from; i<to; i++)
@@ -129,7 +129,7 @@ void createCSV(vector<pair<int, int>>& resVec)
 }
 
 
-void startEx6(string path, Algorithms& alg)
+void startEx6(string path, graphAlgorithms& alg)
 {
     DirectedGraph diGraph;
     diGraph.loadGraph(path);
@@ -138,7 +138,7 @@ void startEx6(string path, Algorithms& alg)
 }
 
 
-void startEx7(string path, Algorithms& alg)
+void startEx7(string path, graphAlgorithms& alg)
 {
     DirectedGraph diGraph;
     diGraph.loadGraph(path);
@@ -147,7 +147,7 @@ void startEx7(string path, Algorithms& alg)
     cout << "W(MST) = " << weight << endl;
 }
 
-void startEx10(Algorithms& alg)
+void startEx10(graphAlgorithms& alg)
 {
     Graph graph;
     double p;

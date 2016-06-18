@@ -2,7 +2,7 @@
 // Created by marco on 4/20/16.
 //
 
-#include "Algorithms.hpp"
+#include "graphAlgorithms.hpp"
 #define FLOAT_INF numeric_limits<float>::infinity()
 using namespace std;
 
@@ -12,7 +12,7 @@ using namespace std;
 void multWorker(int, int, arma::Mat<short>*, arma::Mat<short>*);
 
 //apply greedy alg to n randomly selected knot orders
-int Algorithms::executeRandomGreedy(Graph *g, int n)
+int graphAlgorithms::executeRandomGreedy(Graph *g, int n)
 {
     //run greedy with randomly selected knot orders
     vector<int> num = vector<int>(g->getNumberVertices());
@@ -33,7 +33,7 @@ int Algorithms::executeRandomGreedy(Graph *g, int n)
 }
 
 //implementation of the greedy coloring alg: colors vertices in a custom order
-int Algorithms::GreedyColoringCustom(Graph *g, vector<int> *custOrder)
+int graphAlgorithms::GreedyColoringCustom(Graph *g, vector<int> *custOrder)
 {
     //map holding the knot<->color mapping
     map<int, int> coloringMap;
@@ -67,7 +67,7 @@ int Algorithms::GreedyColoringCustom(Graph *g, vector<int> *custOrder)
 }
 
 //implementation of the greedy coloring alg: colors vertices in ascending order
-void Algorithms::GreedyColoring(Graph* g)
+void graphAlgorithms::GreedyColoring(Graph* g)
 {
     //map holding the knot<->color mapping
     map<int, int> coloringMap;
@@ -103,7 +103,7 @@ void Algorithms::GreedyColoring(Graph* g)
 }
 
 //return the min unused color
-int Algorithms::getMinFreeColor(set<int> *colorSet, long numKnots)
+int graphAlgorithms::getMinFreeColor(set<int> *colorSet, long numKnots)
 {
     //iterate through all possible colors and retrieve the smallest not yet mapped one
     for (int color = 0; color < numKnots; color++)
@@ -117,7 +117,7 @@ int Algorithms::getMinFreeColor(set<int> *colorSet, long numKnots)
 
 //return the number of triangles formed by vertices => matrix method
 //num_triangles = 1/6 * trace(A^3)
-long Algorithms::calcTriangles(int n, arma::Mat<short>* mat)
+long graphAlgorithms::calcTriangles(int n, arma::Mat<short>* mat)
 {
     arma::Mat<short> temp;
     temp = arma::Mat<short>(n, n);
@@ -171,7 +171,7 @@ void multWorker(int iStart, int iEnd, arma::Mat<short>* temp, arma::Mat<short>* 
 }
 
 //return the number of triangles formed by vertices => vector method
-long Algorithms::calcTriangles2(int numKnot, vector<set<int>>* neighbours)
+long graphAlgorithms::calcTriangles2(int numKnot, vector<set<int>>* neighbours)
 {
     long m_numTriangles = 0;
 
@@ -203,7 +203,7 @@ long Algorithms::calcTriangles2(int numKnot, vector<set<int>>* neighbours)
 }
 
 //get number and size of connected components
-pair<int, int> Algorithms::findConnectedComponents(int numKnot, vector<set<int>>* neighbours)
+pair<int, int> graphAlgorithms::findConnectedComponents(int numKnot, vector<set<int>>* neighbours)
 {
     unsigned int numberComponents = 0;
     unsigned int biggestComponent = 0;
@@ -230,7 +230,7 @@ pair<int, int> Algorithms::findConnectedComponents(int numKnot, vector<set<int>>
 }
 
 //execute the BFS algorithm on one connected component
-vector<int> Algorithms::bfs(int start, vector<set<int>>* neighbours, vector<bool>& visited)
+vector<int> graphAlgorithms::bfs(int start, vector<set<int>>* neighbours, vector<bool>& visited)
 {
     int v;
     queue<int> Q;
@@ -264,7 +264,7 @@ vector<int> Algorithms::bfs(int start, vector<set<int>>* neighbours, vector<bool
 }
 
 //implementation of the single-source shortest-path dijkstra algorithm
-float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
+float graphAlgorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 {
     unsigned int n;
     n = diGraph->getNumberVertices();
@@ -306,7 +306,7 @@ float Algorithms::dijkstra(int from, int to, DirectedGraph* diGraph)
 }
 
 //return the vertex in Q with minimal distance value
-inline unsigned int Algorithms::getMinDist(bool Q[], unsigned int n, vector<float> &dist)
+inline unsigned int graphAlgorithms::getMinDist(bool Q[], unsigned int n, vector<float> &dist)
 {
     unsigned int minVert;
     unsigned int minVal = -1;
@@ -328,7 +328,7 @@ inline unsigned int Algorithms::getMinDist(bool Q[], unsigned int n, vector<floa
 }
 
 //recalculates the distances, in case there is a cheaper path over x now
-inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, int x, vector<float>& dist, bool Q[], DirectedGraph* diGraph, vector<int>* pred)
+inline void graphAlgorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, int x, vector<float>& dist, bool Q[], DirectedGraph* diGraph, vector<int>* pred)
 {
     //iterate through neighbourhood of vertex x
     for(pair<int, float> entry : (*nbVec)[x])
@@ -349,7 +349,7 @@ inline void Algorithms::updateDistances(vector<set<pair<int, float>>>* nbVec, in
 }
 
 //print the shortest path from "from" to "to" determined by dijkstra
-void Algorithms::printPath(int from, int to, vector<int>* pred)
+void graphAlgorithms::printPath(int from, int to, vector<int>* pred)
 {
     int curr = to;
     do
@@ -361,7 +361,7 @@ void Algorithms::printPath(int from, int to, vector<int>* pred)
 }
 
 //calculate the weight of a MST
-double Algorithms::getMSTWeightPrim(DirectedGraph *diGraph)
+double graphAlgorithms::getMSTWeightPrim(DirectedGraph *diGraph)
 {
     unsigned long n = diGraph->getNumberVertices();
 
@@ -376,7 +376,7 @@ double Algorithms::getMSTWeightPrim(DirectedGraph *diGraph)
 }
 
 //calculate the weight of a MST
-double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
+double graphAlgorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
 {
     unsigned int numVerts = diGraph->getNumberVertices();
     unsigned int numEdges = diGraph->getNumberEdges() / 2;
@@ -467,7 +467,7 @@ double Algorithms::getMSTWeightKruskal(DirectedGraph *diGraph)
     return W;
 }
 
-vector<edge> Algorithms::GreedyMatching(Graph &graph)
+vector<edge> graphAlgorithms::GreedyMatching(Graph &graph)
 {
     //all edges of the graph
     vector<edge> E = graph.heapifyEdges();
@@ -503,7 +503,7 @@ vector<edge> Algorithms::GreedyMatching(Graph &graph)
     return F;
 }
 
-bool Algorithms::shareVertex(edge e1, edge e2)
+bool graphAlgorithms::shareVertex(edge e1, edge e2)
 {
     return e1.from == e2.from || e1.from == e2.to || e1.to == e2.from || e1.to == e2.to;
 }
