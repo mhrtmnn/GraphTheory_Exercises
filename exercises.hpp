@@ -6,6 +6,7 @@
 #define GRAPHTHEORY_GIT_EXERCISES_HPP
 
 #include "graphAlgorithms.hpp"
+#include "ComplexityAlgorithms.hpp"
 #include <thread>
 using namespace std;
 
@@ -18,5 +19,10 @@ void startEx7(string, graphAlgorithms&);
 void Ex5Worker(vector<pair<int, int>>*, int, int);
 void createCSV(vector<pair<int, int>> &);
 void startEx10(graphAlgorithms&);
+void startEx11(ComplexityAlgorithms &);
+void printSAT(struct satFormula*);
+void printVal(struct satFormula*);
+
+
 
 #endif //GRAPHTHEORY_GIT_EXERCISES_HPP

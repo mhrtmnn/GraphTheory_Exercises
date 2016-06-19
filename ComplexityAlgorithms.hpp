@@ -5,24 +5,30 @@
 #ifndef GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP
 #define GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP
 
-struct satFormular
+#include <vector>
+
+using namespace std;
+
+struct satFormula
 {
-    int k;      //k sat formula
-    int m;      //m clauses per formula
-    int n;      //x1, ..., xn
-    bool *xVal;   //truth value of xi
-    bool **xSign;   //xi or not xi
+    int k;                                  //k sat formula
+    int m;                                  //m clauses per formula
+    int n;                                  //x1,...,xn available per clause
+    vector<vector<pair<int, bool>>> xData;  //number and sign of literals
+    bool *xVal;                             //truth value of xi
 };
 
 
 class ComplexityAlgorithms
 {
 public:
-    bool randomWalk(satFormular S, int t);
+    bool randomWalk(satFormula *S, int t);
 
 private:
-    bool satisfiable(struct satFormular *, int m, int k);
-    bool checkClausel(struct satFormular *, int i, int);
+    bool satisfied(struct satFormula *) const ;
+    bool checkClause(struct satFormula *, int i) const ;
+    int chooseL(struct satFormula*) const ;
+    int chooseI(struct satFormula *, int l) const ;
 
 };
 

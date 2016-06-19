@@ -3,10 +3,10 @@
 //
 
 #include "exercises.hpp"
-#include "DirectedGraph.hpp"
 
 #define SIZE_EX5 10000
 #define ITERATIONS_EX5 300
+
 using namespace std;
 
 
@@ -30,6 +30,8 @@ void printMetrics(Graph& graph, graphAlgorithms& alg)
             cout << alg.calcTriangles2(graph.getNumberVertices(), graph.getNeighbourhood()) << " triangles [NeighVec]" << endl;
             break;
         case 'n':
+            break;
+        default:
             break;
     }
 
@@ -164,5 +166,77 @@ void startEx10(graphAlgorithms& alg)
     cout << "Matching contains " << mEdges.size() << " edges." << endl;
     cout << "Total edges:  " << graph.getNumberEdges();
     cout << " and " << graph.getNumberVertices() << " vertices." << endl;
+}
 
+
+void startEx11(ComplexityAlgorithms &alg)
+{
+    int n = 5, k = 3, m = 3, t = 3;
+
+    cout << "\nenter k (SAT type) >>";
+    cin >> k;
+    cout << "\nenter m (number clauses) >>";
+    cin >> m;
+    cout << "\nenter n (number literals) >>";
+    cin >> n;
+    cout << "\nenter t (loop iterations) >>";
+    cin >> t;
+
+    struct satFormula S;
+    S.k = k;
+    S.m = m;
+    S.n = n;
+
+    S.xVal = new bool[n];
+
+    //randomly assign literals and their signs
+    for(int i=0; i<m; i++)
+    {
+        S.xData.push_back(vector<pair<int, bool>>());
+        for(int j=0; j<k; j++)
+        {
+            S.xData[i].push_back(pair<int, bool>());
+            S.xData[i][j].first = rand() % n;
+            S.xData[i][j].second = rand() % 2;
+        }
+    }
+
+    printSAT(&S);
+
+    if( alg.randomWalk(&S, t) )
+    {
+        cout << "satisfiable! with:" << endl;
+        printVal(&S);
+    }
+    else
+    { cout << "satisfiable!" << endl; }
+
+    delete S.xVal;
+}
+
+void printSAT(struct satFormula *S)
+{
+     for(int i=0, m=S->m; i<m; i++)
+     {
+         cout << "(";
+         for(int j=0, k=S->k; j<k; j++)
+         {
+             cout << (S->xData[i][j].second?"NOT ":" ") << "X{" << S->xData[i][j].first << "} " << (j==k-1?") ":" V ");
+         }
+         if(i<m-1)
+         { cout << " A " ; }
+     }
+    cout << endl;
+
+    cout << "with initial truth values: " << endl;
+    printVal(S);
+}
+
+void printVal(struct satFormula* S)
+{
+    for(int i=0; i<S->n; i++)
+    {
+        cout << (S->xVal[i]?"w":"f") << " ";
+    }
+    cout << endl;
 }
