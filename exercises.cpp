@@ -221,7 +221,7 @@ void printSAT(struct satFormula *S)
          cout << "(";
          for(int j=0, k=S->k; j<k; j++)
          {
-             cout << (S->xData[i][j].second?"NOT ":" ") << "X{" << S->xData[i][j].first << "} " << (j==k-1?") ":" V ");
+             cout << (S->xData[i][j].second?"NOT ":"") << "X{" << S->xData[i][j].first << "}" << (j==k-1?")":" V ");
          }
          if(i<m-1)
          { cout << " A " ; }
