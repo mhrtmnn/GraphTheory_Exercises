@@ -471,7 +471,7 @@ vector<edge> graphAlgorithms::GreedyMatching(Graph &graph)
 {
     //all edges of the graph
     vector<edge> E = graph.heapifyEdges();
-    //metching of the graph
+    //matching of the graph
     vector<edge> F;
 
     bool unique = true;
@@ -491,14 +491,38 @@ vector<edge> graphAlgorithms::GreedyMatching(Graph &graph)
         {
             F.push_back(e);
         }
-
         unique = true;
     }
 
+    return F;
+}
 
+vector<edge> graphAlgorithms::GreedyMatchingAsc(Graph &graph)
+{
+    //all edges of the graph
+    vector<edge> E = graph.getAscEdges();
+    //matching of the graph
+    vector<edge> F;
 
+    bool unique = true;
 
+    for(struct edge e : E)
+    {
+        for(struct edge f : F)
+        {
+            if(shareVertex(e, f))
+            {
+                unique = false;
+                break;
+            }
+        }
 
+        if(unique)
+        {
+            F.push_back(e);
+        }
+        unique = true;
+    }
 
     return F;
 }

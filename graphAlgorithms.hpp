@@ -28,6 +28,8 @@ public:
     double getMSTWeightPrim(DirectedGraph *diGraph);
     double getMSTWeightKruskal(DirectedGraph *diGraph);
     vector<edge> GreedyMatching(Graph &);
+    vector<edge> GreedyMatchingAsc(Graph &graph);
+
 
 private:
     int getMinFreeColor(set<int> *, long);

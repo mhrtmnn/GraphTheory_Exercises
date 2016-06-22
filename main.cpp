@@ -29,7 +29,7 @@ int main()
 
     cout << "choose Exercise: Ex1 [1]; Ex2 [2]; Ex3 [3]; Ex4 [4]; Ex5 [5];" << endl;
     cout << "                 Ex6 [6]; Ex7 [7]; Test [8]; OnlineTestScheduler [9]; Ex9 [10]" << endl;
-    cout << "                 Ex10 [11]" << endl;
+    cout << "                 Ex10 [11]; Onlinetest 10 [12]" << endl;
     cout << "choice >>";
     cin >> c;
 
@@ -98,6 +98,13 @@ int main()
         case 11:
         {
             startEx11(cAlg);
+        }
+        case 12:
+        {
+            Graph g;
+            g.loadGraph(dataDir + "onlinetest10.txt");
+            auto M = gAlg.GreedyMatchingAsc(g);
+            cout << "size of matching: " << M.size() << endl;
         }
         default:
             break;

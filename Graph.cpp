@@ -241,6 +241,29 @@ vector<edge> Graph::heapifyEdges()
     return edgeVec;
 };
 
+vector<edge> Graph::getAscEdges()
+{
+    //undirected graph --> half the edges are duplicates
+    std::vector<edge> edgeVec = std::vector<edge>(m_numEdges);
+
+    int pos = 0;
+    float weight;
+
+    for(int i=0; i<m_numKnots; i++)
+    {
+        for(int j=0; j<i; j++)
+        {
+            if( (weight = getEntry(i, j)) != 0 )
+            {
+                edgeVec[pos++] = {i,j,weight};
+            }
+        }
+    }
+
+    return edgeVec;
+};
+
+
 
 //destructor
 Graph::~Graph()
