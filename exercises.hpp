@@ -22,6 +22,7 @@ void startEx10(graphAlgorithms&);
 void startEx11(ComplexityAlgorithms &);
 void printSAT(struct satFormula*);
 void printVal(struct satFormula*);
+void startEx13();
 
 
 

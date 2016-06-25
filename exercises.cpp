@@ -240,3 +240,8 @@ void printVal(struct satFormula* S)
     }
     cout << endl;
 }
+
+void startEx13()
+{
+
+}

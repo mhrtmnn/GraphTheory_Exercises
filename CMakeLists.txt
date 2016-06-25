@@ -15,6 +15,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CUST_CXX_FLAGS} ${CUST_LIBS} ${CUST_IN
 
 set(SOURCE_FILES main.cpp graphAlgorithms.cpp exercises.cpp)
 set(SOURCE_FILES ${SOURCE_FILES} Graph.cpp BaseGraph.cpp DirectedGraph.cpp)
-set(SOURCE_FILES ${SOURCE_FILES} task.cpp scheduler.cpp ComplexityAlgorithms.cpp ComplexityAlgorithms.hpp)
+set(SOURCE_FILES ${SOURCE_FILES} task.cpp scheduler.cpp ComplexityAlgorithms.cpp ComplexityAlgorithms.hpp backpack.cpp backpack.hpp)
 
 add_executable(GraphTheory-GIT ${SOURCE_FILES})
