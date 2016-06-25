@@ -3,6 +3,7 @@
 //
 
 #include "exercises.hpp"
+#include "knapsackProblem.hpp"
 
 #define SIZE_EX5 10000
 #define ITERATIONS_EX5 300
@@ -241,7 +242,9 @@ void printVal(struct satFormula* S)
     cout << endl;
 }
 
-void startEx13()
+void startEx13(string s)
 {
+    knapsackProblem kp;
+    kp.parseFile(s);
 
 }
