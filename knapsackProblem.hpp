@@ -10,18 +10,24 @@
 #include <string>
 
 using namespace std;
+struct object
+{
+    int val;
+    int weight;
+};
 
 class knapsackProblem
 {
 public:
     void parseFile(string s);
+    int solveKP();
 
 private:
     void addObject(int, int);
 
     int capacity;
     int currWeight;
-    vector<pair<int, int>> objects;
+    vector<struct object*> objects;
     vector<bool> inKnapsack;
 
 };
