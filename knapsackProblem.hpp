@@ -12,7 +12,7 @@
 using namespace std;
 struct object
 {
-    int val;
+    int value;
     int weight;
 };
 
@@ -20,18 +20,17 @@ class knapsackProblem
 {
 public:
     void parseFile(string s);
+    int calcValue(vector<unsigned short>);
     vector<unsigned short> solveKP();
 
 private:
     void addObject(int, int);
+    int min(int a, int b){ return a < b ? a : b; }
 
     int capacity;
     int currWeight;
     vector<struct object*> objects;
     vector<bool> inKnapsack;
-    int min(int a, int b){ return a < b ? a : b; }
-
-
 };
 
 
