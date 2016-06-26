@@ -20,7 +20,7 @@ class knapsackProblem
 {
 public:
     void parseFile(string s);
-    int solveKP();
+    vector<unsigned short> solveKP();
 
 private:
     void addObject(int, int);
@@ -29,6 +29,8 @@ private:
     int currWeight;
     vector<struct object*> objects;
     vector<bool> inKnapsack;
+    int min(int a, int b){ return a < b ? a : b; }
+
 
 };
 
