@@ -44,7 +44,7 @@ void knapsackProblem::parseFile(string s)
 void knapsackProblem::addObject(int value, int weight)
 {
     struct object* s = new struct object;
-    s->val = value;
+    s->value = value;
     s->weight = weight;
     objects.push_back(s);
 }
@@ -55,7 +55,7 @@ vector<unsigned short> knapsackProblem::solveKP()
     int F = 0;
     for(auto p : objects)
     {
-        F += p->val;
+        F += p->value;
     }
 
     auto **I = new vector<unsigned short>*[n+1];
@@ -73,12 +73,11 @@ vector<unsigned short> knapsackProblem::solveKP()
 
     for(int i=1; i<n+1; i++)
     {
-        unsigned short fi = objects[i-1]->val;
+        unsigned short fi = objects[i-1]->value;
         unsigned short gi = objects[i-1]->weight;
 
-        for(int k=0; k<=F; k++)
+        for(int k=0; k<F+1; k++)
         {
-
             if(fi <= k)
             {
                 if(M[i-1][k-fi] + gi <= min(capacity, M[i-1][k]))
@@ -97,11 +96,11 @@ vector<unsigned short> knapsackProblem::solveKP()
     }
 
     int k = 0;
-    for(int i=0; i<=F; i++)
+    for(int i=0; i<F+1; i++)
     {
         if( M[n][i] > k && M[n][i] != INF )
         {
-            k = M[n][i];
+            k = i;
         }
     }
     auto vec = I[n][k];
@@ -113,4 +112,15 @@ vector<unsigned short> knapsackProblem::solveKP()
     }
 
     return vec;
+}
+
+int knapsackProblem::calcValue(vector<unsigned short> vec)
+{
+    int value = 0;
+    for(auto i : vec)
+    {
+        value += objects[i-1]->value;
+    }
+
+    return value;
 }
