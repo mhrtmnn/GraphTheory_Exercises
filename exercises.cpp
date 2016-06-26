@@ -246,5 +246,11 @@ void startEx13(string s)
 {
     knapsackProblem kp;
     kp.parseFile(s);
+    auto v = kp.solveKP();
+
+    for(auto e : v)
+    {
+        cout << "object " << e << " in knapsack" << endl;
+    }
 
 }
