@@ -124,3 +124,19 @@ int knapsackProblem::calcValue(vector<unsigned short> vec)
 
     return value;
 }
+
+int knapsackProblem::calcWeight(vector<unsigned short> vec)
+{
+    int weight = 0;
+    for(auto i : vec)
+    {
+        weight += objects[i-1]->weight;
+    }
+
+    return weight;
+}
+
+int knapsackProblem::getCapacity()
+{
+    return capacity;
+}

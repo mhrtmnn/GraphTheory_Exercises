@@ -253,5 +253,6 @@ void startEx13(string s)
         cout << "object " << e << " in knapsack" << endl;
     }
     cout << "==> the total value is: " << kp.calcValue(v) << endl;
+    cout << "==> the total weight is: " << kp.calcWeight(v) << "/" << kp.getCapacity() << endl;
 
 }

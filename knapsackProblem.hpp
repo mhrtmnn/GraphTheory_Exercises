@@ -21,7 +21,9 @@ class knapsackProblem
 public:
     void parseFile(string s);
     int calcValue(vector<unsigned short>);
+    int calcWeight(vector<unsigned short>);
     vector<unsigned short> solveKP();
+    int getCapacity();
 
 private:
     void addObject(int, int);
