@@ -252,5 +252,6 @@ void startEx13(string s)
     {
         cout << "object " << e << " in knapsack" << endl;
     }
+    cout << "==> the total value is: " << kp.calcValue(v) << endl;
 
 }

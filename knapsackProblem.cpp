@@ -59,7 +59,7 @@ vector<unsigned short> knapsackProblem::solveKP()
     }
 
     auto **I = new vector<unsigned short>*[n+1];
-    unsigned short  **M = new unsigned short*[n+1];
+    auto **M = new unsigned short*[n+1];
     for(int i=0; i<n+1; i++)
     {
         I[i] = new vector<unsigned short>[F+1];
