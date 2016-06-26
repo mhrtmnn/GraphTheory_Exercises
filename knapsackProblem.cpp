@@ -5,8 +5,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <limits>
 #include "knapsackProblem.hpp"
-#define INF -1
+#define INF std::numeric_limits<unsigned short>::max()
 
 void knapsackProblem::parseFile(string s)
 {
@@ -48,7 +49,7 @@ void knapsackProblem::addObject(int value, int weight)
     objects.push_back(s);
 }
 
-int knapsackProblem::solveKP()
+vector<unsigned short> knapsackProblem::solveKP()
 {
     int n = objects.size();
     int F = 0;
@@ -57,24 +58,33 @@ int knapsackProblem::solveKP()
         F += p->val;
     }
 
-    vector<int> I[n+1][F+1];
+    auto **I = new vector<unsigned short>*[n+1];
+    unsigned short  **M = new unsigned short*[n+1];
+    for(int i=0; i<n+1; i++)
+    {
+        I[i] = new vector<unsigned short>[F+1];
+        M[i] = new unsigned short[F+1]{0};
+    }
 
-    int M[n+1][F+1]{0};
     for(int i=1; i<=F; i++)
     {
         M[0][i] = INF;
     }
 
-    for(int i=1; i<=n; i++)
+    for(int i=1; i<n+1; i++)
     {
+        unsigned short fi = objects[i-1]->val;
+        unsigned short gi = objects[i-1]->weight;
+
         for(int k=0; k<=F; k++)
         {
-            if((objects[i]->val < k))
+
+            if(fi <= k)
             {
-                if(M[i-1][k-objects[i]->val]+objects[i]->weight < ((capacity < M[i-1][k-objects[i]->val]) ? (capacity) : (M[i-1][k-objects[i]->val])))
+                if(M[i-1][k-fi] + gi <= min(capacity, M[i-1][k]))
                 {
-                    M[i][k] = M[i-1][k-objects[i]->val] + objects[i]->weight;
-                    I[i][k] = I[i-1][k-objects[i]->val];
+                    M[i][k] = M[i-1][k-fi] + gi;
+                    I[i][k] = I[i-1][k-fi];
                     I[i][k].push_back( i );
                 }
                 else
@@ -86,7 +96,21 @@ int knapsackProblem::solveKP()
         }
     }
 
+    int k = 0;
+    for(int i=0; i<=F; i++)
+    {
+        if( M[n][i] > k && M[n][i] != INF )
+        {
+            k = M[n][i];
+        }
+    }
+    auto vec = I[n][k];
 
+    for(int i=0; i<=n; i++)
+    {
+        delete[] I[i];
+        delete[] M[i];
+    }
 
-    return 0;
+    return vec;
 }
