@@ -239,7 +239,7 @@ vector<edge> Graph::heapifyEdges()
 #endif
 
     return edgeVec;
-};
+}
 
 vector<edge> Graph::getAscEdges()
 {
@@ -261,7 +261,7 @@ vector<edge> Graph::getAscEdges()
     }
 
     return edgeVec;
-};
+}
 
 
 

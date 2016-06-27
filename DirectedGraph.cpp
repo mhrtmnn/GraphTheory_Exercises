@@ -142,4 +142,4 @@ vector<edge> DirectedGraph::heapifyEdges()
 
 
     return edgeVec;
-};
+}
