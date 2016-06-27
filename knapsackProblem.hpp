@@ -6,7 +6,6 @@
 #define GRAPHTHEORY_GIT_BACKPACK_HPP
 
 #include <vector>
-#include <bits/basic_string.h>
 #include <string>
 
 using namespace std;
@@ -22,12 +21,12 @@ public:
     void parseFile(string s);
     int calcValue(vector<unsigned short>);
     int calcWeight(vector<unsigned short>);
-    vector<unsigned short> solveKP();
     int getCapacity();
+    vector<struct object*> getObjects();
+
 
 private:
     void addObject(int, int);
-    int min(int a, int b){ return a < b ? a : b; }
 
     int capacity;
     int currWeight;

@@ -2,7 +2,6 @@
 // Created by marco on 5/9/16.
 //
 
-#include <iostream>
 #include "BaseGraph.hpp"
 
 BaseGraph::BaseGraph() : m_numKnots(0), m_numEdges(0)

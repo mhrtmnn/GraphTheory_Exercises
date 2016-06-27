@@ -6,6 +6,11 @@
 #define GRAPHTHEORY_GIT_COMPLEXITYALGORITHMS_HPP
 
 #include <vector>
+#include <limits>
+#include "knapsackProblem.hpp"
+
+#define INF std::numeric_limits<unsigned short>::max()
+
 
 using namespace std;
 
@@ -23,7 +28,11 @@ class ComplexityAlgorithms
 {
 public:
     bool randomWalk(satFormula *S, int t);
+    vector<unsigned short> solveKP(knapsackProblem*);
+    vector<unsigned short> solveKP2(knapsackProblem*);
 
+
+    int min(int a, int b){ return a < b ? a : b; }
 private:
     bool satisfied(struct satFormula *) const ;
     bool checkClause(struct satFormula *, int i) const ;
