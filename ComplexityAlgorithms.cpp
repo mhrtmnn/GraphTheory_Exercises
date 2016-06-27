@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <stdlib.h>
+#include <iostream>
 #include "ComplexityAlgorithms.hpp"
 
 bool ComplexityAlgorithms::randomWalk(satFormula *S, int t)
@@ -99,6 +100,13 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
         F += p->value;
     }
 
+    //safety check, as algorithm uses an insane amount if memory
+    if(F > 500)
+    {
+        cout << "F too big, bailing out ..." << endl;
+        return vector<unsigned short>();
+    }
+
     auto **I = new vector<unsigned short>*[n+1];
     auto **M = new unsigned short*[n+1];
     for(int i=0; i<n+1; i++)
@@ -155,22 +163,22 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
     return vec;
 }
 
-unsigned short ComplexityAlgorithms::solveKP2(knapsackProblem *kp)
+int ComplexityAlgorithms::solveKP2(knapsackProblem *kp)
 {
     vector<struct object*> objects = kp->getObjects();
     int C = kp->getCapacity();
     int n = (int) objects.size();
 
-    auto **M = new unsigned short*[n+1];
+    auto **M = new int*[n+1];
     for(int i=0; i<n+1; i++)
     {
-        M[i] = new unsigned short[C+1]{0};
+        M[i] = new int[C+1]{0};
     }
 
     for(int i=1; i<n+1; i++)
     {
-        unsigned short v = (unsigned short) objects[i-1]->value;
-        unsigned short w = (unsigned short) objects[i-1]->weight;
+        int v = objects[i-1]->value;
+        int w = objects[i-1]->weight;
 
         for(int j=0; j<C+1; j++)
         {

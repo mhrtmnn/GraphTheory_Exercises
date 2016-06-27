@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <limits>
 #include "knapsackProblem.hpp"
 
 void knapsackProblem::parseFile(string s)
