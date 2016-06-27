@@ -256,4 +256,7 @@ void startEx13(string s)
     cout << "==> the total value is: " << kp.calcValue(v) << endl;
     cout << "==> the total weight is: " << kp.calcWeight(v) << "/" << kp.getCapacity() << endl;
 
+    //rerun with different algo
+    int val = ca.solveKP2(&kp);
+    cout << "--> the total value (Wikipedia alg) is: " << val << endl;
 }

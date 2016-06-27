@@ -29,10 +29,10 @@ class ComplexityAlgorithms
 public:
     bool randomWalk(satFormula *S, int t);
     vector<unsigned short> solveKP(knapsackProblem*);
-    vector<unsigned short> solveKP2(knapsackProblem*);
-
-
+    unsigned short solveKP2(knapsackProblem *);
     int min(int a, int b){ return a < b ? a : b; }
+    unsigned short max(unsigned short a, unsigned short b){ return a > b ? a : b; }
+
 private:
     bool satisfied(struct satFormula *) const ;
     bool checkClause(struct satFormula *, int i) const ;

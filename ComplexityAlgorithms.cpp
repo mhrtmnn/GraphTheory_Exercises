@@ -114,8 +114,8 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
 
     for(int i=1; i<n+1; i++)
     {
-        unsigned short fi = objects[i-1]->value;
-        unsigned short gi = objects[i-1]->weight;
+        unsigned short fi = (unsigned short) objects[i-1]->value;
+        unsigned short gi = (unsigned short) objects[i-1]->weight;
 
         for(int k=0; k<F+1; k++)
         {
@@ -155,70 +155,36 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
     return vec;
 }
 
-vector<unsigned short> ComplexityAlgorithms::solveKP2(knapsackProblem* kp)
+unsigned short ComplexityAlgorithms::solveKP2(knapsackProblem *kp)
 {
     vector<struct object*> objects = kp->getObjects();
-    int capacity = kp->getCapacity();
-    int n = objects.size();
+    int C = kp->getCapacity();
+    int n = (int) objects.size();
 
-    int F = 0;
-    for(auto p : objects)
-    {
-        F += p->value;
-    }
-
-    auto **I = new vector<unsigned short>*[n+1];
     auto **M = new unsigned short*[n+1];
     for(int i=0; i<n+1; i++)
     {
-        I[i] = new vector<unsigned short>[F+1];
-        M[i] = new unsigned short[F+1]{0};
-    }
-
-    for(int i=1; i<=F; i++)
-    {
-        M[0][i] = INF;
+        M[i] = new unsigned short[C+1]{0};
     }
 
     for(int i=1; i<n+1; i++)
     {
-        unsigned short fi = objects[i-1]->value;
-        unsigned short gi = objects[i-1]->weight;
+        unsigned short v = (unsigned short) objects[i-1]->value;
+        unsigned short w = (unsigned short) objects[i-1]->weight;
 
-        for(int k=0; k<F+1; k++)
+        for(int j=0; j<C+1; j++)
         {
-            if(fi <= k)
+            if( w > j )
             {
-                if(M[i-1][k-fi] + gi <= min(capacity, M[i-1][k]))
-                {
-                    M[i][k] = M[i-1][k-fi] + gi;
-                    I[i][k] = I[i-1][k-fi];
-                    I[i][k].push_back( i );
-                }
-                else
-                {
-                    M[i][k] = M[i-1][k];
-                    I[i][k] = I[i-1][k];
-                }
+                M[i][j] = M[i-1][j];
+            }
+            else
+            {
+                M[i][j] = max(M[i-1][j], M[i-1][j-w] + v);
             }
         }
     }
 
-    int k = 0;
-    for(int i=0; i<F+1; i++)
-    {
-        if( M[n][i] > k && M[n][i] != INF )
-        {
-            k = i;
-        }
-    }
-    auto vec = I[n][k];
 
-    for(int i=0; i<=n; i++)
-    {
-        delete[] I[i];
-        delete[] M[i];
-    }
-
-    return vec;
+    return M[n][C];
 }
