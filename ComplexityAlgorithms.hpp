@@ -16,11 +16,11 @@ using namespace std;
 
 struct satFormula
 {
-    int k;                                  //k sat formula
-    int m;                                  //m clauses per formula
-    int n;                                  //x1,...,xn available per clause
-    vector<vector<pair<int, bool>>> xData;  //number and sign of literals
-    bool *xVal;                             //truth value of xi
+    int k;                                  // k sat formula
+    int m;                                  // m clauses per formula
+    int n;                                  // x1,...,xn available per clause
+    vector<vector<pair<int, bool>>> xData;  // number and sign of literals
+    bool *xVal;                             // truth value of xi
 };
 
 
@@ -30,8 +30,9 @@ public:
     bool randomWalk(satFormula *S, int t);
     vector<unsigned short> solveKP(knapsackProblem*);
     int solveKP2(knapsackProblem *);
-    int min(int a, int b){ return a < b ? a : b; }
-    int max(int a, int b){ return a > b ? a : b; }
+    int solveKP3(knapsackProblem *);
+    int min(int a, int b){ return (a < b ? a : b); }
+    int max(int a, int b){ return (a > b ? a : b); }
 
 private:
     bool satisfied(struct satFormula *) const ;
