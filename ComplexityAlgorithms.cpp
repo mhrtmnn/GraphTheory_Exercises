@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <stdlib.h>
 #include <iostream>
+#include <vector>
 #include "ComplexityAlgorithms.hpp"
 
 bool ComplexityAlgorithms::randomWalk(satFormula *S, int t)
@@ -90,6 +91,7 @@ int ComplexityAlgorithms::chooseI(struct satFormula *S, int l) const
 
 vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
 {
+    //from exercise sheet --> not working
     vector<struct object*> objects = kp->getObjects();
     int capacity = kp->getCapacity();
     int n = (int) objects.size();
@@ -101,7 +103,7 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
     }
 
     //safety check, as algorithm uses an insane amount if memory
-    if(F > 500)
+    if(F*n > 500000)
     {
         cout << "F too big, bailing out ..." << endl;
         return vector<unsigned short>();
@@ -165,6 +167,7 @@ vector<unsigned short> ComplexityAlgorithms::solveKP(knapsackProblem* kp)
 
 int ComplexityAlgorithms::solveKP2(knapsackProblem *kp)
 {
+    //wikipedia algo --> not working
     vector<struct object*> objects = kp->getObjects();
     int C = kp->getCapacity();
     int n = (int) objects.size();
@@ -194,79 +197,4 @@ int ComplexityAlgorithms::solveKP2(knapsackProblem *kp)
     }
 
     return M[n][C];
-}
-
-vector<unsigned short> ComplexityAlgorithms::solveKP3(knapsackProblem* kp)
-{
-    vector<struct object*> objects = kp->getObjects();
-    int capacity = kp->getCapacity();
-    int n = (int) objects.size();
-
-    int F = 0;
-    for(auto p : objects)
-    {
-        F += p->value;
-    }
-
-    //safety check, as algorithm uses an insane amount if memory
-    if(F > 500)
-    {
-        cout << "F too big, bailing out ..." << endl;
-        return vector<unsigned short>();
-    }
-
-    auto **I = new vector<unsigned short>*[n+1];
-    auto **M = new unsigned short*[n+1];
-    for(int i=0; i<n+1; i++)
-    {
-        I[i] = new vector<unsigned short>[F+1];
-        M[i] = new unsigned short[F+1]{0};
-    }
-
-    for(int i=1; i<=F; i++)
-    {
-        M[0][i] = INF;
-    }
-
-    for(int i=1; i<n+1; i++)
-    {
-        unsigned short fi = (unsigned short) objects[i-1]->value;
-        unsigned short gi = (unsigned short) objects[i-1]->weight;
-
-        for(int k=0; k<F+1; k++)
-        {
-            if(fi <= k)
-            {
-                if(M[i-1][k-fi] + gi <= min(capacity, M[i-1][k]))
-                {
-                    M[i][k] = M[i-1][k-fi] + gi;
-                    I[i][k] = I[i-1][k-fi];
-                    I[i][k].push_back( (unsigned short) i );
-                }
-                else
-                {
-                    M[i][k] = M[i-1][k];
-                    I[i][k] = I[i-1][k];
-                }
-            }
-        }
-    }
-
-    int k = 0;
-    for(int i=0; i<F+1; i++)
-    {
-        if( M[n][i] > k && M[n][i] != INF )
-        {
-            k = i;
-        }
-    }
-    auto vec = I[n][k];
-
-    for(int i=0; i<=n; i++)
-    {
-        delete[] I[i];
-        delete[] M[i];
-    }
-
-    return vec;
 }

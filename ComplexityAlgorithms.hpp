@@ -30,7 +30,6 @@ public:
     bool randomWalk(satFormula *S, int t);
     vector<unsigned short> solveKP(knapsackProblem*);
     int solveKP2(knapsackProblem *);
-    int solveKP3(knapsackProblem *);
     int min(int a, int b){ return (a < b ? a : b); }
     int max(int a, int b){ return (a > b ? a : b); }
 

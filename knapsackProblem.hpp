@@ -21,6 +21,8 @@ public:
     void parseFile(string s);
     int calcValue(vector<unsigned short>);
     int calcWeight(vector<unsigned short>);
+    int calcValue(vector<int>);
+    int calcWeight(vector<int>);
     int getCapacity();
     vector<struct object*> getObjects();
 

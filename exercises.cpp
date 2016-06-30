@@ -245,10 +245,9 @@ void startEx13(string s)
 {
     knapsackProblem kp;
     kp.parseFile(s);
-
     ComplexityAlgorithms ca;
-    auto v = ca.solveKP(&kp);
 
+    auto v = ca.solveKP(&kp);
     for(auto e : v)
     {
         cout << "object " << e << " in knapsack" << endl;
@@ -257,6 +256,7 @@ void startEx13(string s)
     cout << "==> the total weight is: " << kp.calcWeight(v) << "/" << kp.getCapacity() << endl;
 
     //rerun with different algo
+    cout << endl;
     int val = ca.solveKP2(&kp);
     cout << "--> the total value (Wikipedia alg) is: " << val << endl;
 }
